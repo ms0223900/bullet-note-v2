@@ -1,103 +1,79 @@
-import Image from "next/image";
+import { Header } from '@/components/layout/header';
+import { Button } from '@/components/ui/button';
+import { FileText, Plus, Search, Settings } from 'lucide-react';
 
 export default function Home() {
   return (
-    <div className="font-sans grid grid-rows-[20px_1fr_20px] items-center justify-items-center min-h-screen p-8 pb-20 gap-16 sm:p-20">
-      <main className="flex flex-col gap-[32px] row-start-2 items-center sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={180}
-          height={38}
-          priority
-        />
-        <ol className="font-mono list-inside list-decimal text-sm/6 text-center sm:text-left">
-          <li className="mb-2 tracking-[-.01em]">
-            Get started by editing{" "}
-            <code className="bg-black/[.05] dark:bg-white/[.06] font-mono font-semibold px-1 py-0.5 rounded">
-              src/app/page.tsx
-            </code>
-            .
-          </li>
-          <li className="tracking-[-.01em]">
-            Save and see your changes instantly.
-          </li>
-        </ol>
+    <div className="min-h-screen bg-background">
+      <Header />
+      <main className="container mx-auto px-4 py-8">
+        <div className="max-w-4xl mx-auto">
+          <div className="text-center mb-12">
+            <h1 className="text-4xl font-bold mb-4">歡迎使用 Bullet Note v2</h1>
+            <p className="text-lg text-muted-foreground mb-8">
+              一個現代化的筆記應用程式，使用 Next.js 15、TypeScript 和 Tailwind
+              CSS 建構
+            </p>
+            <Button size="lg" className="gap-2">
+              <Plus className="h-5 w-5" />
+              建立新筆記
+            </Button>
+          </div>
 
-        <div className="flex gap-4 items-center flex-col sm:flex-row">
-          <a
-            className="rounded-full border border-solid border-transparent transition-colors flex items-center justify-center bg-foreground text-background gap-2 hover:bg-[#383838] dark:hover:bg-[#ccc] font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 sm:w-auto"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={20}
-              height={20}
-            />
-            Deploy now
-          </a>
-          <a
-            className="rounded-full border border-solid border-black/[.08] dark:border-white/[.145] transition-colors flex items-center justify-center hover:bg-[#f2f2f2] dark:hover:bg-[#1a1a1a] hover:border-transparent font-medium text-sm sm:text-base h-10 sm:h-12 px-4 sm:px-5 w-full sm:w-auto md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Read our docs
-          </a>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
+            <div className="p-6 border rounded-lg bg-card">
+              <FileText className="h-8 w-8 mb-4 text-primary" />
+              <h3 className="text-lg font-semibold mb-2">快速筆記</h3>
+              <p className="text-muted-foreground">
+                快速建立和編輯筆記，支援 Markdown 格式
+              </p>
+            </div>
+            <div className="p-6 border rounded-lg bg-card">
+              <Search className="h-8 w-8 mb-4 text-primary" />
+              <h3 className="text-lg font-semibold mb-2">智能搜尋</h3>
+              <p className="text-muted-foreground">
+                強大的搜尋功能，快速找到您需要的筆記
+              </p>
+            </div>
+            <div className="p-6 border rounded-lg bg-card">
+              <Settings className="h-8 w-8 mb-4 text-primary" />
+              <h3 className="text-lg font-semibold mb-2">個人化設定</h3>
+              <p className="text-muted-foreground">
+                自訂主題、字體大小和其他個人偏好設定
+              </p>
+            </div>
+          </div>
+
+          <div className="bg-muted/50 rounded-lg p-8 text-center">
+            <h2 className="text-2xl font-semibold mb-4">開始使用</h2>
+            <p className="text-muted-foreground mb-6">
+              專案已經配置完成，包含以下技術棧：
+            </p>
+            <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
+              <div className="bg-background p-3 rounded border">
+                <strong>Next.js 15</strong>
+                <br />
+                React 框架
+              </div>
+              <div className="bg-background p-3 rounded border">
+                <strong>TypeScript</strong>
+                <br />
+                類型安全
+              </div>
+              <div className="bg-background p-3 rounded border">
+                <strong>Tailwind CSS</strong>
+                <br />
+                樣式框架
+              </div>
+              <div className="bg-background p-3 rounded border">
+                <strong>ESLint + Prettier</strong>
+                <br />
+                代碼品質
+              </div>
+            </div>
+          </div>
         </div>
       </main>
-      <footer className="row-start-3 flex gap-[24px] flex-wrap items-center justify-center">
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/file.svg"
-            alt="File icon"
-            width={16}
-            height={16}
-          />
-          Learn
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/window.svg"
-            alt="Window icon"
-            width={16}
-            height={16}
-          />
-          Examples
-        </a>
-        <a
-          className="flex items-center gap-2 hover:underline hover:underline-offset-4"
-          href="https://nextjs.org?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <Image
-            aria-hidden
-            src="/globe.svg"
-            alt="Globe icon"
-            width={16}
-            height={16}
-          />
-          Go to nextjs.org →
-        </a>
-      </footer>
     </div>
   );
 }

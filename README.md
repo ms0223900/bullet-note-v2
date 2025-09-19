@@ -1,36 +1,114 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bullet Note v2
 
-## Getting Started
+一個現代化的筆記應用程式，使用 Next.js 15、TypeScript 和 Tailwind CSS 建構。
 
-First, run the development server:
+## 🚀 技術棧
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+- **Next.js 15** - React 全端框架
+- **TypeScript** - 類型安全的 JavaScript
+- **Tailwind CSS** - 實用優先的 CSS 框架
+- **ESLint + Prettier** - 代碼品質和格式化
+- **Lucide React** - 現代化的圖標庫
+- **Class Variance Authority** - 組件變體管理
+
+## 📁 專案結構
+
+```
+src/
+├── app/                 # Next.js App Router
+│   ├── globals.css     # 全域樣式
+│   ├── layout.tsx      # 根佈局
+│   └── page.tsx        # 首頁
+├── components/         # React 組件
+│   ├── ui/            # 基礎 UI 組件
+│   └── layout/        # 佈局組件
+├── lib/               # 工具函數
+├── types/             # TypeScript 類型定義
+└── constants/         # 應用程式常數
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ 開發指令
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+# 安裝依賴
+npm install
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+# 啟動開發伺服器
+npm run dev
 
-## Learn More
+# 建構生產版本
+npm run build
 
-To learn more about Next.js, take a look at the following resources:
+# 啟動生產伺服器
+npm start
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# 代碼檢查
+npm run lint
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+# 自動修復代碼問題
+npm run lint:fix
 
-## Deploy on Vercel
+# 格式化代碼
+npm run format
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+# 檢查代碼格式
+npm run format:check
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+# TypeScript 類型檢查
+npm run type-check
+```
+
+## 🎨 功能特色
+
+- ✅ 現代化的 UI 設計
+- ✅ 響應式佈局
+- ✅ 深色/淺色主題支援
+- ✅ TypeScript 類型安全
+- ✅ ESLint + Prettier 代碼品質
+- ✅ 組件化架構
+- ✅ 工具函數庫
+- ✅ 常數管理
+
+## 🚀 快速開始
+
+1. 克隆專案
+```bash
+git clone <repository-url>
+cd bullet-note-v2
+```
+
+2. 安裝依賴
+```bash
+npm install
+```
+
+3. 啟動開發伺服器
+```bash
+npm run dev
+```
+
+4. 在瀏覽器中開啟 [http://localhost:3000](http://localhost:3000)
+
+## 📝 開發指南
+
+### 添加新組件
+
+1. 在 `src/components/` 下建立組件檔案
+2. 使用 TypeScript 和 Tailwind CSS
+3. 遵循現有的命名慣例
+
+### 添加新頁面
+
+1. 在 `src/app/` 下建立新的路由資料夾
+2. 添加 `page.tsx` 檔案
+3. 使用 App Router 的檔案系統路由
+
+### 代碼風格
+
+- 使用 ESLint 和 Prettier 保持代碼一致性
+- 遵循 TypeScript 最佳實踐
+- 使用 Tailwind CSS 進行樣式設計
+
+## 📄 授權
+
+MIT License
