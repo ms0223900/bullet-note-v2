@@ -72,17 +72,20 @@ npm run type-check
 ## 🚀 快速開始
 
 1. 克隆專案
+
 ```bash
 git clone <repository-url>
 cd bullet-note-v2
 ```
 
 2. 安裝依賴
+
 ```bash
 npm install
 ```
 
 3. 啟動開發伺服器
+
 ```bash
 npm run dev
 ```
