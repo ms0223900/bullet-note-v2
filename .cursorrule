@@ -1,0 +1,169 @@
+# Cursor Rules for Bullet Note v2
+
+## 統一程式設計原則 (Unified Programming Principles)
+
+### 核心原則 (Core Principles)
+- 遵循優良程式設計原則：SOLID、Clean Code、Clean Architecture 和其他業界最佳實踐
+- 保持程式碼的可讀性、可維護性和可擴展性
+- 優先考慮程式碼的品質而非速度
+
+### 程式碼風格 (Code Style)
+- 使用 TypeScript 進行型別安全開發
+- 遵循 ESLint 和 Prettier 配置
+- 使用有意義的變數和函數命名
+- 保持函數簡潔，單一職責原則
+- 適當使用註解說明複雜邏輯
+
+## 功能開發規則 (Feature Development Rules)
+
+### 新增功能 ([feature])
+1. **設計階段**：
+   - 先分析需求，確定功能範圍
+   - 設計清晰的 API 介面和資料結構
+   - 考慮與現有功能的整合
+
+2. **開發階段**：
+   - 以 SOLID 原則設計組件架構
+   - 實作功能時同步撰寫測試
+   - 確保新功能不破壞現有功能
+
+3. **測試策略**：
+   - 優先撰寫整合測試
+   - 涵蓋主要使用場景
+   - 自動執行測試確保功能正常
+
+4. **驗證步驟**：
+   ```bash
+   npm run test
+   npm run lint
+   npm run build
+   ```
+
+### 重構規則 ([refactor])
+1. **重構準備**：
+   - 建立詳細的重構 Todos 清單
+   - 識別重構範圍和相依性
+   - 確保有完整的測試覆蓋
+
+2. **重構執行**：
+   - 採用「小步快跑」方式
+   - 每次只重構一小部分
+   - 每個步驟後立即執行全測試
+   - 確保每次重構都不影響功能運作
+
+3. **重構步驟**：
+   ```bash
+   # 重構前
+   npm run test  # 確保所有測試通過
+   
+   # 重構中
+   # 執行小步驟重構
+   npm run test  # 驗證重構無誤
+   
+   # 重構後
+   npm run lint
+   npm run build
+   ```
+
+4. **重構檢查清單**：
+   - [ ] 重構前所有測試通過
+   - [ ] 重構範圍明確且小
+   - [ ] 重構後測試仍通過
+   - [ ] 程式碼品質提升
+   - [ ] 功能行為不變
+
+### 測試規則 ([test])
+1. **測試優先級**：
+   - 整合測試 > 單元測試
+   - 重點測試主要功能流程
+   - 適量測試，避免過度測試
+
+2. **測試範圍**：
+   - 核心業務邏輯
+   - 使用者互動流程
+   - API 端點
+   - 錯誤處理
+
+3. **測試執行**：
+   ```bash
+   # 執行所有測試
+   npm run test
+   
+   # 監聽模式
+   npm run test:watch
+   
+   # 測試覆蓋率
+   npm run test:coverage
+   ```
+
+## 專案結構規範 (Project Structure)
+
+### 檔案組織
+- `src/components/` - 可重用的 UI 組件
+- `src/app/` - Next.js App Router 頁面
+- `src/lib/` - 工具函數和配置
+- `src/types/` - TypeScript 型別定義
+- `src/constants/` - 常數定義
+
+### 命名規範
+- 組件：PascalCase (如：`UserProfile.tsx`)
+- 函數和變數：camelCase
+- 常數：UPPER_SNAKE_CASE
+- 檔案：kebab-case 或 camelCase
+
+## 觸發指令 (Trigger Commands)
+
+### [feature] - 新增功能
+使用時機：開發新功能時
+- 自動套用功能開發規則
+- 要求撰寫整合測試
+- 確保程式碼品質
+
+### [refactor] - 重構
+使用時機：改善現有程式碼時
+- 建立重構 Todos
+- 小步快跑方式重構
+- 每步後執行全測試
+
+### [test] - 新增測試
+使用時機：補強測試覆蓋率時
+- 優先撰寫整合測試
+- 適量測試，避免過度
+- 自動執行測試驗證
+
+## 程式碼審查要點 (Code Review Checklist)
+
+### 程式碼品質
+- [ ] 遵循 SOLID 原則
+- [ ] 程式碼可讀性良好
+- [ ] 適當的錯誤處理
+- [ ] 型別安全 (TypeScript)
+
+### 測試覆蓋
+- [ ] 新功能有對應測試
+- [ ] 測試覆蓋主要場景
+- [ ] 所有測試通過
+
+### 架構設計
+- [ ] 組件職責清晰
+- [ ] 相依性管理良好
+- [ ] 可擴展性考慮
+
+## 自動化檢查 (Automated Checks)
+
+### 每次提交前
+```bash
+npm run lint      # 程式碼風格檢查
+npm run test      # 執行測試
+npm run build     # 建置檢查
+```
+
+### 持續整合
+- ESLint 靜態分析
+- TypeScript 型別檢查
+- 單元測試和整合測試
+- 建置成功驗證
+
+---
+
+遵循這些規則確保專案的高品質和可維護性。如有疑問，請參考相關的程式設計原則和最佳實踐。
