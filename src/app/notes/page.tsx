@@ -8,7 +8,7 @@ export default function NotesPage() {
                     {/* 頁面標題 */}
                     <div className="mb-8">
                         <h1 className="text-3xl font-bold text-black mb-2">筆記編輯器</h1>
-                        <p className="text-gray-600">簡約風格的筆記編輯環境</p>
+                        <p className="text-gray-600">這是個子彈筆記的文字編輯區塊，提供快速記錄想法、任務和筆記的專業環境</p>
                     </div>
 
                     {/* 筆記編輯器 */}

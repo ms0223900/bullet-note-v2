@@ -23,12 +23,12 @@ export function NoteEditor({
 
     return (
         <div className="w-full max-w-4xl mx-auto">
-            <div className="bg-white border border-black rounded-lg shadow-sm">
+            <div className="bg-gray-100 border border-gray-300 rounded-lg shadow-sm">
                 <textarea
                     value={content}
                     onChange={handleContentChange}
                     placeholder={placeholder}
-                    className="w-full h-96 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-black placeholder-gray-500 font-mono text-sm leading-relaxed"
+                    className="w-full h-96 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-gray-800 placeholder-gray-500 font-mono text-sm leading-relaxed cursor-custom"
                     style={{
                         fontFamily: 'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace'
                     }}
