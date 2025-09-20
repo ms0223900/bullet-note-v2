@@ -29,16 +29,46 @@ export function NoteEditor({
 
     const start = textarea.selectionStart;
     const end = textarea.selectionEnd;
-    const newContent = content.slice(0, start) + symbol + content.slice(end);
 
-    setContent(newContent);
-    onContentChange?.(newContent);
+    // 找到當前行的開始和結束位置
+    const beforeCursor = content.slice(0, start);
+    const afterCursor = content.slice(end);
 
-    // 設定游標位置到插入符號後
-    setTimeout(() => {
-      textarea.focus();
-      textarea.setSelectionRange(start + symbol.length, start + symbol.length);
-    }, 0);
+    // 找到當前行的開始位置（上一個換行符後）
+    const lastNewlineIndex = beforeCursor.lastIndexOf('\n');
+    const lineStart = lastNewlineIndex === -1 ? 0 : lastNewlineIndex + 1;
+
+    // 找到當前行的結束位置（下一個換行符前）
+    const nextNewlineIndex = afterCursor.indexOf('\n');
+    const lineEnd = nextNewlineIndex === -1 ? content.length : start + nextNewlineIndex;
+
+    // 獲取當前行的內容
+    const currentLine = content.slice(lineStart, lineEnd);
+
+    // 檢查當前行是否已經有符號
+    const hasSymbol = /^[•O–]\s/.test(currentLine);
+
+    if (hasSymbol) {
+      // 如果行首已有符號，替換現有符號
+      const newContent = content.slice(0, lineStart) + symbol + ' ' + currentLine.slice(2) + content.slice(lineEnd);
+      setContent(newContent);
+      onContentChange?.(newContent);
+
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + (symbol.length - (currentLine.startsWith('•') ? 1 : currentLine.startsWith('O') ? 1 : currentLine.startsWith('–') ? 1 : 0)), start + (symbol.length - (currentLine.startsWith('•') ? 1 : currentLine.startsWith('O') ? 1 : currentLine.startsWith('–') ? 1 : 0)));
+      }, 0);
+    } else {
+      // 如果行首沒有符號，在行首插入符號
+      const newContent = content.slice(0, lineStart) + symbol + ' ' + content.slice(lineStart);
+      setContent(newContent);
+      onContentChange?.(newContent);
+
+      setTimeout(() => {
+        textarea.focus();
+        textarea.setSelectionRange(start + symbol.length + 1, start + symbol.length + 1);
+      }, 0);
+    }
   };
 
   return (

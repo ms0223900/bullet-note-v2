@@ -10,9 +10,9 @@ export function SymbolInsertionButton({
     onSymbolInsert,
 }: SymbolInsertionButtonProps) {
     const symbols = [
-        { symbol: '•', label: '實心圓點' },
-        { symbol: 'O', label: '空心圓圈' },
-        { symbol: '–', label: '短橫線' },
+        { symbol: '•', label: '任務' },
+        { symbol: 'O', label: '事件' },
+        { symbol: '–', label: '筆記' },
     ];
 
     return (
