@@ -1,6 +1,7 @@
 import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
 import { FileText, Plus, Search, Settings } from 'lucide-react';
+import Link from 'next/link';
 
 export default function Home() {
   return (
@@ -14,10 +15,12 @@ export default function Home() {
               一個現代化的筆記應用程式，使用 Next.js 15、TypeScript 和 Tailwind
               CSS 建構
             </p>
-            <Button size="lg" className="gap-2">
-              <Plus className="h-5 w-5" />
-              建立新筆記
-            </Button>
+            <Link href="/notes">
+              <Button size="lg" className="gap-2">
+                <Plus className="h-5 w-5" />
+                建立新筆記
+              </Button>
+            </Link>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
