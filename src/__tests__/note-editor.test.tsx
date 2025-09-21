@@ -113,8 +113,8 @@ describe('NoteEditor', () => {
 
         // Based on the component behavior, it seems to insert the symbol at the current line
         // The exact behavior depends on how the component handles cursor position
-        expect(textarea.value).toContain('•')
-        expect(textarea.value).toContain('第二行')
+        expect((textarea as HTMLTextAreaElement).value).toContain('•')
+        expect((textarea as HTMLTextAreaElement).value).toContain('第二行')
     })
 
     it('should have correct textarea styling', () => {
