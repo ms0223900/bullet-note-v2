@@ -64,23 +64,23 @@ export function NoteEditor({
         textarea.focus();
         textarea.setSelectionRange(
           start +
-            (symbol.length -
-              (currentLine.startsWith('•')
+          (symbol.length -
+            (currentLine.startsWith('•')
+              ? 1
+              : currentLine.startsWith('O')
                 ? 1
-                : currentLine.startsWith('O')
+                : currentLine.startsWith('–')
                   ? 1
-                  : currentLine.startsWith('–')
-                    ? 1
-                    : 0)),
+                  : 0)),
           start +
-            (symbol.length -
-              (currentLine.startsWith('•')
+          (symbol.length -
+            (currentLine.startsWith('•')
+              ? 1
+              : currentLine.startsWith('O')
                 ? 1
-                : currentLine.startsWith('O')
+                : currentLine.startsWith('–')
                   ? 1
-                  : currentLine.startsWith('–')
-                    ? 1
-                    : 0))
+                  : 0))
         );
       }, 0);
     } else {
@@ -113,7 +113,7 @@ export function NoteEditor({
           value={content}
           onChange={handleContentChange}
           placeholder={placeholder}
-          className="w-full h-96 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-gray-800 placeholder-gray-500 font-mono text-sm leading-relaxed cursor-custom"
+          className="w-full h-48 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-gray-800 placeholder-gray-500 font-mono text-sm leading-relaxed cursor-custom"
           style={{
             fontFamily:
               'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
