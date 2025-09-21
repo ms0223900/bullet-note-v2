@@ -1,1 +1,2 @@
-Run [feature] to add a new feature.
+- Run [feature] to add a new feature.
+- Should follow the .cursorrule.
