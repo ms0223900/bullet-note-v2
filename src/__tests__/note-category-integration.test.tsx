@@ -64,7 +64,7 @@ describe('Note Category Integration', () => {
 
         // Should display the parsed notes
         await waitFor(() => {
-            expect(screen.getByText('筆記分類結果')).toBeInTheDocument();
+            expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
             expect(screen.getByText('第一個筆記項目')).toBeInTheDocument();
             expect(screen.getByText('第二個筆記項目')).toBeInTheDocument();
             expect(screen.getByText('2 個筆記項目')).toBeInTheDocument();
@@ -86,7 +86,7 @@ describe('Note Category Integration', () => {
         expect(confirmButton).toBeDisabled();
 
         // Should not display note category section
-        expect(screen.queryByText('筆記分類結果')).not.toBeInTheDocument();
+        expect(screen.queryByText('已保存的筆記記錄')).not.toBeInTheDocument();
     });
 
     it('should allow deleting note items', async () => {

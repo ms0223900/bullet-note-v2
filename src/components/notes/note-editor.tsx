@@ -5,21 +5,26 @@ import { SymbolInsertionButton } from './symbol-insertion-button';
 
 interface NoteEditorProps {
   initialContent?: string;
+  content?: string; // 新增外部控制的內容
   onContentChange?: (content: string) => void;
   placeholder?: string;
 }
 
 export function NoteEditor({
   initialContent = '',
+  content: externalContent,
   onContentChange,
   placeholder = '開始輸入您的筆記...',
 }: NoteEditorProps) {
-  const [content, setContent] = useState(initialContent);
+  const [internalContent, setInternalContent] = useState(initialContent);
+
+  // 使用外部內容或內部內容
+  const content = externalContent !== undefined ? externalContent : internalContent;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     const newContent = e.target.value;
-    setContent(newContent);
+    setInternalContent(newContent);
     onContentChange?.(newContent);
   };
 
@@ -57,7 +62,7 @@ export function NoteEditor({
         ' ' +
         currentLine.slice(2) +
         content.slice(lineEnd);
-      setContent(newContent);
+      setInternalContent(newContent);
       onContentChange?.(newContent);
 
       setTimeout(() => {
@@ -87,7 +92,7 @@ export function NoteEditor({
       // 如果行首沒有符號，在行首插入符號
       const newContent =
         content.slice(0, lineStart) + symbol + ' ' + content.slice(lineStart);
-      setContent(newContent);
+      setInternalContent(newContent);
       onContentChange?.(newContent);
 
       setTimeout(() => {

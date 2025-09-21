@@ -121,7 +121,7 @@ describe('NoteEditor', () => {
     render(<NoteEditor />);
 
     const textarea = screen.getByRole('textbox');
-    expect(textarea).toHaveClass('w-full', 'h-96', 'p-6', 'resize-none');
+    expect(textarea).toHaveClass('w-full', 'h-48', 'p-6', 'resize-none');
   });
 
   it('should be focusable', async () => {
