@@ -40,7 +40,8 @@ export function NoteEditor({
 
     // 找到當前行的結束位置（下一個換行符前）
     const nextNewlineIndex = afterCursor.indexOf('\n');
-    const lineEnd = nextNewlineIndex === -1 ? content.length : start + nextNewlineIndex;
+    const lineEnd =
+      nextNewlineIndex === -1 ? content.length : start + nextNewlineIndex;
 
     // 獲取當前行的內容
     const currentLine = content.slice(lineStart, lineEnd);
@@ -50,23 +51,51 @@ export function NoteEditor({
 
     if (hasSymbol) {
       // 如果行首已有符號，替換現有符號
-      const newContent = content.slice(0, lineStart) + symbol + ' ' + currentLine.slice(2) + content.slice(lineEnd);
+      const newContent =
+        content.slice(0, lineStart) +
+        symbol +
+        ' ' +
+        currentLine.slice(2) +
+        content.slice(lineEnd);
       setContent(newContent);
       onContentChange?.(newContent);
 
       setTimeout(() => {
         textarea.focus();
-        textarea.setSelectionRange(start + (symbol.length - (currentLine.startsWith('•') ? 1 : currentLine.startsWith('O') ? 1 : currentLine.startsWith('–') ? 1 : 0)), start + (symbol.length - (currentLine.startsWith('•') ? 1 : currentLine.startsWith('O') ? 1 : currentLine.startsWith('–') ? 1 : 0)));
+        textarea.setSelectionRange(
+          start +
+            (symbol.length -
+              (currentLine.startsWith('•')
+                ? 1
+                : currentLine.startsWith('O')
+                  ? 1
+                  : currentLine.startsWith('–')
+                    ? 1
+                    : 0)),
+          start +
+            (symbol.length -
+              (currentLine.startsWith('•')
+                ? 1
+                : currentLine.startsWith('O')
+                  ? 1
+                  : currentLine.startsWith('–')
+                    ? 1
+                    : 0))
+        );
       }, 0);
     } else {
       // 如果行首沒有符號，在行首插入符號
-      const newContent = content.slice(0, lineStart) + symbol + ' ' + content.slice(lineStart);
+      const newContent =
+        content.slice(0, lineStart) + symbol + ' ' + content.slice(lineStart);
       setContent(newContent);
       onContentChange?.(newContent);
 
       setTimeout(() => {
         textarea.focus();
-        textarea.setSelectionRange(start + symbol.length + 1, start + symbol.length + 1);
+        textarea.setSelectionRange(
+          start + symbol.length + 1,
+          start + symbol.length + 1
+        );
       }, 0);
     }
   };
