@@ -13,9 +13,6 @@ interface UseNotesManagerReturn {
     clearEditor: () => void;
     deleteItem: (itemId: string, categoryId?: string) => void;
     clickItem: () => void;
-
-    // 計算屬性
-    hasNotes: boolean;
 }
 
 /**
@@ -73,18 +70,6 @@ export const useNotesManager = (): UseNotesManagerReturn => {
         // 目前暫時不做任何操作，保留此方法以便未來擴展
     }, []);
 
-    // 檢查是否有筆記項目
-    const hasNotes = editorContent.split('\n').some(line => {
-        const trimmedLine = line.trim();
-        return (
-            (trimmedLine.startsWith('•') ||
-                trimmedLine.startsWith('O') ||
-                trimmedLine.startsWith('–') ||
-                trimmedLine.startsWith('-')) &&
-            trimmedLine.substring(1).trim().length > 0
-        );
-    });
-
     return {
         // 狀態
         editorContent,
@@ -97,8 +82,5 @@ export const useNotesManager = (): UseNotesManagerReturn => {
         clearEditor,
         deleteItem,
         clickItem,
-
-        // 計算屬性
-        hasNotes,
     };
 };

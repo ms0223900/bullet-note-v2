@@ -4,6 +4,7 @@ import { ConfirmButton } from '@/components/notes/confirm-button';
 import { NoteCategoryDisplay } from '@/components/notes/note-category-display';
 import { NoteEditor } from '@/components/notes/note-editor';
 import { useNotesManager } from '@/hooks/useNotesManager';
+import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
 
 export default function NotesPage() {
@@ -14,8 +15,9 @@ export default function NotesPage() {
     confirmNote,
     deleteItem,
     clickItem,
-    hasNotes,
   } = useNotesManager();
+
+  const hasNotes = hasNoteItems(editorContent);
 
   const handleContentChange = (content: string) => {
     setEditorContent(content);

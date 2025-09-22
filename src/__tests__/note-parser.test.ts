@@ -1,7 +1,6 @@
 import {
   extractNoteItems,
-  hasNoteItems,
-  parseNoteContent,
+  parseNoteContent
 } from '@/lib/note-parser';
 
 describe('note-parser', () => {
@@ -70,27 +69,6 @@ describe('note-parser', () => {
 
       expect(result.items).toHaveLength(1);
       expect(result.items[0].content).toBe('有效的筆記項目');
-    });
-  });
-
-  describe('hasNoteItems', () => {
-    it('should return true when content has note items', () => {
-      const content = `- 這是一個筆記項目`;
-      expect(hasNoteItems(content)).toBe(true);
-    });
-
-    it('should return false when content has no note items', () => {
-      const content = `這只是普通文字`;
-      expect(hasNoteItems(content)).toBe(false);
-    });
-
-    it('should return false for empty content', () => {
-      expect(hasNoteItems('')).toBe(false);
-    });
-
-    it('should handle content with dashes not at line start', () => {
-      const content = `這是一個 - 破折號`;
-      expect(hasNoteItems(content)).toBe(false);
     });
   });
 
