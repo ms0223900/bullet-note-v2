@@ -3,61 +3,30 @@
 import { ConfirmButton } from '@/components/notes/confirm-button';
 import { NoteCategoryDisplay } from '@/components/notes/note-category-display';
 import { NoteEditor } from '@/components/notes/note-editor';
-import { hasNoteItems, parseNoteContent } from '@/lib/note-parser';
-import { NoteCategory, ParsedNoteItem } from '@/types';
-import { useState } from 'react';
+import { useNotesManager } from '@/hooks/useNotesManager';
+import { parseNoteContent } from '@/lib/note-parser';
 
 export default function NotesPage() {
-  const [editorContent, setEditorContent] = useState('');
-  const [confirmedCategory, setConfirmedCategory] =
-    useState<NoteCategory | null>(null);
-  const [savedNotes, setSavedNotes] = useState<NoteCategory[]>([]);
+  const {
+    editorContent,
+    savedNotes,
+    setEditorContent,
+    confirmNote,
+    deleteItem,
+    clickItem,
+    hasNotes,
+  } = useNotesManager();
 
   const handleContentChange = (content: string) => {
     setEditorContent(content);
   };
 
   const handleConfirm = () => {
-    if (hasNoteItems(editorContent)) {
+    if (hasNotes) {
       const category = parseNoteContent(editorContent);
-      setConfirmedCategory(category);
-
-      // 新增筆記記錄到保存的筆記列表中
-      setSavedNotes(prev => [...prev, category]);
-
-      // 清空輸入框
-      setEditorContent('');
+      confirmNote(category);
     }
   };
-
-  const handleItemClick = (item: ParsedNoteItem) => {
-    console.log('點擊筆記項目:', item);
-  };
-
-  const handleItemDelete = (itemId: string, categoryId?: string) => {
-    if (categoryId) {
-      // 從保存的筆記列表中刪除項目
-      setSavedNotes(prev =>
-        prev.map(category =>
-          category.id === categoryId
-            ? {
-              ...category,
-              items: category.items.filter(item => item.id !== itemId)
-            }
-            : category
-        )
-      );
-    } else if (confirmedCategory) {
-      // 從當前確認的分類中刪除項目（向後兼容）
-      const updatedCategory = {
-        ...confirmedCategory,
-        items: confirmedCategory.items.filter(item => item.id !== itemId),
-      };
-      setConfirmedCategory(updatedCategory);
-    }
-  };
-
-  const hasNotes = hasNoteItems(editorContent);
 
   return (
     <div className="min-h-screen bg-white">
@@ -95,7 +64,10 @@ export default function NotesPage() {
               </h2>
               <div className="space-y-6">
                 {savedNotes.map((category, index) => (
-                  <div key={category.id} className="border border-gray-200 rounded-lg p-4">
+                  <div
+                    key={category.id}
+                    className="border border-gray-200 rounded-lg p-4"
+                  >
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="text-lg font-semibold text-gray-800">
                         筆記記錄 #{index + 1}
@@ -106,8 +78,8 @@ export default function NotesPage() {
                     </div>
                     <NoteCategoryDisplay
                       category={category}
-                      onItemClick={handleItemClick}
-                      onItemDelete={(itemId) => handleItemDelete(itemId, category.id)}
+                      onItemClick={() => clickItem()}
+                      onItemDelete={itemId => deleteItem(itemId, category.id)}
                     />
                   </div>
                 ))}
@@ -128,7 +100,9 @@ export default function NotesPage() {
               </li>
               <li>• 點擊「確認筆記分類」按鈕來新增筆記記錄到筆記區塊</li>
               <li>• 確認後輸入框會自動清空，可以繼續輸入新的筆記</li>
-              <li>• 所有已保存的筆記記錄會顯示在下方，可以查看、點擊或刪除筆記項目</li>
+              <li>
+                • 所有已保存的筆記記錄會顯示在下方，可以查看、點擊或刪除筆記項目
+              </li>
               <li>• 每個筆記記錄都會顯示創建時間，方便管理</li>
             </ul>
           </div>

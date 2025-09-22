@@ -1,6 +1,7 @@
 'use client';
 
 import { Button } from '@/components/ui/button';
+import { BULLET_SYMBOLS, SYMBOL_LABELS } from '@/lib/bullet-symbols';
 
 interface SymbolInsertionButtonProps {
   onSymbolInsert: (symbol: string) => void;
@@ -9,11 +10,10 @@ interface SymbolInsertionButtonProps {
 export function SymbolInsertionButton({
   onSymbolInsert,
 }: SymbolInsertionButtonProps) {
-  const symbols = [
-    { symbol: '•', label: '任務' },
-    { symbol: 'O', label: '事件' },
-    { symbol: '–', label: '筆記' },
-  ];
+  const symbols = BULLET_SYMBOLS.map(symbol => ({
+    symbol,
+    label: SYMBOL_LABELS[symbol],
+  }));
 
   return (
     <div className="flex gap-1">

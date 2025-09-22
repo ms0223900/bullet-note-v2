@@ -1,4 +1,9 @@
 import { NoteCategory, ParsedNoteItem } from '@/types';
+import { extractContentFromLine, isValidBulletLine } from './bullet-symbols';
+import { generateCategoryId, generateNoteItemId } from './id-generator';
+
+// 重新導出 hasNoteItems 以保持向後兼容
+export { hasNoteItems } from './bullet-symbols';
 
 /**
  * 解析筆記內容，將以符號開頭的行分類為筆記項目
@@ -9,16 +14,13 @@ export function parseNoteContent(content: string): NoteCategory {
     const lines = content.split('\n');
     const items: ParsedNoteItem[] = [];
 
-    lines.forEach((line, index) => {
-        const trimmedLine = line.trim();
-
-        // 檢查是否以符號開頭（•、O、–、-）
-        if (trimmedLine.startsWith('•') || trimmedLine.startsWith('O') || trimmedLine.startsWith('–') || trimmedLine.startsWith('-')) {
-            const noteContent = trimmedLine.substring(1).trim();
+    lines.forEach(line => {
+        if (isValidBulletLine(line)) {
+            const noteContent = extractContentFromLine(line);
 
             if (noteContent) {
                 const item: ParsedNoteItem = {
-                    id: `note-${Date.now()}-${index}`,
+                    id: generateNoteItemId(),
                     content: noteContent,
                     type: 'note',
                     createdAt: new Date(),
@@ -30,29 +32,11 @@ export function parseNoteContent(content: string): NoteCategory {
     });
 
     return {
-        id: `category-${Date.now()}`,
+        id: generateCategoryId(),
         name: '筆記分類',
         items,
         createdAt: new Date(),
     };
-}
-
-/**
- * 檢查內容是否包含筆記項目
- * @param content 筆記內容
- * @returns 是否包含筆記項目
- */
-export function hasNoteItems(content: string): boolean {
-    const lines = content.split('\n');
-    return lines.some(line => {
-        const trimmedLine = line.trim();
-        if (trimmedLine.startsWith('•') || trimmedLine.startsWith('O') || trimmedLine.startsWith('–') || trimmedLine.startsWith('-')) {
-            // 檢查符號後面是否有內容
-            const noteContent = trimmedLine.substring(1).trim();
-            return noteContent.length > 0;
-        }
-        return false;
-    });
 }
 
 /**

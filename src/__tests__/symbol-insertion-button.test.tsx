@@ -53,6 +53,7 @@ describe('SymbolInsertionButton', () => {
     expect(screen.getByTitle('任務')).toBeInTheDocument();
     expect(screen.getByTitle('事件')).toBeInTheDocument();
     expect(screen.getByTitle('筆記')).toBeInTheDocument();
+    expect(screen.getByTitle('項目')).toBeInTheDocument();
   });
 
   it('should render buttons with correct styling classes', () => {

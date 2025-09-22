@@ -19,7 +19,8 @@ export function NoteEditor({
   const [internalContent, setInternalContent] = useState(initialContent);
 
   // 使用外部內容或內部內容
-  const content = externalContent !== undefined ? externalContent : internalContent;
+  const content =
+    externalContent !== undefined ? externalContent : internalContent;
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   const handleContentChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
@@ -28,16 +29,13 @@ export function NoteEditor({
     onContentChange?.(newContent);
   };
 
-  const handleSymbolInsert = (symbol: string) => {
-    const textarea = textareaRef.current;
-    if (!textarea) return;
-
-    const start = textarea.selectionStart;
-    const end = textarea.selectionEnd;
-
-    // 找到當前行的開始和結束位置
-    const beforeCursor = content.slice(0, start);
-    const afterCursor = content.slice(end);
+  const getCurrentLineInfo = (
+    content: string,
+    cursorStart: number,
+    cursorEnd: number
+  ) => {
+    const beforeCursor = content.slice(0, cursorStart);
+    const afterCursor = content.slice(cursorEnd);
 
     // 找到當前行的開始位置（上一個換行符後）
     const lastNewlineIndex = beforeCursor.lastIndexOf('\n');
@@ -46,63 +44,85 @@ export function NoteEditor({
     // 找到當前行的結束位置（下一個換行符前）
     const nextNewlineIndex = afterCursor.indexOf('\n');
     const lineEnd =
-      nextNewlineIndex === -1 ? content.length : start + nextNewlineIndex;
+      nextNewlineIndex === -1 ? content.length : cursorStart + nextNewlineIndex;
 
     // 獲取當前行的內容
     const currentLine = content.slice(lineStart, lineEnd);
 
-    // 檢查當前行是否已經有符號
-    const hasSymbol = /^[•O–]\s/.test(currentLine);
+    return { lineStart, lineEnd, currentLine };
+  };
 
-    if (hasSymbol) {
+  const hasExistingSymbol = (line: string): boolean => {
+    return /^[•O–-]\s/.test(line);
+  };
+
+  const replaceLineSymbol = (line: string, newSymbol: string): string => {
+    const content = line.trim().substring(1).trim();
+    return `${newSymbol} ${content}`;
+  };
+
+  const insertSymbolAtLineStart = (line: string, symbol: string): string => {
+    return `${symbol} ${line}`;
+  };
+
+  const calculateNewCursorPosition = (
+    oldStart: number,
+    lineStart: number,
+    symbol: string,
+    hasExisting: boolean
+  ): number => {
+    if (hasExisting) {
+      // 如果替換符號，游標位置需要調整
+      return lineStart + symbol.length + 1;
+    } else {
+      // 如果插入符號，游標位置需要加上符號長度
+      return oldStart + symbol.length + 1;
+    }
+  };
+
+  const handleSymbolInsert = (symbol: string) => {
+    const textarea = textareaRef.current;
+    if (!textarea) return;
+
+    const start = textarea.selectionStart;
+    const end = textarea.selectionEnd;
+    const { lineStart, lineEnd, currentLine } = getCurrentLineInfo(
+      content,
+      start,
+      end
+    );
+
+    const hasExisting = hasExistingSymbol(currentLine);
+    let newContent: string;
+
+    if (hasExisting) {
       // 如果行首已有符號，替換現有符號
-      const newContent =
+      newContent =
         content.slice(0, lineStart) +
-        symbol +
-        ' ' +
-        currentLine.slice(2) +
+        replaceLineSymbol(currentLine, symbol) +
         content.slice(lineEnd);
-      setInternalContent(newContent);
-      onContentChange?.(newContent);
-
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(
-          start +
-          (symbol.length -
-            (currentLine.startsWith('•')
-              ? 1
-              : currentLine.startsWith('O')
-                ? 1
-                : currentLine.startsWith('–')
-                  ? 1
-                  : 0)),
-          start +
-          (symbol.length -
-            (currentLine.startsWith('•')
-              ? 1
-              : currentLine.startsWith('O')
-                ? 1
-                : currentLine.startsWith('–')
-                  ? 1
-                  : 0))
-        );
-      }, 0);
     } else {
       // 如果行首沒有符號，在行首插入符號
-      const newContent =
-        content.slice(0, lineStart) + symbol + ' ' + content.slice(lineStart);
-      setInternalContent(newContent);
-      onContentChange?.(newContent);
-
-      setTimeout(() => {
-        textarea.focus();
-        textarea.setSelectionRange(
-          start + symbol.length + 1,
-          start + symbol.length + 1
-        );
-      }, 0);
+      newContent =
+        content.slice(0, lineStart) +
+        insertSymbolAtLineStart(content.slice(lineStart, lineEnd), symbol) +
+        content.slice(lineEnd);
     }
+
+    setInternalContent(newContent);
+    onContentChange?.(newContent);
+
+    // 更新游標位置
+    setTimeout(() => {
+      textarea.focus();
+      const newCursorPos = calculateNewCursorPosition(
+        start,
+        lineStart,
+        symbol,
+        hasExisting
+      );
+      textarea.setSelectionRange(newCursorPos, newCursorPos);
+    }, 0);
   };
 
   return (
