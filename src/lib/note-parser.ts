@@ -2,9 +2,6 @@ import { NoteCategory, ParsedNoteItem } from '@/types';
 import { extractContentFromLine, isValidBulletLine } from './bullet-symbols';
 import { generateCategoryId, generateNoteItemId } from './id-generator';
 
-// 重新導出 hasNoteItems 以保持向後兼容
-export { hasNoteItems } from './bullet-symbols';
-
 /**
  * 解析筆記內容，將以符號開頭的行分類為筆記項目
  * @param content 原始筆記內容
