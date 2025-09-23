@@ -1,3 +1,4 @@
+import { NOTE_SYMBOL } from '@/lib/bullet-symbols';
 import {
   extractNoteItems,
   parseNoteContent
@@ -7,10 +8,10 @@ describe('note-parser', () => {
   describe('parseNoteContent', () => {
     it('should parse content with note items starting with -', () => {
       const content = `這是一些文字
-- 第一個筆記項目
-- 第二個筆記項目
+${NOTE_SYMBOL} 第一個筆記項目
+${NOTE_SYMBOL} 第二個筆記項目
 其他文字
-- 第三個筆記項目`;
+${NOTE_SYMBOL} 第三個筆記項目`;
 
       const result = parseNoteContent(content);
 
@@ -54,7 +55,7 @@ describe('note-parser', () => {
     });
 
     it('should trim whitespace from note items', () => {
-      const content = `-   有空格開頭的筆記項目   `;
+      const content = `${NOTE_SYMBOL}   有空格開頭的筆記項目   `;
       const result = parseNoteContent(content);
 
       expect(result.items).toHaveLength(1);
@@ -62,9 +63,9 @@ describe('note-parser', () => {
     });
 
     it('should skip empty note items', () => {
-      const content = `- 
-- 有效的筆記項目
--   `;
+      const content = `${NOTE_SYMBOL} 
+${NOTE_SYMBOL} 有效的筆記項目
+${NOTE_SYMBOL}   `;
       const result = parseNoteContent(content);
 
       expect(result.items).toHaveLength(1);
@@ -74,9 +75,9 @@ describe('note-parser', () => {
 
   describe('extractNoteItems', () => {
     it('should extract only note items from content', () => {
-      const content = `- 第一個筆記
+      const content = `${NOTE_SYMBOL} 第一個筆記
 普通文字
-- 第二個筆記`;
+${NOTE_SYMBOL} 第二個筆記`;
 
       const items = extractNoteItems(content);
 

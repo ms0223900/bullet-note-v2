@@ -39,8 +39,10 @@ describe('Note Category Integration', () => {
 
         // Type content with note items
         fireEvent.change(textarea, {
-            target: { value: '- 第一個筆記項目\n- 第二個筆記項目' },
+            target: { value: '第一個筆記項目\n第二個筆記項目' },
         });
+
+        fireEvent.click(screen.getByText('–'));
 
         // Button should be enabled now
         await waitFor(() => {
@@ -56,7 +58,7 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '- 第一個筆記項目\n- 第二個筆記項目\n普通文字' },
+            target: { value: '– 第一個筆記項目\n– 第二個筆記項目\n普通文字' },
         });
 
         // Click confirm button
@@ -97,7 +99,7 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '- 第一個筆記項目\n- 第二個筆記項目' },
+            target: { value: '– 第一個筆記項目\n– 第二個筆記項目' },
         });
 
         // Click confirm button
@@ -132,8 +134,10 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '- 測試筆記項目' },
+            target: { value: '– 測試筆記項目' },
         });
+
+        fireEvent.click(screen.getByText('–'));
 
         // Click confirm button
         fireEvent.click(confirmButton);

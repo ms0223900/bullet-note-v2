@@ -2,15 +2,17 @@
  * 子彈筆記符號相關的常數和工具函數
  */
 
-// 支援的符號列表
-export const BULLET_SYMBOLS = ['•', 'O', '–', '-'] as const;
+export const NOTE_SYMBOL = '–';
+export const TASK_SYMBOL = '•';
+export const EVENT_SYMBOL = 'O';
+
+export const BULLET_SYMBOLS = [TASK_SYMBOL, EVENT_SYMBOL, NOTE_SYMBOL] as const;
 
 // 符號對應的標籤
 export const SYMBOL_LABELS = {
-    '•': '任務',
-    O: '事件',
-    '–': '筆記',
-    '-': '項目',
+    [TASK_SYMBOL]: '任務',
+    [EVENT_SYMBOL]: '事件',
+    [NOTE_SYMBOL]: '筆記',
 } as const;
 
 export type BulletSymbol = (typeof BULLET_SYMBOLS)[number];
