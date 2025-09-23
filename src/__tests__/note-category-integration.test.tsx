@@ -150,4 +150,58 @@ describe('Note Category Integration', () => {
 
         consoleSpy.mockRestore();
     });
+
+    it('should disable confirm button when text has no symbols', async () => {
+        render(<NotesPage />);
+
+        const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
+        const confirmButton = screen.getByText('確認筆記分類');
+
+        // Initially button should be disabled (empty content)
+        expect(confirmButton).toBeDisabled();
+
+        // Type content without any symbols
+        fireEvent.change(textarea, {
+            target: { value: '這是一般文字，沒有符號\n還有更多普通文字' },
+        });
+
+        // Button should remain disabled
+        await waitFor(() => {
+            expect(confirmButton).toBeDisabled();
+        });
+
+        // Try to click the button - it should not work
+        fireEvent.click(confirmButton);
+
+        // Should not display any note category section
+        expect(screen.queryByText('已保存的筆記記錄')).not.toBeInTheDocument();
+    });
+
+    it('should update confirm button state when adding/removing symbols', async () => {
+        render(<NotesPage />);
+
+        const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
+        const confirmButton = screen.getByText('確認筆記分類');
+
+        // Initially button should be disabled (empty content)
+        expect(confirmButton).toBeDisabled();
+
+        // Add content with symbols - button should become enabled
+        fireEvent.change(textarea, {
+            target: { value: '• 第一個任務\nO 重要事件' },
+        });
+
+        await waitFor(() => {
+            expect(confirmButton).not.toBeDisabled();
+        });
+
+        // Remove symbols by replacing with plain text - button should become disabled again
+        fireEvent.change(textarea, {
+            target: { value: '沒有符號的文字\n只是普通內容' },
+        });
+
+        await waitFor(() => {
+            expect(confirmButton).toBeDisabled();
+        });
+    });
 });
