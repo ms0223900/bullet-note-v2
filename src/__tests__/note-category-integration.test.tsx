@@ -1,4 +1,5 @@
 import NotesPage from '@/app/notes/page';
+import { NOTE_SYMBOL } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
@@ -42,7 +43,7 @@ describe('Note Category Integration', () => {
             target: { value: '第一個筆記項目\n第二個筆記項目' },
         });
 
-        fireEvent.click(screen.getByText('–'));
+        fireEvent.click(screen.getByText(NOTE_SYMBOL));
 
         // Button should be enabled now
         await waitFor(() => {
@@ -137,7 +138,7 @@ describe('Note Category Integration', () => {
             target: { value: '– 測試筆記項目' },
         });
 
-        fireEvent.click(screen.getByText('–'));
+        fireEvent.click(screen.getByText(NOTE_SYMBOL));
 
         // Click confirm button
         fireEvent.click(confirmButton);
