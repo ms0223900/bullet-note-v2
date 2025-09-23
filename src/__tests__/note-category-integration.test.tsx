@@ -59,7 +59,7 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '– 第一個筆記項目\n– 第二個筆記項目\n普通文字' },
+            target: { value: `${NOTE_SYMBOL} 第一個筆記項目\n${NOTE_SYMBOL} 第二個筆記項目\n普通文字` },
         });
 
         // Click confirm button
@@ -100,7 +100,7 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '– 第一個筆記項目\n– 第二個筆記項目' },
+            target: { value: `${NOTE_SYMBOL} 第一個筆記項目\n${NOTE_SYMBOL} 第二個筆記項目` },
         });
 
         // Click confirm button
@@ -135,7 +135,7 @@ describe('Note Category Integration', () => {
 
         // Input note items
         fireEvent.change(textarea, {
-            target: { value: '– 測試筆記項目' },
+            target: { value: `${NOTE_SYMBOL} 測試筆記項目` },
         });
 
         fireEvent.click(screen.getByText(NOTE_SYMBOL));
