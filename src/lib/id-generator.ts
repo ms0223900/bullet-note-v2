@@ -8,9 +8,9 @@
  * @returns 格式化的唯一 ID
  */
 export function generateId(prefix: string): string {
-    const timestamp = Date.now();
-    const random = Math.random().toString(36).substring(2, 8);
-    return `${prefix}-${timestamp}-${random}`;
+  const timestamp = Date.now();
+  const random = Math.random().toString(36).substring(2, 8);
+  return `${prefix}-${timestamp}-${random}`;
 }
 
 /**
@@ -18,7 +18,7 @@ export function generateId(prefix: string): string {
  * @returns 筆記項目 ID
  */
 export function generateNoteItemId(): string {
-    return generateId('note');
+  return generateId('note');
 }
 
 /**
@@ -26,5 +26,5 @@ export function generateNoteItemId(): string {
  * @returns 筆記分類 ID
  */
 export function generateCategoryId(): string {
-    return generateId('category');
+  return generateId('category');
 }

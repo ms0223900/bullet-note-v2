@@ -10,9 +10,9 @@ export const BULLET_SYMBOLS = [TASK_SYMBOL, EVENT_SYMBOL, NOTE_SYMBOL] as const;
 
 // 符號對應的標籤
 export const SYMBOL_LABELS = {
-    [TASK_SYMBOL]: '任務',
-    [EVENT_SYMBOL]: '事件',
-    [NOTE_SYMBOL]: '筆記',
+  [TASK_SYMBOL]: '任務',
+  [EVENT_SYMBOL]: '事件',
+  [NOTE_SYMBOL]: '筆記',
 } as const;
 
 export type BulletSymbol = (typeof BULLET_SYMBOLS)[number];
@@ -23,15 +23,15 @@ export type BulletSymbol = (typeof BULLET_SYMBOLS)[number];
  * @returns 是否為有效的子彈筆記行
  */
 export function isValidBulletLine(line: string): boolean {
-    const trimmedLine = line.trim();
+  const trimmedLine = line.trim();
 
-    if (!BULLET_SYMBOLS.some(symbol => trimmedLine.startsWith(symbol))) {
-        return false;
-    }
+  if (!BULLET_SYMBOLS.some(symbol => trimmedLine.startsWith(symbol))) {
+    return false;
+  }
 
-    // 檢查符號後面是否有內容
-    const content = trimmedLine.substring(1).trim();
-    return content.length > 0;
+  // 檢查符號後面是否有內容
+  const content = trimmedLine.substring(1).trim();
+  return content.length > 0;
 }
 
 /**
@@ -40,8 +40,8 @@ export function isValidBulletLine(line: string): boolean {
  * @returns 是否包含筆記項目
  */
 export function hasNoteItems(content: string): boolean {
-    const lines = content.split('\n');
-    return lines.some(isValidBulletLine);
+  const lines = content.split('\n');
+  return lines.some(isValidBulletLine);
 }
 
 /**
@@ -50,15 +50,15 @@ export function hasNoteItems(content: string): boolean {
  * @returns 符號類型，如果不是有效行則返回 null
  */
 export function getSymbolType(line: string): BulletSymbol | null {
-    const trimmedLine = line.trim();
+  const trimmedLine = line.trim();
 
-    for (const symbol of BULLET_SYMBOLS) {
-        if (trimmedLine.startsWith(symbol)) {
-            return symbol;
-        }
+  for (const symbol of BULLET_SYMBOLS) {
+    if (trimmedLine.startsWith(symbol)) {
+      return symbol;
     }
+  }
 
-    return null;
+  return null;
 }
 
 /**
@@ -67,10 +67,10 @@ export function getSymbolType(line: string): BulletSymbol | null {
  * @returns 移除符號後的內容
  */
 export function extractContentFromLine(line: string): string {
-    const symbolType = getSymbolType(line);
-    if (!symbolType) {
-        return line.trim();
-    }
+  const symbolType = getSymbolType(line);
+  if (!symbolType) {
+    return line.trim();
+  }
 
-    return line.trim().substring(symbolType.length).trim();
+  return line.trim().substring(symbolType.length).trim();
 }

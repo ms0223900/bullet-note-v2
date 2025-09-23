@@ -8,32 +8,32 @@ import { generateCategoryId, generateNoteItemId } from './id-generator';
  * @returns 解析後的筆記分類
  */
 export function parseNoteContent(content: string): NoteCategory {
-    const lines = content.split('\n');
-    const items: ParsedNoteItem[] = [];
+  const lines = content.split('\n');
+  const items: ParsedNoteItem[] = [];
 
-    lines.forEach(line => {
-        if (isValidBulletLine(line)) {
-            const noteContent = extractContentFromLine(line);
+  lines.forEach(line => {
+    if (isValidBulletLine(line)) {
+      const noteContent = extractContentFromLine(line);
 
-            if (noteContent) {
-                const item: ParsedNoteItem = {
-                    id: generateNoteItemId(),
-                    content: noteContent,
-                    type: 'note',
-                    createdAt: new Date(),
-                };
+      if (noteContent) {
+        const item: ParsedNoteItem = {
+          id: generateNoteItemId(),
+          content: noteContent,
+          type: 'note',
+          createdAt: new Date(),
+        };
 
-                items.push(item);
-            }
-        }
-    });
+        items.push(item);
+      }
+    }
+  });
 
-    return {
-        id: generateCategoryId(),
-        name: '筆記分類',
-        items,
-        createdAt: new Date(),
-    };
+  return {
+    id: generateCategoryId(),
+    name: '筆記分類',
+    items,
+    createdAt: new Date(),
+  };
 }
 
 /**
@@ -42,6 +42,6 @@ export function parseNoteContent(content: string): NoteCategory {
  * @returns 筆記項目列表
  */
 export function extractNoteItems(content: string): ParsedNoteItem[] {
-    const category = parseNoteContent(content);
-    return category.items;
+  const category = parseNoteContent(content);
+  return category.items;
 }

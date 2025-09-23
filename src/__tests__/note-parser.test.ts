@@ -1,8 +1,5 @@
 import { NOTE_SYMBOL } from '@/lib/bullet-symbols';
-import {
-  extractNoteItems,
-  parseNoteContent
-} from '@/lib/note-parser';
+import { extractNoteItems, parseNoteContent } from '@/lib/note-parser';
 
 describe('note-parser', () => {
   describe('parseNoteContent', () => {
