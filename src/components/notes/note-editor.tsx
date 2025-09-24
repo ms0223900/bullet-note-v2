@@ -138,7 +138,7 @@ export function NoteEditor({
   return (
     <div className="w-full max-w-4xl mx-auto">
       {/* 符號插入按鈕 */}
-      <div className="mb-3 flex justify-start">
+      <div className="mb-3 flex justify-start w-full">
         <SymbolInsertionButton onSymbolInsert={handleSymbolInsert} />
       </div>
 
