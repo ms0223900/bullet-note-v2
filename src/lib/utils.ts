@@ -33,48 +33,58 @@ export interface GroupedByDayEntry {
   categoryId: string;
 }
 
-export interface GroupedByDay {
+export interface GroupedByDayNotes {
   key: string; // YYYY-MM-DD
   date: Date; // local date at midnight
   entries: GroupedByDayEntry[];
 }
 
-export function groupSavedNotesByLocalDay(savedNotes: NoteCategory[]): GroupedByDay[] {
-  const map = new Map<string, { date: Date; entries: GroupedByDayEntry[] }>();
+// Local helpers for single-responsibility and testability
+type DayBucket = { date: Date; entries: GroupedByDayEntry[] };
+
+function getLocalDayKey(date: Date): string {
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
+
+function startOfLocalDay(date: Date): Date {
+  return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+}
+
+export function groupSavedNotesByLocalDay(savedNotes: NoteCategory[]): GroupedByDayNotes[] {
+  const dayKeyToBucket = new Map<string, DayBucket>();
 
   for (const category of savedNotes) {
     for (const item of category.items) {
-      const created = item.createdAt;
-      const year = created.getFullYear();
-      const month = String(created.getMonth() + 1).padStart(2, '0');
-      const day = String(created.getDate()).padStart(2, '0');
-      const key = `${year}-${month}-${day}`;
+      const createdAt = item.createdAt;
+      const dayKey = getLocalDayKey(createdAt);
 
-      const existing = map.get(key);
-      if (!existing) {
-        map.set(key, {
-          date: new Date(year, created.getMonth(), created.getDate()),
+      const existingBucket = dayKeyToBucket.get(dayKey);
+      if (!existingBucket) {
+        dayKeyToBucket.set(dayKey, {
+          date: startOfLocalDay(createdAt),
           entries: [{ item, categoryId: category.id }],
         });
       } else {
-        existing.entries.push({ item, categoryId: category.id });
+        existingBucket.entries.push({ item, categoryId: category.id });
       }
     }
   }
 
-  const groups: GroupedByDay[] = Array.from(map.entries()).map(([key, value]) => ({
-    key,
-    date: value.date,
-    entries: value.entries,
-  }));
+  // Build groups with stable, explicit sorting without mutating source arrays
+  const groupsUnsorted: GroupedByDayNotes[] = Array.from(dayKeyToBucket.entries()).map(
+    ([key, bucket]) => ({
+      key,
+      date: bucket.date,
+      entries: bucket.entries
+        .slice()
+        .sort((a, b) => b.item.createdAt.getTime() - a.item.createdAt.getTime()),
+    })
+  );
 
-  // sort by date desc, and within group by createdAt desc
-  groups.sort((a, b) => b.date.getTime() - a.date.getTime());
-  for (const group of groups) {
-    group.entries.sort(
-      (a, b) => b.item.createdAt.getTime() - a.item.createdAt.getTime()
-    );
-  }
-
-  return groups;
+  return groupsUnsorted
+    .slice()
+    .sort((a, b) => b.date.getTime() - a.date.getTime());
 }
