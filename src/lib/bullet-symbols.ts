@@ -17,7 +17,6 @@ export const SYMBOL_LABELS = {
   [BulletSymbol.Note]: '筆記',
 } as const;
 
-export type BulletSymbolValue = (typeof BULLET_SYMBOLS)[number];
 
 /**
  * 檢查一行是否為有效的子彈筆記行
@@ -51,7 +50,7 @@ export function hasNoteItems(content: string): boolean {
  * @param line 要檢查的行
  * @returns 符號類型，如果不是有效行則返回 null
  */
-export function getSymbolType(line: string): BulletSymbolValue | null {
+export function getSymbolType(line: string): BulletSymbol | null {
   const trimmedLine = line.trim();
 
   for (const symbol of BULLET_SYMBOLS) {
