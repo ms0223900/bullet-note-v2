@@ -47,7 +47,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Step 5: Verify the button click worked and note was saved
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('我的筆記內容')).toBeInTheDocument();
     });
 
@@ -82,7 +82,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Should save both notes
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('第一個筆記')).toBeInTheDocument();
       expect(screen.getByText('第二個筆記')).toBeInTheDocument();
     });
@@ -118,7 +118,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Should only save the note item, not regular text
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('這是筆記項目')).toBeInTheDocument();
       // Regular text should not be displayed
       expect(screen.queryByText('這是普通文字')).not.toBeInTheDocument();
@@ -160,7 +160,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Should work correctly
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('快速筆記')).toBeInTheDocument();
     });
   });
@@ -199,7 +199,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Should save all three items
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('任務項目')).toBeInTheDocument();
       expect(screen.getByText('事件項目')).toBeInTheDocument();
       expect(screen.getByText('筆記項目')).toBeInTheDocument();

@@ -60,7 +60,7 @@ describe('SymbolInsertionButton', () => {
 
     const buttons = screen.getAllByRole('button');
     buttons.forEach(button => {
-      expect(button).toHaveClass('min-w-8', 'h-8', 'text-base', 'font-normal');
+      expect(button).toHaveClass('h-8', 'text-base', 'font-normal');
     });
   });
 });

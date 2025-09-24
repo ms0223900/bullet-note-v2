@@ -2,12 +2,13 @@
 
 import { BulletRulesTable } from '@/components/notes/bullet-rules-table';
 import { ConfirmButton } from '@/components/notes/confirm-button';
-import { NoteCategoryDisplay } from '@/components/notes/note-category-display';
 import { NoteEditor } from '@/components/notes/note-editor';
 import { UsageTips } from '@/components/notes/usage-tips';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
+import { ParsedNoteItem } from '@/types';
+import { useMemo } from 'react';
 
 export default function NotesPage() {
   const {
@@ -20,6 +21,49 @@ export default function NotesPage() {
   } = useNotesManager();
 
   const hasNotes = hasNoteItems(editorContent);
+
+  // 依「項目建立的本地日期」分組，並保留刪除時所需的 categoryId 映射
+  const groupedByDay = useMemo(
+    () => {
+      const map = new Map<
+        string,
+        {
+          date: Date;
+          entries: { item: ParsedNoteItem; categoryId: string }[];
+        }
+      >();
+
+      savedNotes.forEach(category => {
+        category.items.forEach(item => {
+          const d = item.createdAt;
+          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
+          const existing = map.get(key);
+          if (!existing) {
+            map.set(key, {
+              date: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
+              entries: [{ item, categoryId: category.id }],
+            });
+          } else {
+            existing.entries.push({ item, categoryId: category.id });
+          }
+        });
+      });
+
+      const groups = Array.from(map.entries()).map(([key, value]) => ({
+        key,
+        ...value,
+      }));
+
+      // 依日期由新到舊排序；同日內依建立時間由新到舊
+      groups.sort((a, b) => b.date.getTime() - a.date.getTime());
+      groups.forEach(g =>
+        g.entries.sort((a, b) => b.item.createdAt.getTime() - a.item.createdAt.getTime())
+      );
+
+      return groups;
+    },
+    [savedNotes]
+  );
 
   const handleContentChange = (content: string) => {
     setEditorContent(content);
@@ -61,36 +105,60 @@ export default function NotesPage() {
             </ConfirmButton>
           </div>
 
-          {/* 筆記分類顯示區塊 */}
-          {savedNotes.length > 0 && (
+          {/* 依日期分組的筆記顯示區塊 */}
+          {groupedByDay.length > 0 && (
             <div className="mb-8">
               <h2 className="text-2xl font-bold text-black mb-4">
-                已保存的筆記記錄 ({savedNotes.length})
+                已保存的筆記（依日期）
               </h2>
               <div className="space-y-6">
-                {savedNotes.map((category, index) => (
-                  <div
-                    key={category.id}
-                    className="border border-gray-200 rounded-lg p-4"
-                  >
+                {groupedByDay.map(group => (
+                  <div key={group.key} className="border border-gray-200 rounded-lg p-4">
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="text-lg font-semibold text-gray-800">
-                        筆記記錄 #{index + 1}
+                        {group.key}
                       </h3>
-                      <span className="text-sm text-gray-500">
-                        {category.createdAt.toLocaleString('zh-TW')}
-                      </span>
+                      <span className="text-sm text-gray-500">{group.entries.length} 項</span>
                     </div>
-                    <NoteCategoryDisplay
-                      category={category}
-                      onItemClick={() => clickItem()}
-                      onItemDelete={itemId => {
-                        const confirmed = window.confirm('確定要刪除這個筆記項目嗎？');
-                        if (confirmed) {
-                          deleteItem(itemId, category.id);
-                        }
-                      }}
-                    />
+                    <div className="p-1">
+                      <div className="space-y-3">
+                        {group.entries.map(({ item, categoryId }) => (
+                          <div
+                            key={item.id}
+                            className="group flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+                          >
+                            <div className="flex-shrink-0 mt-1">
+                              <div className="w-2 h-2 bg-blue-500 rounded-full"></div>
+                            </div>
+                            <div className="flex-1 min-w-0">
+                              <p
+                                className="text-gray-800 text-sm leading-relaxed cursor-pointer"
+                                onClick={() => clickItem()}
+                              >
+                                {item.content}
+                              </p>
+                              <p className="text-xs text-gray-400 mt-1">
+                                {item.createdAt.toLocaleString('zh-TW')}
+                              </p>
+                            </div>
+                            <div className="flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
+                              <button
+                                onClick={() => {
+                                  const confirmed = window.confirm('確定要刪除這個筆記項目嗎？');
+                                  if (confirmed) {
+                                    deleteItem(item.id, categoryId);
+                                  }
+                                }}
+                                className="text-gray-400 hover:text-red-500 text-sm"
+                                title="刪除筆記"
+                              >
+                                ×
+                              </button>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
                   </div>
                 ))}
               </div>

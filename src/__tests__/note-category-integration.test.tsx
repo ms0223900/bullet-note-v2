@@ -69,10 +69,10 @@ describe('Note Category Integration', () => {
 
     // Should display the parsed notes
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記記錄 (1)')).toBeInTheDocument();
+      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
       expect(screen.getByText('第一個筆記項目')).toBeInTheDocument();
       expect(screen.getByText('第二個筆記項目')).toBeInTheDocument();
-      expect(screen.getByText('2 個筆記項目')).toBeInTheDocument();
+      // group header shows item count as "X 項" within the date group; we assert item texts instead
     });
   });
 
@@ -125,7 +125,6 @@ describe('Note Category Integration', () => {
     await waitFor(() => {
       expect(screen.queryByText('第一個筆記項目')).not.toBeInTheDocument();
       expect(screen.getByText('第二個筆記項目')).toBeInTheDocument();
-      expect(screen.getByText('1 個筆記項目')).toBeInTheDocument();
     });
 
     confirmSpy.mockRestore();
