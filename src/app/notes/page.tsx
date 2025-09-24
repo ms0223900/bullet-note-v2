@@ -46,7 +46,7 @@ export default function NotesPage() {
           <div className="mb-6">
             <NoteEditor
               content={editorContent}
-              placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目)"
+              placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目；按 Cmd+Enter / Ctrl+Enter 直接新增)"
               onContentChange={handleContentChange}
               onConfirm={handleConfirm}
             />
