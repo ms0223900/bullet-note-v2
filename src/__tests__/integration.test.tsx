@@ -74,4 +74,23 @@ describe('NoteEditor Integration Tests', () => {
     // Should end up with the last symbol
     expect(mockOnContentChange).toHaveBeenCalledWith('– 測試');
   });
+
+  it('should trigger onConfirm when pressing Cmd/Ctrl + Enter', async () => {
+    const user = userEvent.setup();
+    const mockOnConfirm = jest.fn();
+
+    render(<NoteEditor onConfirm={mockOnConfirm} />);
+
+    const textarea = screen.getByRole('textbox');
+    await user.click(textarea);
+    await user.type(textarea, '一些內容');
+
+    // Simulate Cmd + Enter (Meta on macOS)
+    await user.keyboard('{Meta>}{Enter}{/Meta}');
+    expect(mockOnConfirm).toHaveBeenCalledTimes(1);
+
+    // Simulate Ctrl + Enter (Windows/Linux)
+    await user.keyboard('{Control>}{Enter}{/Control}');
+    expect(mockOnConfirm).toHaveBeenCalledTimes(2);
+  });
 });
