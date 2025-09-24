@@ -7,7 +7,7 @@ import { UsageTips } from '@/components/notes/usage-tips';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
-import { ParsedNoteItem } from '@/types';
+import { groupSavedNotesByLocalDay } from '@/lib/utils';
 import { useMemo } from 'react';
 
 export default function NotesPage() {
@@ -23,47 +23,7 @@ export default function NotesPage() {
   const hasNotes = hasNoteItems(editorContent);
 
   // 依「項目建立的本地日期」分組，並保留刪除時所需的 categoryId 映射
-  const groupedByDay = useMemo(
-    () => {
-      const map = new Map<
-        string,
-        {
-          date: Date;
-          entries: { item: ParsedNoteItem; categoryId: string }[];
-        }
-      >();
-
-      savedNotes.forEach(category => {
-        category.items.forEach(item => {
-          const d = item.createdAt;
-          const key = `${d.getFullYear()}-${String(d.getMonth() + 1).padStart(2, '0')}-${String(d.getDate()).padStart(2, '0')}`;
-          const existing = map.get(key);
-          if (!existing) {
-            map.set(key, {
-              date: new Date(d.getFullYear(), d.getMonth(), d.getDate()),
-              entries: [{ item, categoryId: category.id }],
-            });
-          } else {
-            existing.entries.push({ item, categoryId: category.id });
-          }
-        });
-      });
-
-      const groups = Array.from(map.entries()).map(([key, value]) => ({
-        key,
-        ...value,
-      }));
-
-      // 依日期由新到舊排序；同日內依建立時間由新到舊
-      groups.sort((a, b) => b.date.getTime() - a.date.getTime());
-      groups.forEach(g =>
-        g.entries.sort((a, b) => b.item.createdAt.getTime() - a.item.createdAt.getTime())
-      );
-
-      return groups;
-    },
-    [savedNotes]
-  );
+  const groupedByDay = useMemo(() => groupSavedNotesByLocalDay(savedNotes), [savedNotes]);
 
   const handleContentChange = (content: string) => {
     setEditorContent(content);
