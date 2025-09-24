@@ -1,5 +1,5 @@
 import NotesPage from '@/app/notes/page';
-import { NOTE_SYMBOL } from '@/lib/bullet-symbols';
+import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
 import { fireEvent, render, screen, waitFor } from '@testing-library/react';
 
@@ -43,7 +43,7 @@ describe('Note Category Integration', () => {
       target: { value: '第一個筆記項目\n第二個筆記項目' },
     });
 
-    fireEvent.click(screen.getByText(NOTE_SYMBOL));
+    fireEvent.click(screen.getByText(BulletSymbol.Note));
 
     // Button should be enabled now
     await waitFor(() => {
@@ -60,7 +60,7 @@ describe('Note Category Integration', () => {
     // Input note items
     fireEvent.change(textarea, {
       target: {
-        value: `${NOTE_SYMBOL} 第一個筆記項目\n${NOTE_SYMBOL} 第二個筆記項目\n普通文字`,
+        value: `${BulletSymbol.Note} 第一個筆記項目\n${BulletSymbol.Note} 第二個筆記項目\n普通文字`,
       },
     });
 
@@ -103,7 +103,7 @@ describe('Note Category Integration', () => {
     // Input note items
     fireEvent.change(textarea, {
       target: {
-        value: `${NOTE_SYMBOL} 第一個筆記項目\n${NOTE_SYMBOL} 第二個筆記項目`,
+        value: `${BulletSymbol.Note} 第一個筆記項目\n${BulletSymbol.Note} 第二個筆記項目`,
       },
     });
 
@@ -139,10 +139,10 @@ describe('Note Category Integration', () => {
 
     // Input note items
     fireEvent.change(textarea, {
-      target: { value: `${NOTE_SYMBOL} 測試筆記項目` },
+      target: { value: `${BulletSymbol.Note} 測試筆記項目` },
     });
 
-    fireEvent.click(screen.getByText(NOTE_SYMBOL));
+    fireEvent.click(screen.getByText(BulletSymbol.Note));
 
     // Click confirm button
     fireEvent.click(confirmButton);

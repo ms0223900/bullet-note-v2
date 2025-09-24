@@ -2,20 +2,22 @@
  * 子彈筆記符號相關的常數和工具函數
  */
 
-export const NOTE_SYMBOL = '–';
-export const TASK_SYMBOL = '•';
-export const EVENT_SYMBOL = 'O';
+export enum BulletSymbol {
+  Note = '–',
+  Task = '•',
+  Event = 'O',
+}
 
-export const BULLET_SYMBOLS = [TASK_SYMBOL, EVENT_SYMBOL, NOTE_SYMBOL] as const;
+export const BULLET_SYMBOLS = [BulletSymbol.Task, BulletSymbol.Event, BulletSymbol.Note] as const;
 
 // 符號對應的標籤
 export const SYMBOL_LABELS = {
-  [TASK_SYMBOL]: '任務',
-  [EVENT_SYMBOL]: '事件',
-  [NOTE_SYMBOL]: '筆記',
+  [BulletSymbol.Task]: '任務',
+  [BulletSymbol.Event]: '事件',
+  [BulletSymbol.Note]: '筆記',
 } as const;
 
-export type BulletSymbol = (typeof BULLET_SYMBOLS)[number];
+export type BulletSymbolValue = (typeof BULLET_SYMBOLS)[number];
 
 /**
  * 檢查一行是否為有效的子彈筆記行
@@ -49,7 +51,7 @@ export function hasNoteItems(content: string): boolean {
  * @param line 要檢查的行
  * @returns 符號類型，如果不是有效行則返回 null
  */
-export function getSymbolType(line: string): BulletSymbol | null {
+export function getSymbolType(line: string): BulletSymbolValue | null {
   const trimmedLine = line.trim();
 
   for (const symbol of BULLET_SYMBOLS) {

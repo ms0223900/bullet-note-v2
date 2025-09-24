@@ -1,14 +1,14 @@
-import { NOTE_SYMBOL } from '@/lib/bullet-symbols';
+import { BulletSymbol } from '@/lib/bullet-symbols';
 import { extractNoteItems, parseNoteContent } from '@/lib/note-parser';
 
 describe('note-parser', () => {
   describe('parseNoteContent', () => {
     it('should parse content with note items starting with -', () => {
       const content = `這是一些文字
-${NOTE_SYMBOL} 第一個筆記項目
-${NOTE_SYMBOL} 第二個筆記項目
+${BulletSymbol.Note} 第一個筆記項目
+${BulletSymbol.Note} 第二個筆記項目
 其他文字
-${NOTE_SYMBOL} 第三個筆記項目`;
+${BulletSymbol.Note} 第三個筆記項目`;
 
       const result = parseNoteContent(content);
 
@@ -52,7 +52,7 @@ ${NOTE_SYMBOL} 第三個筆記項目`;
     });
 
     it('should trim whitespace from note items', () => {
-      const content = `${NOTE_SYMBOL}   有空格開頭的筆記項目   `;
+      const content = `${BulletSymbol.Note}   有空格開頭的筆記項目   `;
       const result = parseNoteContent(content);
 
       expect(result.items).toHaveLength(1);
@@ -60,9 +60,9 @@ ${NOTE_SYMBOL} 第三個筆記項目`;
     });
 
     it('should skip empty note items', () => {
-      const content = `${NOTE_SYMBOL} 
-${NOTE_SYMBOL} 有效的筆記項目
-${NOTE_SYMBOL}   `;
+      const content = `${BulletSymbol.Note} 
+${BulletSymbol.Note} 有效的筆記項目
+${BulletSymbol.Note}   `;
       const result = parseNoteContent(content);
 
       expect(result.items).toHaveLength(1);
@@ -72,9 +72,9 @@ ${NOTE_SYMBOL}   `;
 
   describe('extractNoteItems', () => {
     it('should extract only note items from content', () => {
-      const content = `${NOTE_SYMBOL} 第一個筆記
+      const content = `${BulletSymbol.Note} 第一個筆記
 普通文字
-${NOTE_SYMBOL} 第二個筆記`;
+${BulletSymbol.Note} 第二個筆記`;
 
       const items = extractNoteItems(content);
 
