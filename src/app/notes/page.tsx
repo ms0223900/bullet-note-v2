@@ -1,8 +1,10 @@
 'use client';
 
+import { BulletRulesTable } from '@/components/notes/bullet-rules-table';
 import { ConfirmButton } from '@/components/notes/confirm-button';
 import { NoteCategoryDisplay } from '@/components/notes/note-category-display';
 import { NoteEditor } from '@/components/notes/note-editor';
+import { UsageTips } from '@/components/notes/usage-tips';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
@@ -92,22 +94,14 @@ export default function NotesPage() {
 
           {/* 使用說明 */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-blue-800 mb-2">
-              使用說明
-            </h3>
-            <ul className="text-blue-700 text-sm space-y-1">
-              <li>
-                • 在編輯器中輸入以{' '}
-                <code className="bg-blue-100 px-1 rounded">-</code>{' '}
-                開頭的行來建立筆記項目
-              </li>
-              <li>• 點擊「確認筆記分類」按鈕來新增筆記記錄到筆記區塊</li>
-              <li>• 確認後輸入框會自動清空，可以繼續輸入新的筆記</li>
-              <li>
-                • 所有已保存的筆記記錄會顯示在下方，可以查看、點擊或刪除筆記項目
-              </li>
-              <li>• 每個筆記記錄都會顯示創建時間，方便管理</li>
-            </ul>
+            <h3 className="text-lg font-semibold text-blue-800 mb-3">使用說明</h3>
+            <div className="space-y-4">
+              <div>
+                <div className="text-sm text-blue-900 mb-2">子彈筆記規則</div>
+                <BulletRulesTable />
+              </div>
+              <UsageTips />
+            </div>
           </div>
         </div>
       </div>
