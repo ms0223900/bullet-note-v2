@@ -1,7 +1,8 @@
 import NotesPage from '@/app/notes/page';
+import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
 import { render, screen, waitFor } from '@testing-library/react';
-import userEvent from '@testing-library/user-event';
+import userEvent, { UserEvent } from '@testing-library/user-event';
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -15,24 +16,28 @@ jest.mock('next/navigation', () => ({
   }),
 }));
 
-describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
+describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
   beforeEach(() => {
     jest.clearAllMocks();
   });
+
+  function whenClickSymbolButton(user: UserEvent, symbol: BulletSymbol) {
+    const button = screen.getByTestId(`symbol-${symbol}-insertion-button`);
+    return user.click(button);
+  }
 
   it('should enable confirm button after clicking dash button and typing text', async () => {
     const user = userEvent.setup();
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Initially confirm button should be disabled
     expect(confirmButton).toBeDisabled();
 
     // Step 1: Click the dash button
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
 
     // Step 2: Type some text after the dash
     await user.type(textarea, '我的筆記內容');
@@ -60,16 +65,15 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Click dash button and type first line
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
     await user.type(textarea, '第一個筆記');
 
     // Move to next line and add another dash
     await user.keyboard('{Enter}');
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
     await user.type(textarea, '第二個筆記');
 
     // Button should be enabled
@@ -93,7 +97,6 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Type some regular text first
@@ -101,7 +104,7 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
 
     // Add a new line and click dash button
     await user.keyboard('{Enter}');
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
     await user.type(textarea, '這是筆記項目');
 
     // Add more regular text
@@ -130,11 +133,10 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
     const user = userEvent.setup();
     render(<NotesPage />);
 
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Click dash button but don't type any text after it
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
 
     // Button should remain disabled
     expect(confirmButton).toBeDisabled();
@@ -148,11 +150,10 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Rapidly click dash button and type
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
     await user.type(textarea, '快速筆記');
 
     // Immediately try to click confirm button
@@ -170,23 +171,20 @@ describe('Dash Button Scenario - 點擊「–」按鈕後輸入文字', () => {
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const bulletButton = screen.getByText('•');
-    const eventButton = screen.getByText('O');
-    const dashButton = screen.getByText('–');
     const confirmButton = screen.getByText('確認筆記分類');
 
     // Test bullet symbol
-    await user.click(bulletButton);
+    await whenClickSymbolButton(user, BulletSymbol.Task);
     await user.type(textarea, '任務項目');
 
     // Test event symbol
     await user.keyboard('{Enter}');
-    await user.click(eventButton);
+    await whenClickSymbolButton(user, BulletSymbol.Event);
     await user.type(textarea, '事件項目');
 
     // Test dash symbol
     await user.keyboard('{Enter}');
-    await user.click(dashButton);
+    await whenClickSymbolButton(user, BulletSymbol.Note);
     await user.type(textarea, '筆記項目');
 
     // Button should be enabled

@@ -12,7 +12,7 @@ export const BULLET_RULES: BulletRule[] = [
   { symbol: '・', meaningZh: '任務 Tasks', meaningEn: 'Tasks' },
   { symbol: '。', meaningZh: '活動 Events', meaningEn: 'Events' },
   {
-    symbol: '－',
+    symbol: '-',
     meaningZh: '筆記 Notes / 靈感／想法',
     meaningEn: 'Notes / Ideas',
   },

@@ -14,7 +14,7 @@ describe('SymbolInsertionButton', () => {
 
     expect(screen.getByText('•')).toBeInTheDocument();
     expect(screen.getByText('O')).toBeInTheDocument();
-    expect(screen.getByText('–')).toBeInTheDocument();
+    expect(screen.getByText('-')).toBeInTheDocument();
   });
 
   it('should call onSymbolInsert when bullet button is clicked', async () => {
@@ -41,10 +41,10 @@ describe('SymbolInsertionButton', () => {
     const user = userEvent.setup();
     render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
 
-    const noteButton = screen.getByText('–');
+    const noteButton = screen.getByText('-');
     await user.click(noteButton);
 
-    expect(mockOnSymbolInsert).toHaveBeenCalledWith('–');
+    expect(mockOnSymbolInsert).toHaveBeenCalledWith('-');
   });
 
   it('should have correct button titles', () => {

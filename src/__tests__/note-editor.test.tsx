@@ -64,7 +64,7 @@ describe('NoteEditor', () => {
 
     expect(screen.getByText('•')).toBeInTheDocument();
     expect(screen.getByText('O')).toBeInTheDocument();
-    expect(screen.getByText('–')).toBeInTheDocument();
+    expect(screen.getByText('-')).toBeInTheDocument();
   });
 
   it('should insert symbol at line start when no symbol exists', async () => {

@@ -65,14 +65,14 @@ describe('NoteEditor Integration Tests', () => {
     // Rapidly click different symbol buttons
     const bulletButton = screen.getByText('•');
     const eventButton = screen.getByText('O');
-    const noteButton = screen.getByText('–');
+    const noteButton = screen.getByText('-');
 
     await user.click(bulletButton);
     await user.click(eventButton);
     await user.click(noteButton);
 
     // Should end up with the last symbol
-    expect(mockOnContentChange).toHaveBeenCalledWith('– 測試');
+    expect(mockOnContentChange).toHaveBeenCalledWith('- 測試');
   });
 
   it('should trigger onConfirm when pressing Cmd/Ctrl + Enter', async () => {

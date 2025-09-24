@@ -3,7 +3,7 @@
  */
 
 export enum BulletSymbol {
-  Note = '–',
+  Note = '-',
   Task = '•',
   Event = 'O',
 }

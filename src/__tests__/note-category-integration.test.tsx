@@ -43,7 +43,7 @@ describe('Note Category Integration', () => {
       target: { value: '第一個筆記項目\n第二個筆記項目' },
     });
 
-    fireEvent.click(screen.getByText(BulletSymbol.Note));
+    whenClickSymbolButton(BulletSymbol.Note);
 
     // Button should be enabled now
     await waitFor(() => {
@@ -148,7 +148,7 @@ describe('Note Category Integration', () => {
       target: { value: `${BulletSymbol.Note} 測試筆記項目` },
     });
 
-    fireEvent.click(screen.getByText(BulletSymbol.Note));
+    whenClickSymbolButton(BulletSymbol.Note);
 
     // Click confirm button
     fireEvent.click(confirmButton);
@@ -219,4 +219,8 @@ describe('Note Category Integration', () => {
       expect(confirmButton).toBeDisabled();
     });
   });
+
+  function whenClickSymbolButton(symbol: BulletSymbol) {
+    return fireEvent.click(screen.getByTestId(`symbol-${symbol}-insertion-button`));
+  }
 });
