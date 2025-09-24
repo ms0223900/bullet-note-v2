@@ -1,55 +1,6 @@
 'use client';
 
-import { NoteCategory, ParsedNoteItem } from '@/types';
-
-interface NoteCategoryDisplayProps {
-  category: NoteCategory;
-  onItemClick?: (item: ParsedNoteItem) => void;
-  onItemDelete?: (itemId: string) => void;
-}
-
-export function NoteCategoryDisplay({
-  category,
-  onItemClick,
-  onItemDelete,
-}: NoteCategoryDisplayProps) {
-  if (category.items.length === 0) {
-    return (
-      <div className="bg-gray-50 border border-gray-200 rounded-lg p-4">
-        <h3 className="text-lg font-semibold text-gray-800 mb-2">
-          {category.name}
-        </h3>
-        <p className="text-gray-500 text-sm">尚無筆記項目</p>
-      </div>
-    );
-  }
-
-  return (
-    <div className="bg-white border border-gray-200 rounded-lg shadow-sm">
-      {/* 分類標題 */}
-      <div className="bg-gray-50 px-4 py-3 border-b border-gray-200 rounded-t-lg">
-        <h3 className="text-lg font-semibold text-gray-800">{category.name}</h3>
-        <p className="text-sm text-gray-500">
-          {category.items.length} 個筆記項目
-        </p>
-      </div>
-
-      {/* 筆記項目列表 */}
-      <div className="p-4">
-        <div className="space-y-3">
-          {category.items.map(item => (
-            <NoteItem
-              key={item.id}
-              item={item}
-              onClick={() => onItemClick?.(item)}
-              onDelete={() => onItemDelete?.(item.id)}
-            />
-          ))}
-        </div>
-      </div>
-    </div>
-  );
-}
+import { ParsedNoteItem } from '@/types';
 
 interface NoteItemProps {
   item: ParsedNoteItem;

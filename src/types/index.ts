@@ -6,10 +6,3 @@ export interface ParsedNoteItem {
   isCompleted?: boolean;
   createdAt: Date;
 }
-
-export interface NoteCategory {
-  id: string;
-  name: string;
-  items: ParsedNoteItem[];
-  createdAt: Date;
-}

@@ -1,17 +1,16 @@
-import { NoteCategory } from '@/types';
+import { ParsedNoteItem } from '@/types';
 import { useCallback, useState } from 'react';
 
 interface UseNotesManagerReturn {
   // 狀態
   editorContent: string;
-  confirmedCategory: NoteCategory | null;
-  savedNotes: NoteCategory[];
+  savedNotes: ParsedNoteItem[];
 
   // 操作方法
   setEditorContent: (content: string) => void;
-  confirmNote: (category: NoteCategory) => void;
+  confirmNote: (category: ParsedNoteItem) => void;
   clearEditor: () => void;
-  deleteItem: (itemId: string, categoryId?: string) => void;
+  deleteItem: (itemId: string) => void;
   clickItem: () => void;
 }
 
@@ -21,13 +20,10 @@ interface UseNotesManagerReturn {
  */
 export const useNotesManager = (): UseNotesManagerReturn => {
   const [editorContent, setEditorContent] = useState('');
-  const [confirmedCategory, setConfirmedCategory] =
-    useState<NoteCategory | null>(null);
-  const [savedNotes, setSavedNotes] = useState<NoteCategory[]>([]);
+  const [savedNotes, setSavedNotes] = useState<ParsedNoteItem[]>([]);
 
   // 確認筆記並添加到保存列表
-  const confirmNote = useCallback((category: NoteCategory) => {
-    setConfirmedCategory(category);
+  const confirmNote = useCallback((category: ParsedNoteItem) => {
     setSavedNotes(prev => [...prev, category]);
     setEditorContent(''); // 清空編輯器
   }, []);
@@ -39,29 +35,10 @@ export const useNotesManager = (): UseNotesManagerReturn => {
 
   // 刪除筆記項目
   const deleteItem = useCallback(
-    (itemId: string, categoryId?: string) => {
-      if (categoryId) {
-        // 從保存的筆記列表中刪除項目
-        setSavedNotes(prev =>
-          prev.map(category =>
-            category.id === categoryId
-              ? {
-                  ...category,
-                  items: category.items.filter(item => item.id !== itemId),
-                }
-              : category
-          )
-        );
-      } else if (confirmedCategory) {
-        // 從當前確認的分類中刪除項目（向後兼容）
-        const updatedCategory = {
-          ...confirmedCategory,
-          items: confirmedCategory.items.filter(item => item.id !== itemId),
-        };
-        setConfirmedCategory(updatedCategory);
-      }
+    (itemId: string) => {
+      setSavedNotes(prev => prev.filter(item => item.id !== itemId));
     },
-    [confirmedCategory]
+    []
   );
 
   // 點擊筆記項目
@@ -73,7 +50,6 @@ export const useNotesManager = (): UseNotesManagerReturn => {
   return {
     // 狀態
     editorContent,
-    confirmedCategory,
     savedNotes,
 
     // 操作方法

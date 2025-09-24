@@ -1,4 +1,4 @@
-import type { NoteCategory, ParsedNoteItem } from '@/types';
+import type { ParsedNoteItem } from '@/types';
 import { type ClassValue, clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
 
@@ -28,19 +28,15 @@ export function formatDateTime(date: Date | string): string {
 
 // Grouping utilities
 
-export interface GroupedByDayEntry {
-  item: ParsedNoteItem;
-  categoryId: string;
-}
 
 export interface GroupedByDayNotes {
   key: string; // YYYY-MM-DD
   date: Date; // local date at midnight
-  entries: GroupedByDayEntry[];
+  entries: ParsedNoteItem[];
 }
 
 // Local helpers for single-responsibility and testability
-type DayBucket = { date: Date; entries: GroupedByDayEntry[] };
+type DayBucket = { date: Date; entries: ParsedNoteItem[] };
 
 function getLocalDayKey(date: Date): string {
   const year = date.getFullYear();
@@ -53,25 +49,24 @@ function startOfLocalDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-export function groupSavedNotesByLocalDay(savedNotes: NoteCategory[]): GroupedByDayNotes[] {
+export function groupSavedNotesByLocalDay(savedNotes: ParsedNoteItem[]): GroupedByDayNotes[] {
   const dayKeyToBucket = new Map<string, DayBucket>();
 
-  for (const category of savedNotes) {
-    for (const item of category.items) {
-      const createdAt = item.createdAt;
-      const dayKey = getLocalDayKey(createdAt);
+  for (const item of savedNotes) {
+    const createdAt = item.createdAt;
+    const dayKey = getLocalDayKey(createdAt);
 
-      const existingBucket = dayKeyToBucket.get(dayKey);
-      if (!existingBucket) {
-        dayKeyToBucket.set(dayKey, {
-          date: startOfLocalDay(createdAt),
-          entries: [{ item, categoryId: category.id }],
-        });
-      } else {
-        existingBucket.entries.push({ item, categoryId: category.id });
-      }
+    const existingBucket = dayKeyToBucket.get(dayKey);
+    if (!existingBucket) {
+      dayKeyToBucket.set(dayKey, {
+        date: startOfLocalDay(createdAt),
+        entries: [item],
+      });
+    } else {
+      existingBucket.entries.push(item);
     }
   }
+
 
   // Build groups with stable, explicit sorting without mutating source arrays
   const groupsUnsorted: GroupedByDayNotes[] = Array.from(dayKeyToBucket.entries()).map(
@@ -80,7 +75,7 @@ export function groupSavedNotesByLocalDay(savedNotes: NoteCategory[]): GroupedBy
       date: bucket.date,
       entries: bucket.entries
         .slice()
-        .sort((a, b) => b.item.createdAt.getTime() - a.item.createdAt.getTime()),
+        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
     })
   );
 

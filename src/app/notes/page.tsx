@@ -31,8 +31,8 @@ export default function NotesPage() {
 
   const handleConfirm = () => {
     if (hasNotes) {
-      const category = parseNoteContent(editorContent);
-      confirmNote(category);
+      const notes = parseNoteContent(editorContent);
+      notes.forEach(item => confirmNote(item));
     }
   };
 
@@ -82,7 +82,7 @@ export default function NotesPage() {
                     </div>
                     <div className="p-1">
                       <div className="space-y-3">
-                        {group.entries.map(({ item, categoryId }) => (
+                        {group.entries.map((item) => (
                           <div
                             key={item.id}
                             className="group flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -106,7 +106,7 @@ export default function NotesPage() {
                                 onClick={() => {
                                   const confirmed = window.confirm('確定要刪除這個筆記項目嗎？');
                                   if (confirmed) {
-                                    deleteItem(item.id, categoryId);
+                                    deleteItem(item.id);
                                   }
                                 }}
                                 className="text-gray-400 hover:text-red-500 text-sm"

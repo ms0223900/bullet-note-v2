@@ -1,13 +1,13 @@
-import { NoteCategory, ParsedNoteItem } from '@/types';
+import { ParsedNoteItem } from '@/types';
 import { extractContentFromLine, isValidBulletLine } from './bullet-symbols';
-import { generateCategoryId, generateNoteItemId } from './id-generator';
+import { generateNoteItemId } from './id-generator';
 
 /**
  * 解析筆記內容，將以符號開頭的行分類為筆記項目
  * @param content 原始筆記內容
  * @returns 解析後的筆記分類
  */
-export function parseNoteContent(content: string): NoteCategory {
+export function parseNoteContent(content: string): ParsedNoteItem[] {
   const lines = content.split('\n');
   const items: ParsedNoteItem[] = [];
 
@@ -28,12 +28,7 @@ export function parseNoteContent(content: string): NoteCategory {
     }
   });
 
-  return {
-    id: generateCategoryId(),
-    name: '筆記分類',
-    items,
-    createdAt: new Date(),
-  };
+  return items;
 }
 
 /**
@@ -42,6 +37,5 @@ export function parseNoteContent(content: string): NoteCategory {
  * @returns 筆記項目列表
  */
 export function extractNoteItems(content: string): ParsedNoteItem[] {
-  const category = parseNoteContent(content);
-  return category.items;
+  return parseNoteContent(content);
 }

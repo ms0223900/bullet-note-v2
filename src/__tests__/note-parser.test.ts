@@ -12,9 +12,8 @@ ${BulletSymbol.Note} 第三個筆記項目`;
 
       const result = parseNoteContent(content);
 
-      expect(result).toMatchObject({
-        name: '筆記分類',
-        items: expect.arrayContaining([
+      expect(result).toMatchObject(
+        expect.arrayContaining([
           expect.objectContaining({
             content: '第一個筆記項目',
             type: 'note',
@@ -27,18 +26,16 @@ ${BulletSymbol.Note} 第三個筆記項目`;
             content: '第三個筆記項目',
             type: 'note',
           }),
-        ]),
-      });
+        ])),
 
-      expect(result.items).toHaveLength(3);
+        expect(result).toHaveLength(3);
     });
 
     it('should handle empty content', () => {
       const content = '';
       const result = parseNoteContent(content);
 
-      expect(result.items).toHaveLength(0);
-      expect(result.name).toBe('筆記分類');
+      expect(result).toHaveLength(0);
     });
 
     it('should handle content without note items', () => {
@@ -48,15 +45,15 @@ ${BulletSymbol.Note} 第三個筆記項目`;
 
       const result = parseNoteContent(content);
 
-      expect(result.items).toHaveLength(0);
+      expect(result).toHaveLength(0);
     });
 
     it('should trim whitespace from note items', () => {
       const content = `${BulletSymbol.Note}   有空格開頭的筆記項目   `;
       const result = parseNoteContent(content);
 
-      expect(result.items).toHaveLength(1);
-      expect(result.items[0].content).toBe('有空格開頭的筆記項目');
+      expect(result).toHaveLength(1);
+      expect(result[0].content).toBe('有空格開頭的筆記項目');
     });
 
     it('should skip empty note items', () => {
@@ -65,8 +62,8 @@ ${BulletSymbol.Note} 有效的筆記項目
 ${BulletSymbol.Note}   `;
       const result = parseNoteContent(content);
 
-      expect(result.items).toHaveLength(1);
-      expect(result.items[0].content).toBe('有效的筆記項目');
+      expect(result).toHaveLength(1);
+      expect(result[0].content).toBe('有效的筆記項目');
     });
   });
 
