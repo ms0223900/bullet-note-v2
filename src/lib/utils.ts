@@ -28,7 +28,6 @@ export function formatDateTime(date: Date | string): string {
 
 // Grouping utilities
 
-
 export interface GroupedByDayNotes {
   key: string; // YYYY-MM-DD
   date: Date; // local date at midnight
@@ -49,7 +48,9 @@ function startOfLocalDay(date: Date): Date {
   return new Date(date.getFullYear(), date.getMonth(), date.getDate());
 }
 
-export function groupSavedNotesByLocalDay(savedNotes: ParsedNoteItem[]): GroupedByDayNotes[] {
+export function groupSavedNotesByLocalDay(
+  savedNotes: ParsedNoteItem[]
+): GroupedByDayNotes[] {
   const dayKeyToBucket = new Map<string, DayBucket>();
 
   for (const item of savedNotes) {
@@ -67,17 +68,16 @@ export function groupSavedNotesByLocalDay(savedNotes: ParsedNoteItem[]): Grouped
     }
   }
 
-
   // Build groups with stable, explicit sorting without mutating source arrays
-  const groupsUnsorted: GroupedByDayNotes[] = Array.from(dayKeyToBucket.entries()).map(
-    ([key, bucket]) => ({
-      key,
-      date: bucket.date,
-      entries: bucket.entries
-        .slice()
-        .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
-    })
-  );
+  const groupsUnsorted: GroupedByDayNotes[] = Array.from(
+    dayKeyToBucket.entries()
+  ).map(([key, bucket]) => ({
+    key,
+    date: bucket.date,
+    entries: bucket.entries
+      .slice()
+      .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime()),
+  }));
 
   return groupsUnsorted
     .slice()

@@ -8,7 +8,11 @@ export enum BulletSymbol {
   Event = 'O',
 }
 
-export const BULLET_SYMBOLS = [BulletSymbol.Task, BulletSymbol.Event, BulletSymbol.Note] as const;
+export const BULLET_SYMBOLS = [
+  BulletSymbol.Task,
+  BulletSymbol.Event,
+  BulletSymbol.Note,
+] as const;
 
 // 符號對應的標籤
 export const SYMBOL_LABELS = {
@@ -16,7 +20,6 @@ export const SYMBOL_LABELS = {
   [BulletSymbol.Event]: '事件',
   [BulletSymbol.Note]: '筆記',
 } as const;
-
 
 /**
  * 檢查一行是否為有效的子彈筆記行

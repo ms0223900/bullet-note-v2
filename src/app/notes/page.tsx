@@ -23,7 +23,10 @@ export default function NotesPage() {
   const hasNotes = hasNoteItems(editorContent);
 
   // 依「項目建立的本地日期」分組，並保留刪除時所需的 categoryId 映射
-  const groupedByDay = useMemo(() => groupSavedNotesByLocalDay(savedNotes), [savedNotes]);
+  const groupedByDay = useMemo(
+    () => groupSavedNotesByLocalDay(savedNotes),
+    [savedNotes]
+  );
 
   const handleContentChange = (content: string) => {
     setEditorContent(content);
@@ -73,16 +76,21 @@ export default function NotesPage() {
               </h2>
               <div className="space-y-6">
                 {groupedByDay.map(group => (
-                  <div key={group.key} className="border border-gray-200 rounded-lg p-4">
+                  <div
+                    key={group.key}
+                    className="border border-gray-200 rounded-lg p-4"
+                  >
                     <div className="flex justify-between items-center mb-3">
                       <h3 className="text-lg font-semibold text-gray-800">
                         {group.key}
                       </h3>
-                      <span className="text-sm text-gray-500">{group.entries.length} 項</span>
+                      <span className="text-sm text-gray-500">
+                        {group.entries.length} 項
+                      </span>
                     </div>
                     <div className="p-1">
                       <div className="space-y-3">
-                        {group.entries.map((item) => (
+                        {group.entries.map(item => (
                           <div
                             key={item.id}
                             className="group flex items-start space-x-3 p-3 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
@@ -104,7 +112,10 @@ export default function NotesPage() {
                             <div className="flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
                               <button
                                 onClick={() => {
-                                  const confirmed = window.confirm('確定要刪除這個筆記項目嗎？');
+                                  const confirmed =
+                                    window.confirm(
+                                      '確定要刪除這個筆記項目嗎？'
+                                    );
                                   if (confirmed) {
                                     deleteItem(item.id);
                                   }
@@ -127,7 +138,9 @@ export default function NotesPage() {
 
           {/* 使用說明 */}
           <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-            <h3 className="text-lg font-semibold text-blue-800 mb-3">使用說明</h3>
+            <h3 className="text-lg font-semibold text-blue-800 mb-3">
+              使用說明
+            </h3>
             <div className="space-y-4">
               <div>
                 <div className="text-sm text-blue-900 mb-2">子彈筆記規則</div>

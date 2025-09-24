@@ -34,12 +34,9 @@ export const useNotesManager = (): UseNotesManagerReturn => {
   }, []);
 
   // 刪除筆記項目
-  const deleteItem = useCallback(
-    (itemId: string) => {
-      setSavedNotes(prev => prev.filter(item => item.id !== itemId));
-    },
-    []
-  );
+  const deleteItem = useCallback((itemId: string) => {
+    setSavedNotes(prev => prev.filter(item => item.id !== itemId));
+  }, []);
 
   // 點擊筆記項目
   const clickItem = useCallback(() => {
