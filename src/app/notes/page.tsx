@@ -11,7 +11,7 @@ import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
 import { groupSavedNotesByLocalDay } from '@/lib/utils';
-import { useMemo, useCallback } from 'react';
+import { useCallback, useMemo } from 'react';
 
 export default function NotesPage() {
   const {
@@ -34,9 +34,12 @@ export default function NotesPage() {
     [savedNotes]
   );
 
-  const handleContentChange = useCallback((content: string) => {
-    setEditorContent(content);
-  }, [setEditorContent]);
+  const handleContentChange = useCallback(
+    (content: string) => {
+      setEditorContent(content);
+    },
+    [setEditorContent]
+  );
 
   const handleConfirm = useCallback(() => {
     if (hasNotes) {
@@ -58,9 +61,7 @@ export default function NotesPage() {
           </div>
 
           {/* 錯誤顯示 */}
-          {error && (
-            <ErrorAlert error={error} onDismiss={clearError} />
-          )}
+          {error && <ErrorAlert error={error} onDismiss={clearError} />}
 
           {/* 載入中狀態 */}
           {isLoading && (
@@ -81,7 +82,10 @@ export default function NotesPage() {
 
           {/* 確認按鈕 */}
           <div className="mb-8 flex justify-center">
-            <ConfirmButton onClick={handleConfirm} disabled={!hasNotes || isLoading}>
+            <ConfirmButton
+              onClick={handleConfirm}
+              disabled={!hasNotes || isLoading}
+            >
               確認筆記分類
             </ConfirmButton>
           </div>

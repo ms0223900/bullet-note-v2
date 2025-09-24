@@ -2,7 +2,11 @@ import { NotesListProps } from '@/types';
 import { NoteItem } from './note-item';
 import { memo } from 'react';
 
-const NotesListComponent = ({ groupedNotes, onDeleteItem, onItemClick }: NotesListProps) => {
+const NotesListComponent = ({
+  groupedNotes,
+  onDeleteItem,
+  onItemClick,
+}: NotesListProps) => {
   if (groupedNotes.length === 0) {
     return null;
   }

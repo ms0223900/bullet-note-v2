@@ -21,14 +21,14 @@ export const useNotesManager = (): UseNotesManagerReturn => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       setSavedNotes(prev => [...prev, category]);
       setEditorContent(''); // 清空編輯器
     } catch (err) {
       setError({
         message: '確認筆記時發生錯誤',
         code: 'CONFIRM_NOTE_ERROR',
-        details: err
+        details: err,
       });
     } finally {
       setIsLoading(false);
@@ -44,7 +44,7 @@ export const useNotesManager = (): UseNotesManagerReturn => {
       setError({
         message: '清空編輯器時發生錯誤',
         code: 'CLEAR_EDITOR_ERROR',
-        details: err
+        details: err,
       });
     }
   }, []);
@@ -54,13 +54,13 @@ export const useNotesManager = (): UseNotesManagerReturn => {
     try {
       setIsLoading(true);
       setError(null);
-      
+
       setSavedNotes(prev => prev.filter(item => item.id !== itemId));
     } catch (err) {
       setError({
         message: '刪除筆記項目時發生錯誤',
         code: 'DELETE_ITEM_ERROR',
-        details: err
+        details: err,
       });
     } finally {
       setIsLoading(false);
@@ -77,7 +77,7 @@ export const useNotesManager = (): UseNotesManagerReturn => {
       setError({
         message: '處理筆記項目點擊時發生錯誤',
         code: 'CLICK_ITEM_ERROR',
-        details: err
+        details: err,
       });
     }
   }, []);

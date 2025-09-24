@@ -7,7 +7,7 @@ export function LoadingSpinner({ size = 'md', text }: LoadingSpinnerProps) {
   const sizeClasses = {
     sm: 'w-4 h-4',
     md: 'w-6 h-6',
-    lg: 'w-8 h-8'
+    lg: 'w-8 h-8',
   };
 
   return (
@@ -17,11 +17,7 @@ export function LoadingSpinner({ size = 'md', text }: LoadingSpinnerProps) {
         role="status"
         aria-label="載入中"
       />
-      {text && (
-        <span className="text-gray-600 text-sm">
-          {text}
-        </span>
-      )}
+      {text && <span className="text-gray-600 text-sm">{text}</span>}
     </div>
   );
 }

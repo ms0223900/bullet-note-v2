@@ -1,5 +1,8 @@
 import { NoteItemProps } from '@/types';
-import { getNoteItemDisplayStyle, getNoteItemTypeLabel } from '@/lib/note-display-utils';
+import {
+  getNoteItemDisplayStyle,
+  getNoteItemTypeLabel,
+} from '@/lib/note-display-utils';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 import { useState, memo, useCallback } from 'react';
 
@@ -57,7 +60,7 @@ const NoteItemComponent = ({ item, onDelete, onClick }: NoteItemProps) => {
           ×
         </button>
       </div>
-      
+
       <DeleteConfirmationDialog
         isOpen={showDeleteDialog}
         onConfirm={handleConfirmDelete}
