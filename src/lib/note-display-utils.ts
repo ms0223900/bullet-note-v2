@@ -1,4 +1,4 @@
-import { ParsedNoteItem } from '@/types';
+import { ParsedNoteItem, NoteItemDisplayStyle, NoteItemType } from '@/types';
 import { BulletSymbol } from './bullet-symbols';
 
 /**
@@ -6,7 +6,7 @@ import { BulletSymbol } from './bullet-symbols';
  * @param item 筆記項目
  * @returns 顯示樣式配置
  */
-export function getNoteItemDisplayStyle(item: ParsedNoteItem) {
+export function getNoteItemDisplayStyle(item: ParsedNoteItem): NoteItemDisplayStyle {
   switch (item.type) {
     case 'task':
       return {

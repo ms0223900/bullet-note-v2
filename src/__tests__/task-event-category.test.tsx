@@ -150,6 +150,10 @@ describe('Task and Event Category Features', () => {
     const deleteButtons = screen.getAllByText('×');
     fireEvent.click(deleteButtons[0]);
 
+    // Confirm deletion in the dialog
+    const confirmDeleteButton = screen.getByText('刪除');
+    fireEvent.click(confirmDeleteButton);
+
     await waitFor(() => {
       expect(screen.queryByText('任務項目')).not.toBeInTheDocument();
       expect(screen.getByText('事件項目')).toBeInTheDocument();

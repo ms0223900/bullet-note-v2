@@ -121,6 +121,10 @@ describe('Note Category Integration', () => {
     const deleteButtons = screen.getAllByText('×');
     fireEvent.click(deleteButtons[0]);
 
+    // Confirm deletion in the dialog
+    const confirmDeleteButton = screen.getByText('刪除');
+    fireEvent.click(confirmDeleteButton);
+
     // First item should be removed
     await waitFor(() => {
       expect(screen.queryByText('第一個筆記項目')).not.toBeInTheDocument();
