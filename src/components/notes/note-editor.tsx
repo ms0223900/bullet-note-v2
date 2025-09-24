@@ -1,5 +1,6 @@
 'use client';
 
+import { BULLET_SYMBOLS } from '@/lib/bullet-symbols';
 import { useRef, useState } from 'react';
 import { SymbolInsertionButton } from './symbol-insertion-button';
 
@@ -63,7 +64,7 @@ export function NoteEditor({
   };
 
   const hasExistingSymbol = (line: string): boolean => {
-    return /^[•O–-]\s/.test(line);
+    return new RegExp(`^[${BULLET_SYMBOLS.join('')}]\\s+`).test(line);
   };
 
   const replaceLineSymbol = (line: string, newSymbol: string): string => {
