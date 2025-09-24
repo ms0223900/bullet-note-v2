@@ -7,33 +7,33 @@ import { BulletSymbol } from './bullet-symbols';
  * @returns 顯示樣式配置
  */
 export function getNoteItemDisplayStyle(item: ParsedNoteItem) {
-    switch (item.type) {
-        case 'task':
-            return {
-                icon: '✓',
-                iconColor: 'text-green-600',
-                bgColor: 'bg-green-50',
-                hoverBgColor: 'hover:bg-green-100',
-                borderColor: 'border-green-200',
-            };
-        case 'bullet':
-            return {
-                icon: '○',
-                iconColor: 'text-blue-600',
-                bgColor: 'bg-blue-50',
-                hoverBgColor: 'hover:bg-blue-100',
-                borderColor: 'border-blue-200',
-            };
-        case 'note':
-        default:
-            return {
-                icon: '•',
-                iconColor: 'text-gray-600',
-                bgColor: 'bg-gray-50',
-                hoverBgColor: 'hover:bg-gray-100',
-                borderColor: 'border-gray-200',
-            };
-    }
+  switch (item.type) {
+    case 'task':
+      return {
+        icon: '✓',
+        iconColor: 'text-green-600',
+        bgColor: 'bg-green-50',
+        hoverBgColor: 'hover:bg-green-100',
+        borderColor: 'border-green-200',
+      };
+    case 'bullet':
+      return {
+        icon: '○',
+        iconColor: 'text-blue-600',
+        bgColor: 'bg-blue-50',
+        hoverBgColor: 'hover:bg-blue-100',
+        borderColor: 'border-blue-200',
+      };
+    case 'note':
+    default:
+      return {
+        icon: '•',
+        iconColor: 'text-gray-600',
+        bgColor: 'bg-gray-50',
+        hoverBgColor: 'hover:bg-gray-100',
+        borderColor: 'border-gray-200',
+      };
+  }
 }
 
 /**
@@ -42,15 +42,15 @@ export function getNoteItemDisplayStyle(item: ParsedNoteItem) {
  * @returns 類型標籤
  */
 export function getNoteItemTypeLabel(item: ParsedNoteItem): string {
-    switch (item.type) {
-        case 'task':
-            return '任務';
-        case 'bullet':
-            return '事件';
-        case 'note':
-        default:
-            return '筆記';
-    }
+  switch (item.type) {
+    case 'task':
+      return '任務';
+    case 'bullet':
+      return '事件';
+    case 'note':
+    default:
+      return '筆記';
+  }
 }
 
 /**
@@ -59,13 +59,13 @@ export function getNoteItemTypeLabel(item: ParsedNoteItem): string {
  * @returns 對應的符號
  */
 export function getNoteItemSymbol(item: ParsedNoteItem): string {
-    switch (item.type) {
-        case 'task':
-            return BulletSymbol.Task;
-        case 'bullet':
-            return BulletSymbol.Event;
-        case 'note':
-        default:
-            return BulletSymbol.Note;
-    }
+  switch (item.type) {
+    case 'task':
+      return BulletSymbol.Task;
+    case 'bullet':
+      return BulletSymbol.Event;
+    case 'note':
+    default:
+      return BulletSymbol.Note;
+  }
 }

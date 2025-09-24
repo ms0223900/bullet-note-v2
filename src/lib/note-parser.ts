@@ -1,5 +1,10 @@
 import { ParsedNoteItem } from '@/types';
-import { BulletSymbol, extractContentFromLine, getSymbolType, isValidBulletLine } from './bullet-symbols';
+import {
+  BulletSymbol,
+  extractContentFromLine,
+  getSymbolType,
+  isValidBulletLine,
+} from './bullet-symbols';
 import { generateNoteItemId } from './id-generator';
 
 /**
@@ -7,7 +12,9 @@ import { generateNoteItemId } from './id-generator';
  * @param symbolType 符號類型
  * @returns 筆記項目類型
  */
-function symbolTypeToItemType(symbolType: BulletSymbol): 'bullet' | 'task' | 'note' {
+function symbolTypeToItemType(
+  symbolType: BulletSymbol
+): 'bullet' | 'task' | 'note' {
   switch (symbolType) {
     case BulletSymbol.Task:
       return 'task';

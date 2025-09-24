@@ -6,7 +6,10 @@ import { NoteEditor } from '@/components/notes/note-editor';
 import { UsageTips } from '@/components/notes/usage-tips';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
-import { getNoteItemDisplayStyle, getNoteItemTypeLabel } from '@/lib/note-display-utils';
+import {
+  getNoteItemDisplayStyle,
+  getNoteItemTypeLabel,
+} from '@/lib/note-display-utils';
 import { parseNoteContent } from '@/lib/note-parser';
 import { groupSavedNotesByLocalDay } from '@/lib/utils';
 import { useMemo } from 'react';
@@ -101,13 +104,17 @@ export default function NotesPage() {
                               className={`group flex items-start space-x-3 p-3 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`}
                             >
                               <div className="flex-shrink-0 mt-1">
-                                <span className={`text-lg ${displayStyle.iconColor}`}>
+                                <span
+                                  className={`text-lg ${displayStyle.iconColor}`}
+                                >
                                   {displayStyle.icon}
                                 </span>
                               </div>
                               <div className="flex-1 min-w-0">
                                 <div className="flex items-center space-x-2 mb-1">
-                                  <span className={`text-xs px-2 py-1 rounded-full ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}>
+                                  <span
+                                    className={`text-xs px-2 py-1 rounded-full ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+                                  >
                                     {typeLabel}
                                   </span>
                                 </div>
