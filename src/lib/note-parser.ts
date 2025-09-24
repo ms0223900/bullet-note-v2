@@ -1,6 +1,24 @@
 import { ParsedNoteItem } from '@/types';
-import { extractContentFromLine, isValidBulletLine } from './bullet-symbols';
+import { BulletSymbol, extractContentFromLine, getSymbolType, isValidBulletLine } from './bullet-symbols';
 import { generateNoteItemId } from './id-generator';
+
+/**
+ * 將符號類型轉換為筆記項目類型
+ * @param symbolType 符號類型
+ * @returns 筆記項目類型
+ */
+function symbolTypeToItemType(symbolType: BulletSymbol): 'bullet' | 'task' | 'note' {
+  switch (symbolType) {
+    case BulletSymbol.Task:
+      return 'task';
+    case BulletSymbol.Event:
+      return 'bullet'; // 事件使用 bullet 類型
+    case BulletSymbol.Note:
+      return 'note';
+    default:
+      return 'note';
+  }
+}
 
 /**
  * 解析筆記內容，將以符號開頭的行分類為筆記項目
@@ -14,12 +32,13 @@ export function parseNoteContent(content: string): ParsedNoteItem[] {
   lines.forEach(line => {
     if (isValidBulletLine(line)) {
       const noteContent = extractContentFromLine(line);
+      const symbolType = getSymbolType(line);
 
-      if (noteContent) {
+      if (noteContent && symbolType) {
         const item: ParsedNoteItem = {
           id: generateNoteItemId(),
           content: noteContent,
-          type: 'note',
+          type: symbolTypeToItemType(symbolType),
           createdAt: new Date(),
         };
 
