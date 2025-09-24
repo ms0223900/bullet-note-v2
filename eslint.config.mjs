@@ -10,6 +10,17 @@ const compat = new FlatCompat({
 });
 
 const eslintConfig = [
+  // Global ignores: ensure these paths are never linted
+  {
+    ignores: [
+      '**/node_modules/**',
+      '**/.next/**',
+      '**/.swc/**',
+      '**/out/**',
+      '**/build/**',
+      'next-env.d.ts',
+    ],
+  },
   ...compat.extends('next/core-web-vitals', 'next/typescript', 'prettier'),
   {
     plugins: {
@@ -20,13 +31,6 @@ const eslintConfig = [
       '@typescript-eslint/no-unused-vars': 'error',
       '@typescript-eslint/no-explicit-any': 'warn',
     },
-    ignores: [
-      'node_modules/**',
-      '.next/**',
-      'out/**',
-      'build/**',
-      'next-env.d.ts',
-    ],
   },
 ];
 
