@@ -39,10 +39,6 @@ export interface GroupedByDay {
   entries: GroupedByDayEntry[];
 }
 
-/**
- * Group saved note items by their local day while preserving the source category id.
- * Sorted by date desc, and within a day by createdAt desc.
- */
 export function groupSavedNotesByLocalDay(savedNotes: NoteCategory[]): GroupedByDay[] {
   const map = new Map<string, { date: Date; entries: GroupedByDayEntry[] }>();
 
