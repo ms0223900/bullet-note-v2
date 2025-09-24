@@ -84,7 +84,12 @@ export default function NotesPage() {
                     <NoteCategoryDisplay
                       category={category}
                       onItemClick={() => clickItem()}
-                      onItemDelete={itemId => deleteItem(itemId, category.id)}
+                      onItemDelete={itemId => {
+                        const confirmed = window.confirm('確定要刪除這個筆記項目嗎？');
+                        if (confirmed) {
+                          deleteItem(itemId, category.id);
+                        }
+                      }}
                     />
                   </div>
                 ))}

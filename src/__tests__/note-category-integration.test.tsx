@@ -95,6 +95,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should allow deleting note items', async () => {
+    const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
     render(<NotesPage />);
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
@@ -126,6 +127,8 @@ describe('Note Category Integration', () => {
       expect(screen.getByText('第二個筆記項目')).toBeInTheDocument();
       expect(screen.getByText('1 個筆記項目')).toBeInTheDocument();
     });
+
+    confirmSpy.mockRestore();
   });
 
   it('should handle clicking on note items', async () => {

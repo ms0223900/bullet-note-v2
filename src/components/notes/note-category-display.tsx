@@ -78,8 +78,8 @@ function NoteItem({ item, onClick, onDelete }: NoteItemProps) {
         </p>
       </div>
 
-      {/* 操作按鈕 */}
-      <div className="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity">
+      {/* 操作按鈕：手機常駐顯示（sm 以下），桌機 hover 顯示 */}
+      <div className="flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
         <button
           onClick={onDelete}
           className="text-gray-400 hover:text-red-500 text-sm"
