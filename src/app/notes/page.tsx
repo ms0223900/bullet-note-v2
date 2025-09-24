@@ -48,6 +48,7 @@ export default function NotesPage() {
               content={editorContent}
               placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目)"
               onContentChange={handleContentChange}
+              onConfirm={handleConfirm}
             />
           </div>
 

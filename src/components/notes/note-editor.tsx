@@ -6,6 +6,7 @@ import { SymbolInsertionButton } from './symbol-insertion-button';
 interface NoteEditorProps {
   initialContent?: string;
   content?: string; // 新增外部控制的內容
+  onConfirm?: () => void;
   onContentChange?: (content: string) => void;
   placeholder?: string;
 }
@@ -13,6 +14,7 @@ interface NoteEditorProps {
 export function NoteEditor({
   initialContent = '',
   content: externalContent,
+  onConfirm,
   onContentChange,
   placeholder = '開始輸入您的筆記...',
 }: NoteEditorProps) {
@@ -27,6 +29,14 @@ export function NoteEditor({
     const newContent = e.target.value;
     setInternalContent(newContent);
     onContentChange?.(newContent);
+  };
+
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    // Cmd + Enter (Mac) 或 Ctrl + Enter (Windows/Linux)
+    if ((e.metaKey || e.ctrlKey) && e.key === 'Enter') {
+      e.preventDefault();
+      onConfirm?.();
+    }
   };
 
   const getCurrentLineInfo = (
@@ -137,6 +147,7 @@ export function NoteEditor({
           ref={textareaRef}
           value={content}
           onChange={handleContentChange}
+          onKeyDown={handleKeyDown}
           placeholder={placeholder}
           className="w-full h-48 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-gray-800 placeholder-gray-500 font-mono text-sm leading-relaxed cursor-custom"
           style={{
