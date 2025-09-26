@@ -64,7 +64,6 @@ export class LocalStorageManager {
             if (!stored) return [];
 
             return JSON.parse(stored, (key, value) => {
-                // 處理 Date 物件的反序列化 - 從 timestamp 重建
                 if (key === 'createdAt') {
                     return new Date(value);
                 }
