@@ -1,5 +1,5 @@
-import { StorageAdapter } from '../../lib/storage/types';
-import { ParsedNoteItem } from '../../types';
+import { StorageAdapter } from '@/lib/storage';
+import { ParsedNoteItem } from '@/types';
 
 /**
  * Mock 儲存適配器

@@ -62,7 +62,7 @@ export interface UseNotesManagerReturn {
 
   // 操作方法
   setEditorContent: (content: string) => void;
-  confirmNote: (category: ParsedNoteItem) => void;
+  confirmNote: (note: ParsedNoteItem) => void;
   clearEditor: () => void;
   deleteItem: (itemId: string) => void;
   clickItem: () => void;
