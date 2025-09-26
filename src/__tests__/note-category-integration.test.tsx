@@ -221,6 +221,8 @@ describe('Note Category Integration', () => {
   });
 
   function whenClickSymbolButton(symbol: BulletSymbol) {
-    return fireEvent.click(screen.getByTestId(`symbol-${symbol}-insertion-button`));
+    return fireEvent.click(
+      screen.getByTestId(`symbol-${symbol}-insertion-button`)
+    );
   }
 });

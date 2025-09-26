@@ -12,7 +12,7 @@ ${BulletSymbol.Note} 第三個筆記項目`;
 
       const result = parseNoteContent(content);
 
-      (expect(result).toMatchObject(
+      expect(result).toMatchObject(
         expect.arrayContaining([
           expect.objectContaining({
             content: '第一個筆記項目',
@@ -27,8 +27,8 @@ ${BulletSymbol.Note} 第三個筆記項目`;
             type: 'note',
           }),
         ])
-      ),
-        expect(result).toHaveLength(3));
+      );
+      expect(result).toHaveLength(3);
     });
 
     it('should handle empty content', () => {
