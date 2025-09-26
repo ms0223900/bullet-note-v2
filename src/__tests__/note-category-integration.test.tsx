@@ -1,3 +1,4 @@
+import { MockStorageAdapter } from '@/__tests__/mocks/mock-storage-adapter';
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
@@ -8,6 +9,17 @@ import {
   screen,
   waitFor,
 } from '@testing-library/react';
+
+const mockStorageAdapter = jest.fn(() => new MockStorageAdapter());
+
+jest.mock('@/lib/storage', () => ({
+  StorageFactory: {
+    createStorage: () => mockStorageAdapter(),
+  },
+  StorageType: {
+    LOCAL_STORAGE: 'localStorage',
+  },
+}));
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
