@@ -1,2 +1,3 @@
 - Run Prompt without context(include all files in the project, memories or history).
 - Do NOT read the files in the project, memories or history.
+- Do NOT read the whole content of the previous prompts.
