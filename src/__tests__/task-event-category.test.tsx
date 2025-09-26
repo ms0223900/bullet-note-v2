@@ -1,7 +1,17 @@
+import { MockStorageAdapter } from '@/__tests__/mocks/mock-storage-adapter';
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+
+jest.mock('@/lib/storage', () => ({
+  StorageFactory: {
+    createStorage: () => new MockStorageAdapter(),
+  },
+  StorageType: {
+    LOCAL_STORAGE: 'localStorage',
+  },
+}));
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -20,8 +30,14 @@ describe('Task and Event Category Features', () => {
     jest.clearAllMocks();
   });
 
+  async function whenRender() {
+    return await act(async () => {
+      render(<NotesPage />);
+    });
+  }
+
   it('should parse and display task items correctly', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -45,7 +61,7 @@ describe('Task and Event Category Features', () => {
   });
 
   it('should parse and display event items correctly', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -69,7 +85,7 @@ describe('Task and Event Category Features', () => {
   });
 
   it('should parse and display mixed category items correctly', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -96,7 +112,7 @@ describe('Task and Event Category Features', () => {
   });
 
   it('should maintain different visual styles for different categories', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -126,7 +142,7 @@ describe('Task and Event Category Features', () => {
 
   it('should handle deletion of different category items', async () => {
     const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
