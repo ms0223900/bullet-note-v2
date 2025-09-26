@@ -1,7 +1,7 @@
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
-import { fireEvent, render, screen, waitFor } from '@testing-library/react';
+import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({
@@ -21,8 +21,8 @@ describe('Note Category Integration', () => {
     jest.clearAllMocks();
   });
 
-  it('should display note editor and confirm button', () => {
-    render(<NotesPage />);
+  it('should display note editor and confirm button', async () => {
+    await whenRender();
 
     expect(screen.getByText('筆記編輯器')).toBeInTheDocument();
     expect(screen.getByText('確認筆記分類')).toBeInTheDocument();
@@ -30,7 +30,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should enable confirm button when content has note items', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -52,7 +52,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should parse and display note items after confirmation', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -77,7 +77,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should not display note category when no note items', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -96,7 +96,7 @@ describe('Note Category Integration', () => {
 
   it('should allow deleting note items', async () => {
     const confirmSpy = jest.spyOn(window, 'confirm').mockReturnValue(true);
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -138,7 +138,7 @@ describe('Note Category Integration', () => {
     // Mock console.log to test click handler
     const consoleSpy = jest.spyOn(console, 'log').mockImplementation();
 
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -167,7 +167,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should disable confirm button when text has no symbols', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -193,7 +193,7 @@ describe('Note Category Integration', () => {
   });
 
   it('should update confirm button state when adding/removing symbols', async () => {
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -219,6 +219,12 @@ describe('Note Category Integration', () => {
       expect(confirmButton).toBeDisabled();
     });
   });
+
+  async function whenRender() {
+    return await act(async () => {
+      render(<NotesPage />);
+    });
+  }
 
   function whenClickSymbolButton(symbol: BulletSymbol) {
     return fireEvent.click(
