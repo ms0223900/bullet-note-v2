@@ -67,4 +67,5 @@ export interface UseNotesManagerReturn {
   deleteItem: (itemId: string) => void;
   clickItem: () => void;
   clearError: () => void;
+  clearAllData: () => void;
 }

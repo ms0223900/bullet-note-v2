@@ -98,3 +98,29 @@ Object.defineProperty(window, 'matchMedia', {
     dispatchEvent: jest.fn(),
   })),
 });
+
+// Mock localStorage and clear it before each test
+const localStorageMock = (() => {
+  let store = {};
+  return {
+    getItem: key => store[key] || null,
+    setItem: (key, value) => {
+      store[key] = value;
+    },
+    removeItem: key => {
+      delete store[key];
+    },
+    clear: () => {
+      store = {};
+    },
+  };
+})();
+
+Object.defineProperty(window, 'localStorage', {
+  value: localStorageMock,
+});
+
+// Clear localStorage before each test
+beforeEach(() => {
+  localStorageMock.clear();
+});

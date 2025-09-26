@@ -1,5 +1,6 @@
-import { ParsedNoteItem, UseNotesManagerReturn, AppError } from '@/types';
-import { useCallback, useState } from 'react';
+import { LocalStorageManager } from '@/lib/storage';
+import { AppError, ParsedNoteItem, UseNotesManagerReturn } from '@/types';
+import { useCallback, useEffect, useState } from 'react';
 
 /**
  * 統一的筆記狀態管理 Hook
@@ -10,6 +11,44 @@ export const useNotesManager = (): UseNotesManagerReturn => {
   const [savedNotes, setSavedNotes] = useState<ParsedNoteItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<AppError | null>(null);
+
+  // 初始化時從 Local Storage 載入資料
+  useEffect(() => {
+    try {
+      const savedNotesData = LocalStorageManager.loadNotes();
+      const editorContentData = LocalStorageManager.loadEditorContent();
+
+      // 確保 Date 物件正確反序列化
+      const processedNotes = savedNotesData.map(note => ({
+        ...note,
+        createdAt:
+          note.createdAt instanceof Date
+            ? note.createdAt
+            : new Date(note.createdAt),
+      }));
+
+      setSavedNotes(processedNotes);
+      setEditorContent(editorContentData);
+    } catch (err) {
+      setError({
+        message: '載入儲存資料時發生錯誤',
+        code: 'LOAD_DATA_ERROR',
+        details: err,
+      });
+    }
+  }, []);
+
+  // 當 savedNotes 變更時自動儲存到 Local Storage
+  useEffect(() => {
+    if (savedNotes.length > 0) {
+      LocalStorageManager.saveNotes(savedNotes);
+    }
+  }, [savedNotes]);
+
+  // 當 editorContent 變更時自動儲存到 Local Storage
+  useEffect(() => {
+    LocalStorageManager.saveEditorContent(editorContent);
+  }, [editorContent]);
 
   // 清除錯誤
   const clearError = useCallback(() => {
@@ -39,6 +78,7 @@ export const useNotesManager = (): UseNotesManagerReturn => {
   const clearEditor = useCallback(() => {
     try {
       setEditorContent('');
+      LocalStorageManager.clearEditorContent();
       setError(null);
     } catch (err) {
       setError({
@@ -82,6 +122,26 @@ export const useNotesManager = (): UseNotesManagerReturn => {
     }
   }, []);
 
+  // 清除所有資料
+  const clearAllData = useCallback(() => {
+    try {
+      setIsLoading(true);
+      setError(null);
+
+      setSavedNotes([]);
+      setEditorContent('');
+      LocalStorageManager.clearAll();
+    } catch (err) {
+      setError({
+        message: '清除所有資料時發生錯誤',
+        code: 'CLEAR_ALL_DATA_ERROR',
+        details: err,
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
+
   return {
     // 狀態
     editorContent,
@@ -96,5 +156,6 @@ export const useNotesManager = (): UseNotesManagerReturn => {
     deleteItem,
     clickItem,
     clearError,
+    clearAllData,
   };
 };
