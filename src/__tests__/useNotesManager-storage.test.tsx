@@ -5,186 +5,189 @@ import { MockStorageAdapter } from './mocks/mock-storage-adapter';
 
 // Create a global mock adapter instance
 const globalMockAdapter = new MockStorageAdapter();
+const createStorageMock = jest.fn();
 
 // Mock the storage factory to return our mock adapter
 jest.mock('@/lib/storage', () => ({
-    StorageFactory: {
-        createStorage: jest.fn(() => globalMockAdapter),
-    },
-    StorageType: {
-        LOCAL_STORAGE: 'localStorage',
-    },
+  StorageFactory: {
+    createStorage: () => createStorageMock(),
+  },
+  StorageType: {
+    LOCAL_STORAGE: 'localStorage',
+  },
 }));
 
 describe('useNotesManager with Storage Integration', () => {
-    beforeEach(() => {
-        // Clear the mock adapter state
-        globalMockAdapter.clearAll();
-        jest.clearAllMocks();
+  beforeEach(() => {
+    // Clear the mock adapter state
+    createStorageMock.mockReturnValue(globalMockAdapter);
+    globalMockAdapter.clearAll();
+    jest.clearAllMocks();
+  });
+
+  it('should load data from storage on initialization', async () => {
+    const mockNotes: ParsedNoteItem[] = [
+      {
+        id: '1',
+        content: 'Saved note',
+        type: 'note',
+        createdAt: new Date('2024-01-01'),
+      },
+    ];
+    const mockEditorContent = 'Saved editor content';
+
+    globalMockAdapter.setStoredNotes(mockNotes);
+    globalMockAdapter.setStoredEditorContent(mockEditorContent);
+
+    const { result } = renderHook(() => useNotesManager());
+
+    // Wait for async operations to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
     });
 
-    it('should load data from storage on initialization', async () => {
-        const mockNotes: ParsedNoteItem[] = [
-            {
-                id: '1',
-                content: 'Saved note',
-                type: 'note',
-                createdAt: new Date('2024-01-01'),
-            },
-        ];
-        const mockEditorContent = 'Saved editor content';
+    expect(result.current.savedNotes).toEqual(mockNotes);
+    expect(result.current.editorContent).toBe(mockEditorContent);
+  });
 
-        globalMockAdapter.setStoredNotes(mockNotes);
-        globalMockAdapter.setStoredEditorContent(mockEditorContent);
+  it('should save notes to storage when notes change', async () => {
+    const { result } = await whenRenderHook();
 
-        const { result } = renderHook(() => useNotesManager());
+    const testNote: ParsedNoteItem = {
+      id: '1',
+      content: 'New note',
+      type: 'note',
+      createdAt: new Date(),
+    };
 
-        // Wait for async operations to complete
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 0));
-        });
-
-        expect(result.current.savedNotes).toEqual(mockNotes);
-        expect(result.current.editorContent).toBe(mockEditorContent);
+    await act(async () => {
+      result.current.confirmNote(testNote);
     });
 
-    it('should save notes to storage when notes change', async () => {
-        const { result } = await whenRenderHook();
+    // Check that the note was added to state
+    expect(result.current.savedNotes).toEqual([testNote]);
 
-        const testNote: ParsedNoteItem = {
-            id: '1',
-            content: 'New note',
-            type: 'note',
-            createdAt: new Date(),
-        };
-
-        await act(async () => {
-            result.current.confirmNote(testNote);
-        });
-
-        // Check that the note was added to state
-        expect(result.current.savedNotes).toEqual([testNote]);
-
-        // Wait for auto-save to complete
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 10));
-        });
-
-        expect(globalMockAdapter.getStoredNotes()).toEqual([testNote]);
+    // Wait for auto-save to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 10));
     });
 
-    it('should save editor content to storage when content changes', async () => {
-        const { result } = await whenRenderHook();
+    expect(globalMockAdapter.getStoredNotes()).toEqual([testNote]);
+  });
 
-        const testContent = 'New editor content';
+  it('should save editor content to storage when content changes', async () => {
+    const { result } = await whenRenderHook();
 
-        await act(async () => {
-            result.current.setEditorContent(testContent);
-        });
+    const testContent = 'New editor content';
 
-        // Check that the content was set in state
-        expect(result.current.editorContent).toBe(testContent);
-
-        // Wait for auto-save to complete
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 10));
-        });
-
-        expect(globalMockAdapter.getStoredEditorContent()).toBe(testContent);
+    await act(async () => {
+      result.current.setEditorContent(testContent);
     });
 
-    it('should clear editor content from storage when clearEditor is called', async () => {
-        const { result } = renderHook(() => useNotesManager());
+    // Check that the content was set in state
+    expect(result.current.editorContent).toBe(testContent);
 
-        await act(async () => {
-            await result.current.clearEditor();
-        });
-
-        expect(globalMockAdapter.getStoredEditorContent()).toBe('');
-        expect(result.current.editorContent).toBe('');
+    // Wait for auto-save to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 10));
     });
 
-    it('should clear all data from storage when clearAllData is called', async () => {
-        const { result } = renderHook(() => useNotesManager());
+    expect(globalMockAdapter.getStoredEditorContent()).toBe(testContent);
+  });
 
-        // First add some data
-        const testNote: ParsedNoteItem = {
-            id: '1',
-            content: 'Test note',
-            type: 'note',
-            createdAt: new Date(),
-        };
+  it('should clear editor content from storage when clearEditor is called', async () => {
+    const { result } = renderHook(() => useNotesManager());
 
-        await act(async () => {
-            result.current.confirmNote(testNote);
-            result.current.setEditorContent('Test content');
-        });
-
-        // Then clear all data
-        await act(async () => {
-            await result.current.clearAllData();
-        });
-
-        expect(globalMockAdapter.getStoredNotes()).toEqual([]);
-        expect(globalMockAdapter.getStoredEditorContent()).toBe('');
-        expect(result.current.savedNotes).toEqual([]);
-        expect(result.current.editorContent).toBe('');
+    await act(async () => {
+      await result.current.clearEditor();
     });
 
-    it('should handle storage errors gracefully during initialization', async () => {
-        // Create a mock adapter that throws errors
-        const errorAdapter = new MockStorageAdapter();
-        jest.spyOn(errorAdapter, 'loadNotes').mockRejectedValue(new Error('Storage error'));
+    expect(globalMockAdapter.getStoredEditorContent()).toBe('');
+    expect(result.current.editorContent).toBe('');
+  });
 
-        // Mock the factory to return the error adapter
-        const { StorageFactory } = require('@/lib/storage');
-        StorageFactory.createStorage.mockReturnValueOnce(errorAdapter);
+  it('should clear all data from storage when clearAllData is called', async () => {
+    const { result } = renderHook(() => useNotesManager());
 
-        const { result } = renderHook(() => useNotesManager());
+    // First add some data
+    const testNote: ParsedNoteItem = {
+      id: '1',
+      content: 'Test note',
+      type: 'note',
+      createdAt: new Date(),
+    };
 
-        // Wait for async operations to complete
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 0));
-        });
-
-        expect(result.current.error).toBeTruthy();
-        expect(result.current.error?.message).toBe('載入儲存資料時發生錯誤');
-        expect(result.current.error?.code).toBe('LOAD_DATA_ERROR');
+    await act(async () => {
+      result.current.confirmNote(testNote);
+      result.current.setEditorContent('Test content');
     });
 
-    it('should persist data across multiple hook instances', async () => {
-        const testNote: ParsedNoteItem = {
-            id: '1',
-            content: 'Persistent note',
-            type: 'note',
-            createdAt: new Date(),
-        };
-
-        // First hook instance
-        const { result: result1 } = await whenRenderHook();
-
-        await act(async () => {
-            result1.current.confirmNote(testNote);
-            result1.current.setEditorContent('Persistent content');
-            // Wait for auto-save to complete
-            await new Promise(resolve => setTimeout(resolve, 10));
-        });
-
-        // Second hook instance should load the same data
-        const { result: result2 } = await whenRenderHook();
-
-        // Wait for async operations to complete
-        await act(async () => {
-            await new Promise(resolve => setTimeout(resolve, 10));
-        });
-
-        expect(result2.current.savedNotes).toEqual([testNote]);
-        expect(result2.current.editorContent).toBe('Persistent content');
+    // Then clear all data
+    await act(async () => {
+      await result.current.clearAllData();
     });
 
-    async function whenRenderHook() {
-        return await act(async () => {
-            return renderHook(() => useNotesManager());
-        });
-    }
+    expect(globalMockAdapter.getStoredNotes()).toEqual([]);
+    expect(globalMockAdapter.getStoredEditorContent()).toBe('');
+    expect(result.current.savedNotes).toEqual([]);
+    expect(result.current.editorContent).toBe('');
+  });
+
+  it('should handle storage errors gracefully during initialization', async () => {
+    // Create a mock adapter that throws errors
+    const errorAdapter = new MockStorageAdapter();
+    jest
+      .spyOn(errorAdapter, 'loadNotes')
+      .mockRejectedValue(new Error('Storage error'));
+
+    // Mock the factory to return the error adapter
+    createStorageMock.mockReturnValueOnce(errorAdapter);
+
+    const { result } = renderHook(() => useNotesManager());
+
+    // Wait for async operations to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 0));
+    });
+
+    expect(result.current.error).toBeTruthy();
+    expect(result.current.error?.message).toBe('載入儲存資料時發生錯誤');
+    expect(result.current.error?.code).toBe('LOAD_DATA_ERROR');
+  });
+
+  it('should persist data across multiple hook instances', async () => {
+    const testNote: ParsedNoteItem = {
+      id: '1',
+      content: 'Persistent note',
+      type: 'note',
+      createdAt: new Date(),
+    };
+
+    // First hook instance
+    const { result: result1 } = await whenRenderHook();
+
+    await act(async () => {
+      result1.current.confirmNote(testNote);
+      result1.current.setEditorContent('Persistent content');
+      // Wait for auto-save to complete
+      await new Promise(resolve => setTimeout(resolve, 10));
+    });
+
+    // Second hook instance should load the same data
+    const { result: result2 } = await whenRenderHook();
+
+    // Wait for async operations to complete
+    await act(async () => {
+      await new Promise(resolve => setTimeout(resolve, 10));
+    });
+
+    expect(result2.current.savedNotes).toEqual([testNote]);
+    expect(result2.current.editorContent).toBe('Persistent content');
+  });
+
+  async function whenRenderHook() {
+    return await act(async () => {
+      return renderHook(() => useNotesManager());
+    });
+  }
 });

@@ -1,7 +1,13 @@
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 // Mock Next.js router
 jest.mock('next/navigation', () => ({

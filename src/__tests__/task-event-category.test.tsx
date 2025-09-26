@@ -2,7 +2,13 @@ import { MockStorageAdapter } from '@/__tests__/mocks/mock-storage-adapter';
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
-import { act, fireEvent, render, screen, waitFor } from '@testing-library/react';
+import {
+  act,
+  fireEvent,
+  render,
+  screen,
+  waitFor,
+} from '@testing-library/react';
 
 jest.mock('@/lib/storage', () => ({
   StorageFactory: {
