@@ -47,13 +47,10 @@ export class LocalStorageManager {
      */
     static saveNotes(notes: ParsedNoteItem[]): void {
         this.safeStorageOperation(() => {
-            const serializedNotes = JSON.stringify(notes, (key, value) => {
-                // 處理 Date 物件的序列化
-                if (value instanceof Date) {
-                    return { __type: 'Date', value: value.toISOString() };
-                }
-                return value;
-            });
+            const serializedNotes = JSON.stringify(notes.map(note => ({
+                ...note,
+                createdAt: note.createdAt.getTime()
+            })));
             localStorage.setItem(STORAGE_KEYS.SAVED_NOTES, serializedNotes);
         }, undefined);
     }
@@ -67,9 +64,9 @@ export class LocalStorageManager {
             if (!stored) return [];
 
             return JSON.parse(stored, (key, value) => {
-                // 處理 Date 物件的反序列化
-                if (value && typeof value === 'object' && value.__type === 'Date') {
-                    return new Date(value.value);
+                // 處理 Date 物件的反序列化 - 從 timestamp 重建
+                if (key === 'createdAt') {
+                    return new Date(value);
                 }
                 return value;
             });

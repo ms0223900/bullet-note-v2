@@ -18,16 +18,7 @@ export const useNotesManager = (): UseNotesManagerReturn => {
       const savedNotesData = LocalStorageManager.loadNotes();
       const editorContentData = LocalStorageManager.loadEditorContent();
 
-      // 確保 Date 物件正確反序列化
-      const processedNotes = savedNotesData.map(note => ({
-        ...note,
-        createdAt:
-          note.createdAt instanceof Date
-            ? note.createdAt
-            : new Date(note.createdAt),
-      }));
-
-      setSavedNotes(processedNotes);
+      setSavedNotes(savedNotesData);
       setEditorContent(editorContentData);
     } catch (err) {
       setError({

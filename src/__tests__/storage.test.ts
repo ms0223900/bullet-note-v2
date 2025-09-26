@@ -59,7 +59,6 @@ describe('LocalStorageManager', () => {
             expect(loadedNotes[1].content).toBe(testNotes[1].content);
             expect(loadedNotes[1].type).toBe(testNotes[1].type);
             // 檢查 Date 物件是否正確反序列化
-            // 在測試環境中，Date 物件可能被序列化為字串，所以我們檢查時間戳
             const loadedDate1 = new Date(loadedNotes[0].createdAt);
             const loadedDate2 = new Date(loadedNotes[1].createdAt);
             expect(loadedDate1.getTime()).toBe(testNotes[0].createdAt.getTime());
