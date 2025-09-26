@@ -75,12 +75,12 @@ export const useNotesManager = (
   }, []);
 
   // 確認筆記並添加到保存列表
-  const confirmNote = useCallback(async (category: ParsedNoteItem) => {
+  const confirmNote = useCallback(async (note: ParsedNoteItem) => {
     try {
       setIsLoading(true);
       setError(null);
 
-      setSavedNotes(prev => [...prev, category]);
+      setSavedNotes(prev => [...prev, note]);
       setEditorContent(''); // 清空編輯器
     } catch (err) {
       setError({
