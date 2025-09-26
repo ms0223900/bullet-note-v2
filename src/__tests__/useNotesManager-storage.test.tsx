@@ -49,7 +49,7 @@ describe('useNotesManager with Storage Integration', () => {
     });
 
     it('should save notes to storage when notes change', async () => {
-        const { result } = renderHook(() => useNotesManager());
+        const { result } = await whenRenderHook();
 
         const testNote: ParsedNoteItem = {
             id: '1',
@@ -74,7 +74,7 @@ describe('useNotesManager with Storage Integration', () => {
     });
 
     it('should save editor content to storage when content changes', async () => {
-        const { result } = renderHook(() => useNotesManager());
+        const { result } = await whenRenderHook();
 
         const testContent = 'New editor content';
 
@@ -161,7 +161,7 @@ describe('useNotesManager with Storage Integration', () => {
         };
 
         // First hook instance
-        const { result: result1 } = renderHook(() => useNotesManager());
+        const { result: result1 } = await whenRenderHook();
 
         await act(async () => {
             result1.current.confirmNote(testNote);
@@ -171,7 +171,7 @@ describe('useNotesManager with Storage Integration', () => {
         });
 
         // Second hook instance should load the same data
-        const { result: result2 } = renderHook(() => useNotesManager());
+        const { result: result2 } = await whenRenderHook();
 
         // Wait for async operations to complete
         await act(async () => {
@@ -181,4 +181,10 @@ describe('useNotesManager with Storage Integration', () => {
         expect(result2.current.savedNotes).toEqual([testNote]);
         expect(result2.current.editorContent).toBe('Persistent content');
     });
+
+    async function whenRenderHook() {
+        return await act(async () => {
+            return renderHook(() => useNotesManager());
+        });
+    }
 });
