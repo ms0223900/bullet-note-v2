@@ -45,7 +45,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
             note: {
                 background: 'bg-gray-50',
-                border: 'border-gray-600 border-2 rounded-xl',
+                border: 'border-gray-400 border-2 rounded-xl',
                 hover: 'hover:bg-gray-100',
                 text: 'text-gray-800',
                 icon: '•',
