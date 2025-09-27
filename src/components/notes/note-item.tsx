@@ -6,6 +6,47 @@ import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
+// Style configuration constants
+const STYLE_CONFIG = {
+  DELETE_BUTTON: 'text-gray-400 hover:text-red-500 text-sm',
+  DELETE_BUTTON_HOVER: 'opacity-0 group-hover:opacity-100 transition-opacity',
+  DELETE_BUTTON_LG_HOVER:
+    'opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity',
+  TYPE_LABEL: 'text-xs px-1.5 py-0.5 rounded-full',
+  TYPE_LABEL_LARGE: 'text-xs px-2 py-1 rounded-full',
+  CONTENT_GRID: 'text-gray-800 text-xs leading-relaxed cursor-pointer',
+  CONTENT_DEFAULT: 'text-gray-800 text-sm leading-relaxed cursor-pointer',
+  TIME_DEFAULT: 'text-xs text-gray-400',
+  TIME_MARGIN: 'text-xs text-gray-400 mt-1',
+  ICON_SMALL: 'text-sm',
+  ICON_LARGE: 'text-lg',
+} as const;
+
+// Time formatting utilities
+const formatTimeShort = (date: Date) =>
+  date.toLocaleTimeString('zh-TW', {
+    hour: '2-digit',
+    minute: '2-digit',
+  });
+
+const formatTimeFull = (date: Date) => date.toLocaleString('zh-TW');
+
+// Delete button component
+interface DeleteButtonProps {
+  onClick: () => void;
+  className?: string;
+}
+
+const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
+  <button
+    onClick={onClick}
+    className={`${STYLE_CONFIG.DELETE_BUTTON} ${className}`}
+    title="刪除筆記"
+  >
+    ×
+  </button>
+);
+
 const NoteItemComponent = ({
   item,
   onDelete,
@@ -31,25 +72,27 @@ const NoteItemComponent = ({
 
   // 根據檢視模式決定樣式
   const getItemStyles = () => {
+    const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+
     switch (viewMode) {
       case ViewMode.GRID:
         return {
-          container: `group flex flex-col space-y-2 p-2 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
-          content: 'text-gray-800 text-xs leading-relaxed cursor-pointer',
-          time: 'text-xs text-gray-400',
+          container: `${baseContainer} flex flex-col space-y-2 p-2`,
+          content: STYLE_CONFIG.CONTENT_GRID,
+          time: STYLE_CONFIG.TIME_DEFAULT,
         };
       case ViewMode.DOUBLE:
         return {
-          container: `group flex items-start space-x-2 p-2 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
-          content: 'text-gray-800 text-xs leading-relaxed cursor-pointer',
-          time: 'text-xs text-gray-400',
+          container: `${baseContainer} flex items-start space-x-2 p-2`,
+          content: STYLE_CONFIG.CONTENT_GRID,
+          time: STYLE_CONFIG.TIME_DEFAULT,
         };
       case ViewMode.SINGLE:
       default:
         return {
-          container: `group flex items-start space-x-3 p-3 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
-          content: 'text-gray-800 text-sm leading-relaxed cursor-pointer',
-          time: 'text-xs text-gray-400 mt-1',
+          container: `${baseContainer} flex items-start space-x-3 p-3`,
+          content: STYLE_CONFIG.CONTENT_DEFAULT,
+          time: STYLE_CONFIG.TIME_MARGIN,
         };
     }
   };
@@ -60,20 +103,19 @@ const NoteItemComponent = ({
     return (
       <div className={styles.container}>
         <div className="flex items-center justify-between">
-          <span className={`text-sm ${displayStyle.iconColor}`}>
+          <span
+            className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}
+          >
             {displayStyle.icon}
           </span>
-          <button
+          <DeleteButton
             onClick={handleDeleteClick}
-            className="text-gray-400 hover:text-red-500 text-sm opacity-0 group-hover:opacity-100 transition-opacity"
-            title="刪除筆記"
-          >
-            ×
-          </button>
+            className={STYLE_CONFIG.DELETE_BUTTON_HOVER}
+          />
         </div>
         <div className="space-y-1">
           <span
-            className={`text-xs px-1.5 py-0.5 rounded-full ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+            className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
           >
             {typeLabel}
           </span>
@@ -82,12 +124,7 @@ const NoteItemComponent = ({
               ? `${item.content.substring(0, 50)}...`
               : item.content}
           </p>
-          <p className={styles.time}>
-            {item.createdAt.toLocaleTimeString('zh-TW', {
-              hour: '2-digit',
-              minute: '2-digit',
-            })}
-          </p>
+          <p className={styles.time}>{formatTimeShort(item.createdAt)}</p>
         </div>
 
         <DeleteConfirmationDialog
@@ -103,14 +140,16 @@ const NoteItemComponent = ({
   return (
     <div className={styles.container}>
       <div className="flex-shrink-0 mt-1">
-        <span className={`text-lg ${displayStyle.iconColor}`}>
+        <span
+          className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
+        >
           {displayStyle.icon}
         </span>
       </div>
       <div className="flex-1 min-w-0">
         <div className="flex items-center space-x-2 mb-1">
           <span
-            className={`text-xs px-2 py-1 rounded-full ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+            className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
           >
             {typeLabel}
           </span>
@@ -118,16 +157,10 @@ const NoteItemComponent = ({
         <p className={styles.content} onClick={onClick}>
           {item.content}
         </p>
-        <p className={styles.time}>{item.createdAt.toLocaleString('zh-TW')}</p>
+        <p className={styles.time}>{formatTimeFull(item.createdAt)}</p>
       </div>
-      <div className="flex-shrink-0 opacity-100 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity">
-        <button
-          onClick={handleDeleteClick}
-          className="text-gray-400 hover:text-red-500 text-sm"
-          title="刪除筆記"
-        >
-          ×
-        </button>
+      <div className={`flex-shrink-0 ${STYLE_CONFIG.DELETE_BUTTON_LG_HOVER}`}>
+        <DeleteButton onClick={handleDeleteClick} />
       </div>
 
       <DeleteConfirmationDialog
@@ -140,4 +173,15 @@ const NoteItemComponent = ({
   );
 };
 
-export const NoteItem = memo(NoteItemComponent);
+export const NoteItem = memo(NoteItemComponent, (prevProps, nextProps) => {
+  return (
+    prevProps.item.id === nextProps.item.id &&
+    prevProps.item.content === nextProps.item.content &&
+    prevProps.item.type === nextProps.item.type &&
+    prevProps.item.isCompleted === nextProps.item.isCompleted &&
+    prevProps.item.createdAt.getTime() === nextProps.item.createdAt.getTime() &&
+    prevProps.viewMode === nextProps.viewMode &&
+    prevProps.onDelete === nextProps.onDelete &&
+    prevProps.onClick === nextProps.onClick
+  );
+});
