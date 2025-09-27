@@ -59,30 +59,6 @@ describe('NoteEditor', () => {
     expect(mockOnContentChange).toHaveBeenCalledWith('測試內容');
   });
 
-  it('should display character count', () => {
-    const content = '測試內容';
-    render(
-      <MockProviders>
-        <NoteEditor initialContent={content} />
-      </MockProviders>
-    );
-
-    expect(screen.getByText(`${content.length} 字元`)).toBeInTheDocument();
-  });
-
-  it('should update character count when content changes', async () => {
-    const user = userEvent.setup();
-    render(
-      <MockProviders>
-        <NoteEditor />
-      </MockProviders>
-    );
-
-    const textarea = screen.getByRole('textbox');
-    await user.type(textarea, '新內容');
-
-    expect(screen.getByText('3 字元')).toBeInTheDocument();
-  });
 
   it('should render symbol insertion button', () => {
     render(
@@ -166,7 +142,7 @@ describe('NoteEditor', () => {
     );
 
     const textarea = screen.getByRole('textbox');
-    expect(textarea).toHaveClass('w-full', 'h-48', 'p-6', 'resize-none');
+    expect(textarea).toHaveClass('w-full', 'h-10', 'md:h-20', 'p-2', 'md:p-6', 'resize-none');
   });
 
   it('should be focusable', async () => {

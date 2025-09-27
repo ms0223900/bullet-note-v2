@@ -51,7 +51,7 @@ describe('Task and Event Category Features', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input task items
     fireEvent.change(textarea, {
@@ -75,7 +75,7 @@ describe('Task and Event Category Features', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input event items
     fireEvent.change(textarea, {
@@ -99,7 +99,7 @@ describe('Task and Event Category Features', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input mixed category items
     fireEvent.change(textarea, {
@@ -126,7 +126,7 @@ describe('Task and Event Category Features', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input items of different categories
     fireEvent.change(textarea, {
@@ -156,7 +156,7 @@ describe('Task and Event Category Features', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input items of different categories
     fireEvent.change(textarea, {

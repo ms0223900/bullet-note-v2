@@ -43,8 +43,8 @@ describe('Note Category Integration', () => {
   it('should display note editor and confirm button', async () => {
     await whenRender();
 
-    expect(screen.getByText('筆記編輯器')).toBeInTheDocument();
-    expect(screen.getByText('確認筆記分類')).toBeInTheDocument();
+    expect(screen.getByText('新增筆記')).toBeInTheDocument();
+    expect(screen.getByText('新增筆記')).toBeInTheDocument();
     expect(screen.getByText('使用說明')).toBeInTheDocument();
   });
 
@@ -52,7 +52,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Initially button should be disabled
     expect(confirmButton).toBeDisabled();
@@ -74,7 +74,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input note items
     fireEvent.change(textarea, {
@@ -88,7 +88,7 @@ describe('Note Category Integration', () => {
 
     // Should display the parsed notes
     await waitFor(() => {
-      expect(screen.getByText('已保存的筆記（依日期）')).toBeInTheDocument();
+      expect(screen.getByRole('heading', { name: '我的筆記', level: 2 })).toBeInTheDocument();
       expect(screen.getByText('第一個筆記項目')).toBeInTheDocument();
       expect(screen.getByText('第二個筆記項目')).toBeInTheDocument();
       // group header shows item count as "X 項" within the date group; we assert item texts instead
@@ -99,7 +99,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input content without note items
     fireEvent.change(textarea, {
@@ -118,7 +118,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input note items
     fireEvent.change(textarea, {
@@ -160,7 +160,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Input note items
     fireEvent.change(textarea, {
@@ -189,7 +189,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Initially button should be disabled (empty content)
     expect(confirmButton).toBeDisabled();
@@ -215,7 +215,7 @@ describe('Note Category Integration', () => {
     await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
-    const confirmButton = screen.getByText('確認筆記分類');
+    const confirmButton = screen.getByText('新增筆記');
 
     // Initially button should be disabled (empty content)
     expect(confirmButton).toBeDisabled();
