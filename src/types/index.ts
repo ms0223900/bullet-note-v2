@@ -1,6 +1,9 @@
 // 筆記分類相關類型
 export type NoteItemType = 'bullet' | 'task' | 'note';
 
+// 檢視模式相關類型
+export type ViewMode = 'single' | 'double' | 'grid';
+
 export interface ParsedNoteItem {
   id: string;
   content: string;
@@ -29,6 +32,7 @@ export interface NoteItemProps {
   item: ParsedNoteItem;
   onDelete: (itemId: string) => void;
   onClick: () => void;
+  viewMode?: ViewMode;
 }
 
 export interface NotesListProps {
