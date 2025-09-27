@@ -2,7 +2,7 @@ import {
   getNoteItemDisplayStyle,
   getNoteItemTypeLabel,
 } from '@/lib/note-display-utils';
-import { NoteItemProps, ViewMode } from '@/types';
+import { NoteItemDisplayStyle, NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
@@ -27,6 +27,34 @@ const STYLE_CONFIG = {
   ICON_SMALL: 'text-sm',
   ICON_LARGE: 'text-lg',
 } as const;
+
+
+const getNoteItemViewModeStyles = (viewMode: ViewMode, displayStyle: NoteItemDisplayStyle): NoteItemViewModeStyles => {
+  const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+
+  switch (viewMode) {
+    case ViewMode.GRID:
+      return {
+        container: `${baseContainer} flex flex-col space-y-2 p-2`,
+        content: STYLE_CONFIG.CONTENT_GRID,
+        time: STYLE_CONFIG.TIME_DEFAULT,
+      };
+    case ViewMode.DOUBLE:
+      return {
+        container: `${baseContainer} flex items-start space-x-2 p-2`,
+        content: STYLE_CONFIG.CONTENT_GRID,
+        time: STYLE_CONFIG.TIME_DEFAULT,
+      };
+    case ViewMode.SINGLE:
+    default:
+      return {
+        container: `${baseContainer} flex items-start space-x-3 p-3`,
+        content: STYLE_CONFIG.CONTENT_DEFAULT,
+        time: STYLE_CONFIG.TIME_MARGIN,
+      };
+  }
+};
+
 
 // Time formatting utilities
 const formatTimeShort = (date: Date) =>
@@ -60,7 +88,6 @@ const NoteItemComponent = ({
   viewMode = ViewMode.SINGLE,
 }: NoteItemProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const displayStyle = getNoteItemDisplayStyle(item);
   const typeLabel = getNoteItemTypeLabel(item);
 
   const handleDeleteClick = useCallback(() => {
@@ -76,34 +103,9 @@ const NoteItemComponent = ({
     setShowDeleteDialog(false);
   }, []);
 
-  // 根據檢視模式決定樣式
-  const getItemStyles = (): NoteItemViewModeStyles => {
-    const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+  const displayStyle = getNoteItemDisplayStyle(item);
 
-    switch (viewMode) {
-      case ViewMode.GRID:
-        return {
-          container: `${baseContainer} flex flex-col space-y-2 p-2`,
-          content: STYLE_CONFIG.CONTENT_GRID,
-          time: STYLE_CONFIG.TIME_DEFAULT,
-        };
-      case ViewMode.DOUBLE:
-        return {
-          container: `${baseContainer} flex items-start space-x-2 p-2`,
-          content: STYLE_CONFIG.CONTENT_GRID,
-          time: STYLE_CONFIG.TIME_DEFAULT,
-        };
-      case ViewMode.SINGLE:
-      default:
-        return {
-          container: `${baseContainer} flex items-start space-x-3 p-3`,
-          content: STYLE_CONFIG.CONTENT_DEFAULT,
-          time: STYLE_CONFIG.TIME_MARGIN,
-        };
-    }
-  };
-
-  const styles = getItemStyles();
+  const styles = getNoteItemViewModeStyles(viewMode, displayStyle);
 
   if (viewMode === ViewMode.GRID) {
     return (
