@@ -53,7 +53,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
         },
         image: {
-            src: '/images/bujo-simple-theme-penguin.png',
+            src: '/images/bujo-simple-theme-penguin.webp',
             alt: '線條簡約主題圖片',
             position: 'top-right',
         },
@@ -108,9 +108,9 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
         },
         image: {
-            src: '/images/colorful-theme.svg',
+            src: '/images/bujo-colorful-theme-penguin.webp',
             alt: '彩色繽紛漸層主題圖片',
-            position: 'center',
+            position: 'bottom-right',
         },
     },
     [Theme.GLASS]: {
@@ -123,10 +123,10 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         },
         button: {
             primary:
-                'bg-slate-800/80 backdrop-blur-md border border-white/30 text-white hover:bg-white/30',
+                'bg-slate-800/80 backdrop-blur-md border border-white/30 text-white hover:bg-slate-800/30 hover:text-gray-600',
             secondary:
-                'bg-white/50 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white/20',
-            hover: 'hover:bg-white/10',
+                'bg-white/50 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white/20 hover:text-gray-600',
+            hover: 'hover:bg-white/10 text-gray-800',
             text: 'text-slate-800',
         },
         input: {
@@ -163,9 +163,9 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
         },
         image: {
-            src: '/images/glass-theme.svg',
+            src: '/images/bujo-glass-theme-penguin.webp',
             alt: '玻璃iOS風主題圖片',
-            position: 'bottom-left',
+            position: 'top-right',
         },
     },
 };

@@ -34,7 +34,7 @@ export function ThemeImage({ className }: ThemeImageProps) {
   return (
     <div
       className={cn(
-        'absolute w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 opacity-20 pointer-events-none',
+        'absolute z-0 w-20 h-20 md:w-24 md:h-24 lg:w-32 lg:h-32 pointer-events-none',
         getPositionClasses(),
         className
       )}

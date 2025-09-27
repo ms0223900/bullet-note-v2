@@ -53,12 +53,12 @@ export function ThemeToggle() {
                                         onClick={() => handleThemeChange(themeKey as Theme)}
                                         className={`w-full text-left p-3 rounded-md transition-colors ${theme === themeKey
                                             ? `${themeConfig.button.primary}`
-                                            : `hover:bg-gray-100 text-gray-800`
+                                            : `hover:bg-gray-100 hover:text-gray-800 text-gray-800`
                                             }`}
                                     >
                                         <div className="font-medium">{config.name}</div>
                                         <div
-                                            className={`text-xs mt-1 ${theme === themeKey ? 'text-white/80' : 'opacity-70'
+                                            className={`text-xs mt-1 ${theme === themeKey ? '' : 'opacity-70'
                                                 }`}
                                         >
                                             {config.description}
