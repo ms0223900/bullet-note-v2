@@ -79,24 +79,24 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         name: '玻璃iOS風',
         description: '現代玻璃質感，簡約而優雅',
         background: {
-            primary: 'bg-gradient-to-br from-slate-50 to-slate-100',
+            primary: 'bg-gradient-to-br from-slate-200 to-slate-400',
             secondary: 'bg-white/30 backdrop-blur-md',
             accent: 'bg-white/20 backdrop-blur-sm',
         },
         button: {
             primary:
-                'bg-white/20 backdrop-blur-md border border-white/30 text-slate-800 hover:bg-white/30',
+                'bg-white/80 backdrop-blur-md border border-white/30 text-slate-800 hover:bg-white/30',
             secondary:
-                'bg-white/10 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white/20',
+                'bg-white/50 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white/20',
             hover: 'hover:bg-white/10',
             text: 'text-slate-800',
         },
         input: {
-            background: 'bg-white/20 backdrop-blur-md',
-            border: 'border-white/30',
+            background: 'bg-black/50 backdrop-blur-md',
+            border: 'border-white/70 border-2',
             focus: 'focus:border-white/50 focus:ring-white/30',
-            text: 'text-slate-800',
-            placeholder: 'placeholder-slate-500',
+            text: 'text-white',
+            placeholder: 'placeholder-white/50',
         },
         noteItem: {
             background: 'bg-white/20 backdrop-blur-md',
