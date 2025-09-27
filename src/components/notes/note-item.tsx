@@ -82,12 +82,14 @@ const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
 );
 
 interface NoteItemBaseProps {
+  viewMode: ViewMode;
   note: ParsedNoteItem;
   onClick: () => void;
   onDeleteClick: () => void;
 }
 
 const NoteItemBase = ({
+  viewMode,
   note,
   onClick,
   onDeleteClick,
@@ -95,7 +97,7 @@ const NoteItemBase = ({
   const typeLabel = getNoteItemTypeLabel(note);
   const displayStyle = getNoteItemDisplayStyle(note);
   const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
-  const styles = getNoteItemViewModeStyles(ViewMode.GRID);
+  const styles = getNoteItemViewModeStyles(viewMode);
 
   return (
     <div className={cn(baseContainer, styles.container)}>
@@ -127,6 +129,7 @@ const NoteItemBase = ({
 };
 
 const NoteItemGrid = ({
+  viewMode,
   note,
   onClick,
   onDeleteClick,
@@ -134,7 +137,7 @@ const NoteItemGrid = ({
   const typeLabel = getNoteItemTypeLabel(note);
   const displayStyle = getNoteItemDisplayStyle(note);
   const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
-  const styles = getNoteItemViewModeStyles(ViewMode.GRID);
+  const styles = getNoteItemViewModeStyles(viewMode);
 
   const truncatedContent =
     note.content.length > 50
@@ -192,6 +195,7 @@ const NoteItemComponent = ({
     return (
       <div>
         <NoteItemGrid
+          viewMode={ViewMode.GRID}
           note={item}
           onClick={onClick}
           onDeleteClick={handleDeleteClick}
@@ -209,6 +213,7 @@ const NoteItemComponent = ({
   return (
     <div>
       <NoteItemBase
+        viewMode={viewMode}
         note={item}
         onClick={onClick}
         onDeleteClick={handleDeleteClick}
