@@ -4,7 +4,7 @@ import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
-const NoteItemComponent = ({
+const NoteItemContainerComponent = ({
   item,
   onDelete,
   onClick,
@@ -45,7 +45,7 @@ const NoteItemComponent = ({
   );
 };
 
-export const NoteItem = memo(NoteItemComponent, (prevProps, nextProps) => {
+export const NoteItemContainer = memo(NoteItemContainerComponent, (prevProps, nextProps) => {
   return (
     prevProps.item.id === nextProps.item.id &&
     prevProps.item.content === nextProps.item.content &&

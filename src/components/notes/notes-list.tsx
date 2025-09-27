@@ -1,7 +1,7 @@
 import { useViewMode } from '@/contexts/ViewModeContext';
 import { NotesListProps } from '@/types';
 import { memo } from 'react';
-import { NoteItem } from './note-item';
+import { NoteItemContainer } from './note-item-container';
 import { ViewModeToggle } from './view-mode-toggle';
 
 const NotesListComponent = ({
@@ -53,7 +53,7 @@ const NotesListComponent = ({
             <div className="p-1">
               <div className={getContainerStyles()}>
                 {group.entries.map(item => (
-                  <NoteItem
+                  <NoteItemContainer
                     key={item.id}
                     item={item}
                     onDelete={onDeleteItem}
