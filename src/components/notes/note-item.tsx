@@ -191,28 +191,11 @@ const NoteItemComponent = ({
     setShowDeleteDialog(false);
   }, []);
 
-  if (viewMode === ViewMode.GRID) {
-    return (
-      <div>
-        <NoteItemGrid
-          viewMode={ViewMode.GRID}
-          note={item}
-          onClick={onClick}
-          onDeleteClick={handleDeleteClick}
-        />
-        <DeleteConfirmationDialog
-          isOpen={showDeleteDialog}
-          onConfirm={handleConfirmDelete}
-          onCancel={handleCancelDelete}
-          message="確定要刪除這個筆記項目嗎？"
-        />
-      </div>
-    );
-  }
+  const NoteComponent = viewMode === ViewMode.GRID ? NoteItemGrid : NoteItemBase;
 
   return (
     <div>
-      <NoteItemBase
+      <NoteComponent
         viewMode={viewMode}
         note={item}
         onClick={onClick}
