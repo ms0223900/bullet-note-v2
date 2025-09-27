@@ -38,10 +38,10 @@ export function ThemeToggle() {
                     {/* 主題選單 */}
                     <div className="absolute right-0 top-full mt-2 w-64 z-20">
                         <div
-                            className={`${themeConfig.noteItem.note.background} border ${themeConfig.noteItem.note.border} rounded-lg shadow-lg p-2`}
+                            className={`bg-white border ${themeConfig.noteItem.note.border} rounded-lg shadow-lg p-2`}
                         >
                             <div
-                                className={`text-sm font-medium mb-2 ${themeConfig.noteItem.note.text} opacity-80`}
+                                className={`text-sm font-medium mb-2 text-gray-800 opacity-80`}
                             >
                                 選擇主題風格
                             </div>
@@ -52,8 +52,8 @@ export function ThemeToggle() {
                                         key={themeKey}
                                         onClick={() => handleThemeChange(themeKey as Theme)}
                                         className={`w-full text-left p-3 rounded-md transition-colors ${theme === themeKey
-                                                ? `${themeConfig.button.primary} text-white`
-                                                : `${themeConfig.noteItem.note.hover} ${themeConfig.noteItem.note.text}`
+                                            ? `${themeConfig.button.primary}`
+                                            : `hover:bg-gray-100 text-gray-800`
                                             }`}
                                     >
                                         <div className="font-medium">{config.name}</div>

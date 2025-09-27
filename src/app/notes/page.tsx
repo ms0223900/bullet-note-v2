@@ -1,5 +1,6 @@
 'use client';
 
+import { Header } from '@/components/layout/header';
 import { BulletRulesTable } from '@/components/notes/bullet-rules-table';
 import { ConfirmButton } from '@/components/notes/confirm-button';
 import { NoteEditor } from '@/components/notes/note-editor';
@@ -55,6 +56,7 @@ export default function NotesPage() {
 
   return (
     <ViewModeProvider>
+      <Header />
       <div
         className={`min-h-screen ${themeConfig.background.primary} relative`}
       >

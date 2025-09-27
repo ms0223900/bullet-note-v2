@@ -70,7 +70,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             primary:
                 'bg-gradient-to-r from-purple-600 to-pink-600 text-white hover:from-purple-700 hover:to-pink-700',
             secondary:
-                'bg-white/20 backdrop-blur-sm border border-white/30 text-white hover:bg-white/30',
+                'bg-white/20 backdrop-blur-sm border border-white/30 text-gray-800 hover:bg-white/30',
             hover: 'hover:bg-white/10',
             text: 'text-white',
         },
@@ -123,7 +123,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         },
         button: {
             primary:
-                'bg-white/80 backdrop-blur-md border border-white/30 text-slate-800 hover:bg-white/30',
+                'bg-slate-800/80 backdrop-blur-md border border-white/30 text-white hover:bg-white/30',
             secondary:
                 'bg-white/50 backdrop-blur-sm border border-white/20 text-slate-700 hover:bg-white/20',
             hover: 'hover:bg-white/10',
