@@ -85,14 +85,8 @@ const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
 const NoteItemGrid = ({
   item,
   onClick,
-  showDeleteDialog,
-  onConfirmDelete,
-  onCancelDelete,
   onDeleteClick,
 }: Omit<NoteItemProps, 'onDelete'> & {
-  showDeleteDialog: boolean;
-  onConfirmDelete: () => void;
-  onCancelDelete: () => void;
   onDeleteClick: () => void;
 }) => {
   const typeLabel = getNoteItemTypeLabel(item);
@@ -130,12 +124,6 @@ const NoteItemGrid = ({
         </div>
 
       </div>
-      <DeleteConfirmationDialog
-        isOpen={showDeleteDialog}
-        onConfirm={onConfirmDelete}
-        onCancel={onCancelDelete}
-        message="確定要刪除這個筆記項目嗎？"
-      />
     </div>
   );
 };
@@ -172,14 +160,19 @@ const NoteItemComponent = ({
 
   if (viewMode === ViewMode.GRID) {
     return (
-      <NoteItemGrid
-        item={item}
-        onClick={onClick}
-        onDeleteClick={handleDeleteClick}
-        showDeleteDialog={showDeleteDialog}
-        onConfirmDelete={handleConfirmDelete}
-        onCancelDelete={handleCancelDelete}
-      />
+      <div>
+        <NoteItemGrid
+          item={item}
+          onClick={onClick}
+          onDeleteClick={handleDeleteClick}
+        />
+        <DeleteConfirmationDialog
+          isOpen={showDeleteDialog}
+          onConfirm={handleConfirmDelete}
+          onCancel={handleCancelDelete}
+          message="確定要刪除這個筆記項目嗎？"
+        />
+      </div>
     );
   }
 
