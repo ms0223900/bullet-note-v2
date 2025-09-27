@@ -2,7 +2,8 @@ import {
   getNoteItemDisplayStyle,
   getNoteItemTypeLabel,
 } from '@/lib/note-display-utils';
-import { NoteItemDisplayStyle, NoteItemProps, ViewMode } from '@/types';
+import { cn } from '@/lib/utils';
+import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
@@ -29,26 +30,25 @@ const STYLE_CONFIG = {
 } as const;
 
 
-const getNoteItemViewModeStyles = (viewMode: ViewMode, displayStyle: NoteItemDisplayStyle): NoteItemViewModeStyles => {
-  const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+const getNoteItemViewModeStyles = (viewMode: ViewMode): NoteItemViewModeStyles => {
 
   switch (viewMode) {
     case ViewMode.GRID:
       return {
-        container: `${baseContainer} flex flex-col space-y-2 p-2`,
+        container: `flex flex-col space-y-2 p-2`,
         content: STYLE_CONFIG.CONTENT_GRID,
         time: STYLE_CONFIG.TIME_DEFAULT,
       };
     case ViewMode.DOUBLE:
       return {
-        container: `${baseContainer} flex items-start space-x-2 p-2`,
+        container: `flex items-start space-x-2 p-2`,
         content: STYLE_CONFIG.CONTENT_GRID,
         time: STYLE_CONFIG.TIME_DEFAULT,
       };
     case ViewMode.SINGLE:
     default:
       return {
-        container: `${baseContainer} flex items-start space-x-3 p-3`,
+        container: `flex items-start space-x-3 p-3`,
         content: STYLE_CONFIG.CONTENT_DEFAULT,
         time: STYLE_CONFIG.TIME_MARGIN,
       };
@@ -105,11 +105,13 @@ const NoteItemComponent = ({
 
   const displayStyle = getNoteItemDisplayStyle(item);
 
-  const styles = getNoteItemViewModeStyles(viewMode, displayStyle);
+  const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+
+  const styles = getNoteItemViewModeStyles(viewMode);
 
   if (viewMode === ViewMode.GRID) {
     return (
-      <div className={styles.container}>
+      <div className={cn(baseContainer, styles.container)}>
         <div className="flex items-center justify-between">
           <span
             className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}
@@ -146,7 +148,7 @@ const NoteItemComponent = ({
   }
 
   return (
-    <div className={styles.container}>
+    <div className={cn(baseContainer, styles.container)}>
       <div className="flex-shrink-0 mt-1">
         <span
           className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
