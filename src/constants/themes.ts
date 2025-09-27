@@ -92,8 +92,8 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             text: 'text-slate-800',
         },
         input: {
-            background: 'bg-black/50 backdrop-blur-md',
-            border: 'border-white/70 border-2',
+            background: 'bg-slate-600/50 backdrop-blur-md',
+            border: 'border-white/70',
             focus: 'focus:border-white/50 focus:ring-white/30',
             text: 'text-white',
             placeholder: 'placeholder-white/50',
