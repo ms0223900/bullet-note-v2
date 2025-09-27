@@ -16,6 +16,7 @@ import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
 import { StorageFactory, StorageType } from '@/lib/storage';
 import { groupSavedNotesByLocalDay } from '@/lib/utils';
+import { ChevronRight } from 'lucide-react';
 import { useCallback, useMemo } from 'react';
 
 export default function NotesPage() {
@@ -123,19 +124,21 @@ export default function NotesPage() {
           <div className="container mx-auto px-4 py-4">
             <div className="max-w-4xl mx-auto">
               {/* 筆記編輯器 */}
-              <div className="mb-4 relative z-1">
+              <div className="relative z-1">
                 <NoteEditor
                   content={editorContent}
                   placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目；按 Cmd+Enter / Ctrl+Enter 直接新增)"
                   onContentChange={handleContentChange}
                   onConfirm={handleConfirm}
                 />
-                <div className="absolute bottom-0 right-0">
+                <div className='pt-2 md:pt-0'>
                   <SmallConfirmButton
+                    className='md:absolute bottom-2 right-2 w-full md:w-auto'
                     onClick={handleConfirm}
                     disabled={!hasNotes || isLoading}
                   >
                     新增筆記
+                    <ChevronRight className="w-4 h-4" />
                   </SmallConfirmButton>
                 </div>
               </div>
