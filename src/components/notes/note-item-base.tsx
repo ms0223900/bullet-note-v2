@@ -1,6 +1,6 @@
 import {
     getNoteItemDisplayStyle,
-    getNoteItemTypeLabel,
+    getNoteItemTypeLabel
 } from '@/lib/note-display-utils';
 import { cn } from '@/lib/utils';
 import { ParsedNoteItem, ViewMode } from '@/types';
@@ -94,11 +94,10 @@ export const NoteItemBase = ({
 }: NoteItemBaseProps) => {
     const typeLabel = getNoteItemTypeLabel(note);
     const displayStyle = getNoteItemDisplayStyle(note);
-    const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
     const styles = getNoteItemViewModeStyles(viewMode);
 
     return (
-        <div className={cn(baseContainer, styles.container)}>
+        <div className={cn(displayStyle.container, styles.container)}>
             <div className="flex-shrink-0 mt-1">
                 <span
                     className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
@@ -133,9 +132,8 @@ export const NoteItemGrid = ({
     onDeleteClick,
 }: NoteItemBaseProps) => {
     const displayStyle = getNoteItemDisplayStyle(note);
-    const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
-
     const typeLabel = getNoteItemTypeLabel(note);
+
     const styles = getNoteItemViewModeStyles(viewMode);
 
     const truncatedContent =
@@ -144,7 +142,7 @@ export const NoteItemGrid = ({
             : note.content;
 
     return (
-        <div className={cn(baseContainer, styles.container)}>
+        <div className={cn(displayStyle.container, styles.container)}>
             <div className="flex items-center justify-between">
                 <span className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}>
                     {displayStyle.icon}

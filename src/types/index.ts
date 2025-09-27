@@ -18,6 +18,7 @@ export interface ParsedNoteItem {
 
 // 顯示樣式相關類型
 export interface NoteItemDisplayStyle {
+  container: string;
   icon: string;
   iconColor: string;
   bgColor: string;

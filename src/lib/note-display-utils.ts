@@ -1,3 +1,4 @@
+import { cn } from '@/lib/utils';
 import { NoteItemDisplayStyle, ParsedNoteItem } from '@/types';
 import { BulletSymbol } from './bullet-symbols';
 
@@ -9,33 +10,47 @@ import { BulletSymbol } from './bullet-symbols';
 export function getNoteItemDisplayStyle(
   item: ParsedNoteItem
 ): NoteItemDisplayStyle {
+  let style: Omit<NoteItemDisplayStyle, 'container'> = {
+    icon: '•',
+    iconColor: 'text-gray-600',
+    bgColor: 'bg-gray-50',
+    hoverBgColor: 'hover:bg-gray-100',
+    borderColor: 'border-gray-200',
+  };
   switch (item.type) {
     case 'task':
-      return {
+      style = {
         icon: '✓',
         iconColor: 'text-green-600',
         bgColor: 'bg-green-50',
         hoverBgColor: 'hover:bg-green-100',
         borderColor: 'border-green-200',
       };
+      break;
     case 'bullet':
-      return {
+      style = {
         icon: '○',
         iconColor: 'text-blue-600',
         bgColor: 'bg-blue-50',
         hoverBgColor: 'hover:bg-blue-100',
         borderColor: 'border-blue-200',
       };
+      break;
     case 'note':
     default:
-      return {
+      style = {
         icon: '•',
         iconColor: 'text-gray-600',
         bgColor: 'bg-gray-50',
         hoverBgColor: 'hover:bg-gray-100',
         borderColor: 'border-gray-200',
       };
+      break;
   }
+  return ({
+    ...style,
+    container: cn('group rounded-lg transition-colors border-l-4', style.bgColor, style.hoverBgColor, style.borderColor),
+  });
 }
 
 /**
