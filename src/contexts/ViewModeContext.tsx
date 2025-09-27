@@ -17,7 +17,7 @@ interface ViewModeProviderProps {
 }
 
 export const ViewModeProvider = ({ children }: ViewModeProviderProps) => {
-    const [viewMode, setViewMode] = useState<ViewMode>('single');
+    const [viewMode, setViewMode] = useState<ViewMode>(ViewMode.SINGLE);
 
     return (
         <ViewModeContext.Provider value={{ viewMode, setViewMode }}>

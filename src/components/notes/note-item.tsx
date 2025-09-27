@@ -2,7 +2,7 @@ import {
   getNoteItemDisplayStyle,
   getNoteItemTypeLabel,
 } from '@/lib/note-display-utils';
-import { NoteItemProps } from '@/types';
+import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
@@ -10,7 +10,7 @@ const NoteItemComponent = ({
   item,
   onDelete,
   onClick,
-  viewMode = 'single',
+  viewMode = ViewMode.SINGLE,
 }: NoteItemProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
   const displayStyle = getNoteItemDisplayStyle(item);
@@ -32,19 +32,19 @@ const NoteItemComponent = ({
   // 根據檢視模式決定樣式
   const getItemStyles = () => {
     switch (viewMode) {
-      case 'grid':
+      case ViewMode.GRID:
         return {
           container: `group flex flex-col space-y-2 p-2 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
           content: 'text-gray-800 text-xs leading-relaxed cursor-pointer',
           time: 'text-xs text-gray-400',
         };
-      case 'double':
+      case ViewMode.DOUBLE:
         return {
           container: `group flex items-start space-x-2 p-2 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
           content: 'text-gray-800 text-xs leading-relaxed cursor-pointer',
           time: 'text-xs text-gray-400',
         };
-      case 'single':
+      case ViewMode.SINGLE:
       default:
         return {
           container: `group flex items-start space-x-3 p-3 ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`,
@@ -56,7 +56,7 @@ const NoteItemComponent = ({
 
   const styles = getItemStyles();
 
-  if (viewMode === 'grid') {
+  if (viewMode === ViewMode.GRID) {
     return (
       <div className={styles.container}>
         <div className="flex items-center justify-between">

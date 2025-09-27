@@ -7,9 +7,9 @@ const ViewModeToggle = () => {
     const { viewMode, setViewMode } = useViewMode();
 
     const viewModes: { mode: ViewMode; label: string; icon: string }[] = [
-        { mode: 'single', label: '單欄式', icon: '≡' },
-        { mode: 'double', label: '雙欄式', icon: '⋮' },
-        { mode: 'grid', label: '網格式', icon: '⊞' },
+        { mode: ViewMode.SINGLE, label: '單欄式', icon: '≡' },
+        { mode: ViewMode.DOUBLE, label: '雙欄式', icon: '⋮' },
+        { mode: ViewMode.GRID, label: '網格式', icon: '⊞' },
     ];
 
     return (

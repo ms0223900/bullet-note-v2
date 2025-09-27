@@ -2,7 +2,11 @@
 export type NoteItemType = 'bullet' | 'task' | 'note';
 
 // 檢視模式相關類型
-export type ViewMode = 'single' | 'double' | 'grid';
+export enum ViewMode {
+  SINGLE = 'single',
+  DOUBLE = 'double',
+  GRID = 'grid',
+}
 
 export interface ParsedNoteItem {
   id: string;
