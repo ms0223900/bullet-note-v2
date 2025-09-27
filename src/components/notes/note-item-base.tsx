@@ -70,12 +70,10 @@ interface DeleteButtonProps {
 }
 
 const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => {
-	const { themeConfig } = useTheme();
-
 	return (
 		<button
 			onClick={onClick}
-			className={`${themeConfig.noteItem.text} hover:text-red-500 text-sm ${className}`}
+			className={`text-gray-400 hover:text-red-500 text-sm ${className}`}
 			title="刪除筆記"
 		>
 			×
@@ -96,24 +94,16 @@ export const NoteItemBase = ({
 	onClick,
 	onDeleteClick,
 }: NoteItemBaseProps) => {
-	const { themeConfig } = useTheme();
+	const { theme } = useTheme();
 	const typeLabel = getNoteItemTypeLabel(note);
-	const displayStyle = getNoteItemDisplayStyle(note);
+	const displayStyle = getNoteItemDisplayStyle(note, theme);
 	const styles = getNoteItemViewModeStyles(viewMode);
 
 	return (
-		<div
-			className={cn(
-				displayStyle.container,
-				styles.container,
-				themeConfig.noteItem.background,
-				themeConfig.noteItem.border,
-				themeConfig.noteItem.hover
-			)}
-		>
+		<div className={cn(displayStyle.container, styles.container)}>
 			<div className="flex-shrink-0 mt-1">
 				<span
-					className={`${STYLE_CONFIG.ICON_LARGE} ${themeConfig.noteItem.icon}`}
+					className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
 				>
 					{displayStyle.icon}
 				</span>
@@ -121,18 +111,18 @@ export const NoteItemBase = ({
 			<div className="flex-1 min-w-0">
 				<div className="flex items-center space-x-2 mb-1">
 					<span
-						className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${themeConfig.noteItem.icon} ${themeConfig.noteItem.background} border ${themeConfig.noteItem.border}`}
+						className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
 					>
 						{typeLabel}
 					</span>
 				</div>
 				<p
-					className={`${styles.content} ${themeConfig.noteItem.text}`}
+					className={`${styles.content} ${displayStyle.text}`}
 					onClick={onClick}
 				>
 					{note.content}
 				</p>
-				<p className={`${styles.time} ${themeConfig.noteItem.text} opacity-70`}>
+				<p className={`${styles.time} ${displayStyle.text} opacity-70`}>
 					{formatTimeFull(note.createdAt)}
 				</p>
 			</div>
@@ -149,8 +139,8 @@ export const NoteItemGrid = ({
 	onClick,
 	onDeleteClick,
 }: NoteItemBaseProps) => {
-	const { themeConfig } = useTheme();
-	const displayStyle = getNoteItemDisplayStyle(note);
+	const { theme } = useTheme();
+	const displayStyle = getNoteItemDisplayStyle(note, theme);
 	const typeLabel = getNoteItemTypeLabel(note);
 
 	const styles = getNoteItemViewModeStyles(viewMode);
@@ -161,18 +151,10 @@ export const NoteItemGrid = ({
 			: note.content;
 
 	return (
-		<div
-			className={cn(
-				displayStyle.container,
-				styles.container,
-				themeConfig.noteItem.background,
-				themeConfig.noteItem.border,
-				themeConfig.noteItem.hover
-			)}
-		>
+		<div className={cn(displayStyle.container, styles.container)}>
 			<div className="flex items-center justify-between">
 				<span
-					className={`${STYLE_CONFIG.ICON_SMALL} ${themeConfig.noteItem.icon}`}
+					className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}
 				>
 					{displayStyle.icon}
 				</span>
@@ -183,18 +165,18 @@ export const NoteItemGrid = ({
 			</div>
 			<div className="space-y-1">
 				<span
-					className={`${STYLE_CONFIG.TYPE_LABEL} ${themeConfig.noteItem.icon} ${themeConfig.noteItem.background} border ${themeConfig.noteItem.border}`}
+					className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
 				>
 					{typeLabel}
 				</span>
 				<p
-					className={`${styles.content} ${themeConfig.noteItem.text}`}
+					className={`${styles.content} ${displayStyle.text}`}
 					onClick={onClick}
 					title={note.content}
 				>
 					{truncatedContent}
 				</p>
-				<p className={`${styles.time} ${themeConfig.noteItem.text} opacity-70`}>
+				<p className={`${styles.time} ${displayStyle.text} opacity-70`}>
 					{formatTimeShort(note.createdAt)}
 				</p>
 			</div>

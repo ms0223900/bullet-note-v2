@@ -1,54 +1,34 @@
+import { getThemeConfig } from '@/constants/themes';
 import { cn } from '@/lib/utils';
-import { NoteItemDisplayStyle, ParsedNoteItem } from '@/types';
+import { NoteItemDisplayStyle, ParsedNoteItem, Theme } from '@/types';
 import { BulletSymbol } from './bullet-symbols';
 
 /**
- * 獲取筆記項目的顯示樣式
+ * 獲取筆記項目的顯示樣式（支援主題）
  * @param item 筆記項目
+ * @param theme 當前主題
  * @returns 顯示樣式配置
  */
 export function getNoteItemDisplayStyle(
-  item: ParsedNoteItem
+  item: ParsedNoteItem,
+  theme: Theme = Theme.MINIMAL
 ): NoteItemDisplayStyle {
-  let style: Omit<NoteItemDisplayStyle, 'container'> = {
-    icon: '•',
-    iconColor: 'text-gray-600',
-    bgColor: 'bg-gray-50',
-    hoverBgColor: 'hover:bg-gray-100',
-    borderColor: 'border-gray-200',
-  };
-  switch (item.type) {
-    case 'task':
-      style = {
-        icon: '✓',
-        iconColor: 'text-green-600',
-        bgColor: 'bg-green-50',
-        hoverBgColor: 'hover:bg-green-100',
-        borderColor: 'border-green-200',
-      };
-      break;
-    case 'bullet':
-      style = {
-        icon: '○',
-        iconColor: 'text-blue-600',
-        bgColor: 'bg-blue-50',
-        hoverBgColor: 'hover:bg-blue-100',
-        borderColor: 'border-blue-200',
-      };
-      break;
-    case 'note':
-    default:
-      break;
-  }
+  const themeConfig = getThemeConfig(theme);
+  const typeStyles = themeConfig.noteItem[item.type];
 
   return {
-    ...style,
     container: cn(
       'group rounded-lg transition-colors border-l-4',
-      style.bgColor,
-      style.hoverBgColor,
-      style.borderColor
+      typeStyles.background,
+      typeStyles.hover,
+      typeStyles.border
     ),
+    icon: typeStyles.icon,
+    iconColor: typeStyles.iconColor,
+    bgColor: typeStyles.background,
+    hoverBgColor: typeStyles.hover,
+    borderColor: typeStyles.border,
+    text: typeStyles.text,
   };
 }
 
@@ -84,4 +64,18 @@ export function getNoteItemSymbol(item: ParsedNoteItem): string {
     default:
       return BulletSymbol.Note;
   }
+}
+
+/**
+ * 獲取特定主題下特定類型的樣式
+ * @param theme 主題
+ * @param type 筆記類型
+ * @returns 該類型在該主題下的樣式
+ */
+export function getNoteItemTypeStyles(
+  theme: Theme,
+  type: ParsedNoteItem['type']
+) {
+  const themeConfig = getThemeConfig(theme);
+  return themeConfig.noteItem[type];
 }

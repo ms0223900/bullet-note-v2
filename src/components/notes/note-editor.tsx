@@ -164,7 +164,7 @@ export function NoteEditor({
 
       {/* 字數統計 */}
       <div
-        className={`mt-2 text-right text-sm ${themeConfig.noteItem.text} opacity-70`}
+        className={`mt-2 text-right text-sm ${themeConfig.noteItem.note.text} opacity-70`}
       >
         {content.length} 字元
       </div>

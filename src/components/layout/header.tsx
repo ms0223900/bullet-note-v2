@@ -11,12 +11,12 @@ export function Header() {
 
   return (
     <header
-      className={`sticky top-0 z-50 w-full border-b ${themeConfig.noteItem.background} backdrop-blur supports-[backdrop-filter]:bg-background/60`}
+      className={`sticky top-0 z-50 w-full border-b ${themeConfig.noteItem.note.background} backdrop-blur supports-[backdrop-filter]:bg-background/60`}
     >
       <div className="container flex h-14 items-center">
         <div className="mr-4 flex">
           <Link className="mr-6 flex items-center space-x-2" href="/">
-            <span className={`font-bold ${themeConfig.noteItem.text}`}>
+            <span className={`font-bold ${themeConfig.noteItem.note.text}`}>
               Bullet Note v2
             </span>
           </Link>

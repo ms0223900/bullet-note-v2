@@ -64,11 +64,11 @@ export default function NotesPage() {
             {/* 頁面標題 */}
             <div className="mb-8">
               <h1
-                className={`text-3xl font-bold mb-2 ${themeConfig.noteItem.text}`}
+                className={`text-3xl font-bold mb-2 ${themeConfig.noteItem.note.text}`}
               >
                 筆記編輯器
               </h1>
-              <p className={`${themeConfig.noteItem.text} opacity-70`}>
+              <p className={`${themeConfig.noteItem.note.text} opacity-70`}>
                 這是個子彈筆記的文字編輯區塊，提供快速記錄想法、任務和筆記的專業環境
               </p>
             </div>
@@ -112,17 +112,17 @@ export default function NotesPage() {
 
             {/* 使用說明 */}
             <div
-              className={`${themeConfig.background.secondary} border ${themeConfig.noteItem.border} rounded-lg p-4`}
+              className={`${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-4`}
             >
               <h3
-                className={`text-lg font-semibold mb-3 ${themeConfig.noteItem.text}`}
+                className={`text-lg font-semibold mb-3 ${themeConfig.noteItem.note.text}`}
               >
                 使用說明
               </h3>
               <div className="space-y-4">
                 <div>
                   <div
-                    className={`text-sm mb-2 ${themeConfig.noteItem.text} opacity-80`}
+                    className={`text-sm mb-2 ${themeConfig.noteItem.note.text} opacity-80`}
                   >
                     子彈筆記規則
                   </div>

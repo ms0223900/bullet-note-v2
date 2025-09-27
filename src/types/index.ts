@@ -1,6 +1,16 @@
 // 筆記分類相關類型
 export type NoteItemType = 'bullet' | 'task' | 'note';
 
+// 筆記項目類型樣式
+export interface NoteItemTypeStyles {
+  background: string;
+  border: string;
+  hover: string;
+  text: string;
+  icon: string;
+  iconColor: string;
+}
+
 // 檢視模式相關類型
 export enum ViewMode {
   SINGLE = 'single',
@@ -36,13 +46,7 @@ export interface ThemeConfig {
     text: string;
     placeholder: string;
   };
-  noteItem: {
-    background: string;
-    border: string;
-    hover: string;
-    text: string;
-    icon: string;
-  };
+  noteItem: Record<NoteItemType, NoteItemTypeStyles>;
   image?: {
     src: string;
     alt: string;
@@ -71,6 +75,7 @@ export interface NoteItemDisplayStyle {
   bgColor: string;
   hoverBgColor: string;
   borderColor: string;
+  text: string;
 }
 
 // 分組筆記相關類型

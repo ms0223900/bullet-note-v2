@@ -3,13 +3,13 @@ import { ViewModeProvider } from '@/contexts/ViewModeContext';
 import { ReactNode } from 'react';
 
 interface MockProvidersProps {
-    children: ReactNode;
+  children: ReactNode;
 }
 
 export function MockProviders({ children }: MockProvidersProps) {
-    return (
-        <ThemeProvider>
-            <ViewModeProvider>{children}</ViewModeProvider>
-        </ThemeProvider>
-    );
+  return (
+    <ThemeProvider>
+      <ViewModeProvider>{children}</ViewModeProvider>
+    </ThemeProvider>
+  );
 }
