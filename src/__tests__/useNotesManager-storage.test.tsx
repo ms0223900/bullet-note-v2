@@ -5,25 +5,15 @@ import { MockStorageAdapter } from './mocks/mock-storage-adapter';
 
 // Create a global mock adapter instance
 const globalMockAdapter = new MockStorageAdapter();
-const createStorageMock = jest.fn();
-
-// Mock the storage factory to return our mock adapter
-jest.mock('@/lib/storage', () => ({
-  StorageFactory: {
-    createStorage: () => createStorageMock(),
-  },
-  StorageType: {
-    LOCAL_STORAGE: 'localStorage',
-  },
-}));
 
 describe('useNotesManager with Storage Integration', () => {
   beforeEach(() => {
     // Clear the mock adapter state
-    createStorageMock.mockReturnValue(globalMockAdapter);
+    // createStorageMock.mockReturnValue(globalMockAdapter);
     globalMockAdapter.clearAll();
     jest.clearAllMocks();
   });
+
 
   it('should load data from storage on initialization', async () => {
     const mockNotes: ParsedNoteItem[] = [
@@ -39,7 +29,7 @@ describe('useNotesManager with Storage Integration', () => {
     globalMockAdapter.setStoredNotes(mockNotes);
     globalMockAdapter.setStoredEditorContent(mockEditorContent);
 
-    const { result } = renderHook(() => useNotesManager());
+    const { result } = await whenRenderHook();
 
     // Wait for async operations to complete
     await act(async () => {
@@ -96,7 +86,7 @@ describe('useNotesManager with Storage Integration', () => {
   });
 
   it('should clear editor content from storage when clearEditor is called', async () => {
-    const { result } = renderHook(() => useNotesManager());
+    const { result } = await whenRenderHook();
 
     await act(async () => {
       await result.current.clearEditor();
@@ -107,7 +97,7 @@ describe('useNotesManager with Storage Integration', () => {
   });
 
   it('should clear all data from storage when clearAllData is called', async () => {
-    const { result } = renderHook(() => useNotesManager());
+    const { result } = await whenRenderHook();
 
     // First add some data
     const testNote: ParsedNoteItem = {
@@ -135,15 +125,14 @@ describe('useNotesManager with Storage Integration', () => {
 
   it('should handle storage errors gracefully during initialization', async () => {
     // Create a mock adapter that throws errors
-    const errorAdapter = new MockStorageAdapter();
     jest
-      .spyOn(errorAdapter, 'loadNotes')
-      .mockRejectedValue(new Error('Storage error'));
+      .spyOn(MockStorageAdapter.prototype, 'loadNotes')
+      .mockRejectedValueOnce(new Error('Storage error'));
 
     // Mock the factory to return the error adapter
-    createStorageMock.mockReturnValueOnce(errorAdapter);
+    // createStorageMock.mockReturnValueOnce(errorAdapter);
 
-    const { result } = renderHook(() => useNotesManager());
+    const { result } = await whenRenderHook();
 
     // Wait for async operations to complete
     await act(async () => {
@@ -187,7 +176,7 @@ describe('useNotesManager with Storage Integration', () => {
 
   async function whenRenderHook() {
     return await act(async () => {
-      return renderHook(() => useNotesManager());
+      return renderHook(() => useNotesManager(globalMockAdapter));
     });
   }
 });

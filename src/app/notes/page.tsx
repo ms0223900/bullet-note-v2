@@ -10,6 +10,7 @@ import { LoadingSpinner } from '@/components/ui/loading-spinner';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
 import { parseNoteContent } from '@/lib/note-parser';
+import { StorageFactory, StorageType } from '@/lib/storage';
 import { groupSavedNotesByLocalDay } from '@/lib/utils';
 import { useCallback, useMemo } from 'react';
 
@@ -24,7 +25,7 @@ export default function NotesPage() {
     deleteItem,
     clickItem,
     clearError,
-  } = useNotesManager();
+  } = useNotesManager(StorageFactory.createStorage(StorageType.LOCAL_STORAGE));
 
   const hasNotes = hasNoteItems(editorContent);
 

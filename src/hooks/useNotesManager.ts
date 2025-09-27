@@ -1,4 +1,4 @@
-import { StorageAdapter, StorageFactory, StorageType } from '@/lib/storage';
+import { StorageAdapter } from '@/lib/storage';
 import { AppError, ParsedNoteItem, UseNotesManagerReturn } from '@/types';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -7,17 +7,13 @@ import { useCallback, useEffect, useState } from 'react';
  * 負責管理編輯器內容、確認的分類和已保存的筆記
  */
 export const useNotesManager = (
-  storageType: StorageType = StorageType.LOCAL_STORAGE
+  storage: StorageAdapter
 ): UseNotesManagerReturn => {
   const [editorContent, setEditorContent] = useState('');
   const [savedNotes, setSavedNotes] = useState<ParsedNoteItem[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<AppError | null>(null);
-  const [storage] = useState<StorageAdapter>(() =>
-    StorageFactory.createStorage(storageType)
-  );
 
-  // 初始化時從儲存載入資料
   useEffect(() => {
     const loadInitialData = async () => {
       try {
@@ -45,7 +41,6 @@ export const useNotesManager = (
     loadInitialData();
   }, [storage]);
 
-  // 當 savedNotes 變更時自動儲存
   useEffect(() => {
     if (savedNotes.length > 0) {
       storage.saveNotes(savedNotes).catch((err: unknown) => {
@@ -58,7 +53,6 @@ export const useNotesManager = (
     }
   }, [savedNotes, storage]);
 
-  // 當 editorContent 變更時自動儲存
   useEffect(() => {
     storage.saveEditorContent(editorContent).catch((err: unknown) => {
       setError({
