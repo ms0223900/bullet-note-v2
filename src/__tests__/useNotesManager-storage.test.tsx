@@ -14,7 +14,6 @@ describe('useNotesManager with Storage Integration', () => {
     jest.clearAllMocks();
   });
 
-
   it('should load data from storage on initialization', async () => {
     const mockNotes: ParsedNoteItem[] = [
       {
