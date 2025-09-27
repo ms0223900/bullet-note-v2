@@ -38,18 +38,17 @@ export function getNoteItemDisplayStyle(
       break;
     case 'note':
     default:
-      style = {
-        icon: '•',
-        iconColor: 'text-gray-600',
-        bgColor: 'bg-gray-50',
-        hoverBgColor: 'hover:bg-gray-100',
-        borderColor: 'border-gray-200',
-      };
       break;
   }
+
   return ({
     ...style,
-    container: cn('group rounded-lg transition-colors border-l-4', style.bgColor, style.hoverBgColor, style.borderColor),
+    container: cn(
+      'group rounded-lg transition-colors border-l-4',
+      style.bgColor,
+      style.hoverBgColor,
+      style.borderColor
+    ),
   });
 }
 
