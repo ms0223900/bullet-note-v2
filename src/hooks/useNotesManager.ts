@@ -39,7 +39,7 @@ export const useNotesManager = (
     };
 
     loadInitialData();
-  }, [storage]);
+  }, []);
 
   useEffect(() => {
     if (savedNotes.length > 0) {
@@ -51,7 +51,7 @@ export const useNotesManager = (
         });
       });
     }
-  }, [savedNotes, storage]);
+  }, [savedNotes]);
 
   useEffect(() => {
     storage.saveEditorContent(editorContent).catch((err: unknown) => {
