@@ -6,6 +6,12 @@ import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
+interface NoteItemViewModeStyles {
+  container: string;
+  content: string;
+  time: string;
+}
+
 // Style configuration constants
 const STYLE_CONFIG = {
   DELETE_BUTTON: 'text-gray-400 hover:text-red-500 text-sm',
@@ -71,7 +77,7 @@ const NoteItemComponent = ({
   }, []);
 
   // 根據檢視模式決定樣式
-  const getItemStyles = () => {
+  const getItemStyles = (): NoteItemViewModeStyles => {
     const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
 
     switch (viewMode) {
