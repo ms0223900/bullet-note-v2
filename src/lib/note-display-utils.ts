@@ -41,7 +41,7 @@ export function getNoteItemDisplayStyle(
       break;
   }
 
-  return ({
+  return {
     ...style,
     container: cn(
       'group rounded-lg transition-colors border-l-4',
@@ -49,7 +49,7 @@ export function getNoteItemDisplayStyle(
       style.hoverBgColor,
       style.borderColor
     ),
-  });
+  };
 }
 
 /**

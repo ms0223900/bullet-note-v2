@@ -1,14 +1,24 @@
+'use client';
+
 import { Button } from '@/components/ui/button';
+import { ThemeToggle } from '@/components/ui/theme-toggle';
+import { useTheme } from '@/contexts/ThemeContext';
 import { Menu, Plus, Search, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export function Header() {
+  const { themeConfig } = useTheme();
+
   return (
-    <header className="sticky top-0 z-50 w-full border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <header
+      className={`sticky top-0 z-50 w-full border-b ${themeConfig.noteItem.background} backdrop-blur supports-[backdrop-filter]:bg-background/60`}
+    >
       <div className="container flex h-14 items-center">
         <div className="mr-4 flex">
           <Link className="mr-6 flex items-center space-x-2" href="/">
-            <span className="font-bold">Bullet Note v2</span>
+            <span className={`font-bold ${themeConfig.noteItem.text}`}>
+              Bullet Note v2
+            </span>
           </Link>
         </div>
         <div className="flex flex-1 items-center justify-between space-x-2 md:justify-end">
@@ -22,6 +32,7 @@ export function Header() {
             <Button variant="ghost" size="sm">
               <Plus className="h-4 w-4" />
             </Button>
+            <ThemeToggle />
             <Button variant="ghost" size="sm">
               <Settings className="h-4 w-4" />
             </Button>

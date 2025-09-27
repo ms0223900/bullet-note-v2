@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/ThemeContext';
 import { cn } from '@/lib/utils';
 import { cva, type VariantProps } from 'class-variance-authority';
 import * as React from 'react';
@@ -33,15 +34,37 @@ const buttonVariants = cva(
 
 export interface ButtonProps
   extends React.ButtonHTMLAttributes<HTMLButtonElement>,
-    VariantProps<typeof buttonVariants> {
+  VariantProps<typeof buttonVariants> {
   asChild?: boolean;
 }
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant, size, ...props }, ref) => {
+    const { themeConfig } = useTheme();
+
+    // 根據主題動態生成按鈕樣式
+    const getThemeButtonClass = () => {
+      switch (variant) {
+        case 'default':
+          return themeConfig.button.primary;
+        case 'secondary':
+          return themeConfig.button.secondary;
+        case 'outline':
+          return themeConfig.button.secondary;
+        case 'ghost':
+          return themeConfig.button.hover;
+        default:
+          return themeConfig.button.primary;
+      }
+    };
+
     return (
       <button
-        className={cn(buttonVariants({ variant, size, className }))}
+        className={cn(
+          buttonVariants({ variant, size }),
+          getThemeButtonClass(),
+          className
+        )}
         ref={ref}
         {...props}
       />

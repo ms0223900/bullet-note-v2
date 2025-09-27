@@ -1,5 +1,6 @@
 'use client';
 
+import { useTheme } from '@/contexts/ThemeContext';
 import { BULLET_SYMBOLS } from '@/lib/bullet-symbols';
 import { useRef, useState } from 'react';
 import { SymbolInsertionButton } from './symbol-insertion-button';
@@ -19,6 +20,7 @@ export function NoteEditor({
   onContentChange,
   placeholder = '開始輸入您的筆記...',
 }: NoteEditorProps) {
+  const { themeConfig } = useTheme();
   const [internalContent, setInternalContent] = useState(initialContent);
 
   // 使用外部內容或內部內容
@@ -143,14 +145,16 @@ export function NoteEditor({
         <SymbolInsertionButton onSymbolInsert={handleSymbolInsert} />
       </div>
 
-      <div className="bg-gray-100 border border-gray-300 rounded-lg shadow-sm">
+      <div
+        className={`${themeConfig.input.background} border ${themeConfig.input.border} rounded-lg shadow-sm`}
+      >
         <textarea
           ref={textareaRef}
           value={content}
           onChange={handleContentChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className="w-full h-48 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 text-gray-800 placeholder-gray-500 font-mono text-sm leading-relaxed cursor-custom"
+          className={`w-full h-48 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 ${themeConfig.input.text} ${themeConfig.input.placeholder} font-mono text-sm leading-relaxed cursor-custom`}
           style={{
             fontFamily:
               'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
@@ -159,7 +163,9 @@ export function NoteEditor({
       </div>
 
       {/* 字數統計 */}
-      <div className="mt-2 text-right text-sm text-gray-500">
+      <div
+        className={`mt-2 text-right text-sm ${themeConfig.noteItem.text} opacity-70`}
+      >
         {content.length} 字元
       </div>
     </div>

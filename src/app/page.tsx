@@ -1,17 +1,30 @@
+'use client';
+
 import { Header } from '@/components/layout/header';
 import { Button } from '@/components/ui/button';
+import { ThemeImage } from '@/components/ui/theme-image';
+import { useTheme } from '@/contexts/ThemeContext';
 import { FileText, Plus, Search, Settings } from 'lucide-react';
 import Link from 'next/link';
 
 export default function Home() {
+  const { themeConfig } = useTheme();
+
   return (
-    <div className="min-h-screen bg-background">
+    <div className={`min-h-screen ${themeConfig.background.primary} relative`}>
       <Header />
+      <ThemeImage />
       <main className="container mx-auto px-4 py-8">
         <div className="max-w-4xl mx-auto">
           <div className="text-center mb-12">
-            <h1 className="text-4xl font-bold mb-4">歡迎使用 Bullet Note v2</h1>
-            <p className="text-lg text-muted-foreground mb-8">
+            <h1
+              className={`text-4xl font-bold mb-4 ${themeConfig.noteItem.text}`}
+            >
+              歡迎使用 Bullet Note v2
+            </h1>
+            <p
+              className={`text-lg mb-8 ${themeConfig.noteItem.text} opacity-80`}
+            >
               一個現代化的筆記應用程式，使用 Next.js 15、TypeScript 和 Tailwind
               CSS 建構
             </p>
@@ -24,54 +37,106 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
-            <div className="p-6 border rounded-lg bg-card">
-              <FileText className="h-8 w-8 mb-4 text-primary" />
-              <h3 className="text-lg font-semibold mb-2">快速筆記</h3>
-              <p className="text-muted-foreground">
+            <div
+              className={`p-6 border rounded-lg ${themeConfig.noteItem.background} ${themeConfig.noteItem.border}`}
+            >
+              <FileText
+                className={`h-8 w-8 mb-4 ${themeConfig.noteItem.icon}`}
+              />
+              <h3
+                className={`text-lg font-semibold mb-2 ${themeConfig.noteItem.text}`}
+              >
+                快速筆記
+              </h3>
+              <p className={`${themeConfig.noteItem.text} opacity-70`}>
                 快速建立和編輯筆記，支援 Markdown 格式
               </p>
             </div>
-            <div className="p-6 border rounded-lg bg-card">
-              <Search className="h-8 w-8 mb-4 text-primary" />
-              <h3 className="text-lg font-semibold mb-2">智能搜尋</h3>
-              <p className="text-muted-foreground">
+            <div
+              className={`p-6 border rounded-lg ${themeConfig.noteItem.background} ${themeConfig.noteItem.border}`}
+            >
+              <Search className={`h-8 w-8 mb-4 ${themeConfig.noteItem.icon}`} />
+              <h3
+                className={`text-lg font-semibold mb-2 ${themeConfig.noteItem.text}`}
+              >
+                智能搜尋
+              </h3>
+              <p className={`${themeConfig.noteItem.text} opacity-70`}>
                 強大的搜尋功能，快速找到您需要的筆記
               </p>
             </div>
-            <div className="p-6 border rounded-lg bg-card">
-              <Settings className="h-8 w-8 mb-4 text-primary" />
-              <h3 className="text-lg font-semibold mb-2">個人化設定</h3>
-              <p className="text-muted-foreground">
+            <div
+              className={`p-6 border rounded-lg ${themeConfig.noteItem.background} ${themeConfig.noteItem.border}`}
+            >
+              <Settings
+                className={`h-8 w-8 mb-4 ${themeConfig.noteItem.icon}`}
+              />
+              <h3
+                className={`text-lg font-semibold mb-2 ${themeConfig.noteItem.text}`}
+              >
+                個人化設定
+              </h3>
+              <p className={`${themeConfig.noteItem.text} opacity-70`}>
                 自訂主題、字體大小和其他個人偏好設定
               </p>
             </div>
           </div>
 
-          <div className="bg-muted/50 rounded-lg p-8 text-center">
-            <h2 className="text-2xl font-semibold mb-4">開始使用</h2>
-            <p className="text-muted-foreground mb-6">
+          <div
+            className={`${themeConfig.background.secondary} rounded-lg p-8 text-center`}
+          >
+            <h2
+              className={`text-2xl font-semibold mb-4 ${themeConfig.noteItem.text}`}
+            >
+              開始使用
+            </h2>
+            <p className={`mb-6 ${themeConfig.noteItem.text} opacity-70`}>
               專案已經配置完成，包含以下技術棧：
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4 text-sm">
-              <div className="bg-background p-3 rounded border">
-                <strong>Next.js 15</strong>
+              <div
+                className={`${themeConfig.noteItem.background} p-3 rounded border ${themeConfig.noteItem.border}`}
+              >
+                <strong className={themeConfig.noteItem.text}>
+                  Next.js 15
+                </strong>
                 <br />
-                React 框架
+                <span className={`${themeConfig.noteItem.text} opacity-70`}>
+                  React 框架
+                </span>
               </div>
-              <div className="bg-background p-3 rounded border">
-                <strong>TypeScript</strong>
+              <div
+                className={`${themeConfig.noteItem.background} p-3 rounded border ${themeConfig.noteItem.border}`}
+              >
+                <strong className={themeConfig.noteItem.text}>
+                  TypeScript
+                </strong>
                 <br />
-                類型安全
+                <span className={`${themeConfig.noteItem.text} opacity-70`}>
+                  類型安全
+                </span>
               </div>
-              <div className="bg-background p-3 rounded border">
-                <strong>Tailwind CSS</strong>
+              <div
+                className={`${themeConfig.noteItem.background} p-3 rounded border ${themeConfig.noteItem.border}`}
+              >
+                <strong className={themeConfig.noteItem.text}>
+                  Tailwind CSS
+                </strong>
                 <br />
-                樣式框架
+                <span className={`${themeConfig.noteItem.text} opacity-70`}>
+                  樣式框架
+                </span>
               </div>
-              <div className="bg-background p-3 rounded border">
-                <strong>ESLint + Prettier</strong>
+              <div
+                className={`${themeConfig.noteItem.background} p-3 rounded border ${themeConfig.noteItem.border}`}
+              >
+                <strong className={themeConfig.noteItem.text}>
+                  ESLint + Prettier
+                </strong>
                 <br />
-                代碼品質
+                <span className={`${themeConfig.noteItem.text} opacity-70`}>
+                  代碼品質
+                </span>
               </div>
             </div>
           </div>

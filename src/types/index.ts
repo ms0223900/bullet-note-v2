@@ -8,6 +8,53 @@ export enum ViewMode {
   GRID = 'grid',
 }
 
+// 主題相關類型
+export enum Theme {
+  MINIMAL = 'minimal',
+  COLORFUL = 'colorful',
+  GLASS = 'glass',
+}
+
+export interface ThemeConfig {
+  name: string;
+  description: string;
+  background: {
+    primary: string;
+    secondary: string;
+    accent: string;
+  };
+  button: {
+    primary: string;
+    secondary: string;
+    hover: string;
+    text: string;
+  };
+  input: {
+    background: string;
+    border: string;
+    focus: string;
+    text: string;
+    placeholder: string;
+  };
+  noteItem: {
+    background: string;
+    border: string;
+    hover: string;
+    text: string;
+    icon: string;
+  };
+  image?: {
+    src: string;
+    alt: string;
+    position:
+    | 'top-left'
+    | 'top-right'
+    | 'bottom-left'
+    | 'bottom-right'
+    | 'center';
+  };
+}
+
 export interface ParsedNoteItem {
   id: string;
   content: string;

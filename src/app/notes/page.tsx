@@ -7,6 +7,8 @@ import { NotesList } from '@/components/notes/notes-list';
 import { UsageTips } from '@/components/notes/usage-tips';
 import { ErrorAlert } from '@/components/ui/error-alert';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
+import { ThemeImage } from '@/components/ui/theme-image';
+import { useTheme } from '@/contexts/ThemeContext';
 import { ViewModeProvider } from '@/contexts/ViewModeContext';
 import { useNotesManager } from '@/hooks/useNotesManager';
 import { hasNoteItems } from '@/lib/bullet-symbols';
@@ -16,6 +18,7 @@ import { groupSavedNotesByLocalDay } from '@/lib/utils';
 import { useCallback, useMemo } from 'react';
 
 export default function NotesPage() {
+  const { themeConfig } = useTheme();
   const {
     editorContent,
     savedNotes,
@@ -52,13 +55,20 @@ export default function NotesPage() {
 
   return (
     <ViewModeProvider>
-      <div className="min-h-screen bg-white">
+      <div
+        className={`min-h-screen ${themeConfig.background.primary} relative`}
+      >
+        <ThemeImage />
         <div className="container mx-auto px-4 py-8">
           <div className="max-w-4xl mx-auto">
             {/* 頁面標題 */}
             <div className="mb-8">
-              <h1 className="text-3xl font-bold text-black mb-2">筆記編輯器</h1>
-              <p className="text-gray-600">
+              <h1
+                className={`text-3xl font-bold mb-2 ${themeConfig.noteItem.text}`}
+              >
+                筆記編輯器
+              </h1>
+              <p className={`${themeConfig.noteItem.text} opacity-70`}>
                 這是個子彈筆記的文字編輯區塊，提供快速記錄想法、任務和筆記的專業環境
               </p>
             </div>
@@ -101,13 +111,21 @@ export default function NotesPage() {
             />
 
             {/* 使用說明 */}
-            <div className="bg-blue-50 border border-blue-200 rounded-lg p-4">
-              <h3 className="text-lg font-semibold text-blue-800 mb-3">
+            <div
+              className={`${themeConfig.background.secondary} border ${themeConfig.noteItem.border} rounded-lg p-4`}
+            >
+              <h3
+                className={`text-lg font-semibold mb-3 ${themeConfig.noteItem.text}`}
+              >
                 使用說明
               </h3>
               <div className="space-y-4">
                 <div>
-                  <div className="text-sm text-blue-900 mb-2">子彈筆記規則</div>
+                  <div
+                    className={`text-sm mb-2 ${themeConfig.noteItem.text} opacity-80`}
+                  >
+                    子彈筆記規則
+                  </div>
                   <BulletRulesTable />
                 </div>
                 <UsageTips />

@@ -30,3 +30,6 @@ export const NOTE_STATUS = {
   ARCHIVED: 'archived',
   DELETED: 'deleted',
 } as const;
+
+// 匯出主題相關常數
+export * from './themes';

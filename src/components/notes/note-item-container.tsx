@@ -1,4 +1,3 @@
-
 import { NoteItemBase, NoteItemGrid } from '@/components/notes/note-item-base';
 import { NoteItemProps, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
@@ -25,7 +24,8 @@ const NoteItemContainerComponent = ({
     setShowDeleteDialog(false);
   }, []);
 
-  const NoteComponent = viewMode === ViewMode.GRID ? NoteItemGrid : NoteItemBase;
+  const NoteComponent =
+    viewMode === ViewMode.GRID ? NoteItemGrid : NoteItemBase;
 
   return (
     <div>
@@ -45,15 +45,19 @@ const NoteItemContainerComponent = ({
   );
 };
 
-export const NoteItemContainer = memo(NoteItemContainerComponent, (prevProps, nextProps) => {
-  return (
-    prevProps.item.id === nextProps.item.id &&
-    prevProps.item.content === nextProps.item.content &&
-    prevProps.item.type === nextProps.item.type &&
-    prevProps.item.isCompleted === nextProps.item.isCompleted &&
-    prevProps.item.createdAt.getTime() === nextProps.item.createdAt.getTime() &&
-    prevProps.viewMode === nextProps.viewMode &&
-    prevProps.onDelete === nextProps.onDelete &&
-    prevProps.onClick === nextProps.onClick
-  );
-});
+export const NoteItemContainer = memo(
+  NoteItemContainerComponent,
+  (prevProps, nextProps) => {
+    return (
+      prevProps.item.id === nextProps.item.id &&
+      prevProps.item.content === nextProps.item.content &&
+      prevProps.item.type === nextProps.item.type &&
+      prevProps.item.isCompleted === nextProps.item.isCompleted &&
+      prevProps.item.createdAt.getTime() ===
+        nextProps.item.createdAt.getTime() &&
+      prevProps.viewMode === nextProps.viewMode &&
+      prevProps.onDelete === nextProps.onDelete &&
+      prevProps.onClick === nextProps.onClick
+    );
+  }
+);

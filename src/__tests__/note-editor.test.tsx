@@ -1,6 +1,7 @@
 import { NoteEditor } from '@/components/notes/note-editor';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
+import { MockProviders } from './mocks/mock-theme-provider';
 
 describe('NoteEditor', () => {
   const mockOnContentChange = jest.fn();
@@ -10,7 +11,11 @@ describe('NoteEditor', () => {
   });
 
   it('should render with default placeholder', () => {
-    render(<NoteEditor />);
+    render(
+      <MockProviders>
+        <NoteEditor />
+      </MockProviders>
+    );
 
     const textarea = screen.getByPlaceholderText('開始輸入您的筆記...');
     expect(textarea).toBeInTheDocument();
@@ -18,7 +23,11 @@ describe('NoteEditor', () => {
 
   it('should render with custom placeholder', () => {
     const customPlaceholder = '請輸入您的內容...';
-    render(<NoteEditor placeholder={customPlaceholder} />);
+    render(
+      <MockProviders>
+        <NoteEditor placeholder={customPlaceholder} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByPlaceholderText(customPlaceholder);
     expect(textarea).toBeInTheDocument();
@@ -26,7 +35,11 @@ describe('NoteEditor', () => {
 
   it('should render with initial content', () => {
     const initialContent = '這是初始內容';
-    render(<NoteEditor initialContent={initialContent} />);
+    render(
+      <MockProviders>
+        <NoteEditor initialContent={initialContent} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByDisplayValue(initialContent);
     expect(textarea).toBeInTheDocument();
@@ -34,7 +47,11 @@ describe('NoteEditor', () => {
 
   it('should call onContentChange when text is typed', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    render(
+      <MockProviders>
+        <NoteEditor onContentChange={mockOnContentChange} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     await user.type(textarea, '測試內容');
@@ -44,14 +61,22 @@ describe('NoteEditor', () => {
 
   it('should display character count', () => {
     const content = '測試內容';
-    render(<NoteEditor initialContent={content} />);
+    render(
+      <MockProviders>
+        <NoteEditor initialContent={content} />
+      </MockProviders>
+    );
 
     expect(screen.getByText(`${content.length} 字元`)).toBeInTheDocument();
   });
 
   it('should update character count when content changes', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor />);
+    render(
+      <MockProviders>
+        <NoteEditor />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     await user.type(textarea, '新內容');
@@ -60,7 +85,11 @@ describe('NoteEditor', () => {
   });
 
   it('should render symbol insertion button', () => {
-    render(<NoteEditor />);
+    render(
+      <MockProviders>
+        <NoteEditor />
+      </MockProviders>
+    );
 
     expect(screen.getByText('•')).toBeInTheDocument();
     expect(screen.getByText('O')).toBeInTheDocument();
@@ -69,7 +98,11 @@ describe('NoteEditor', () => {
 
   it('should insert symbol at line start when no symbol exists', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    render(
+      <MockProviders>
+        <NoteEditor onContentChange={mockOnContentChange} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     await user.type(textarea, '測試行');
@@ -83,7 +116,11 @@ describe('NoteEditor', () => {
 
   it('should replace existing symbol when line already has symbol', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    render(
+      <MockProviders>
+        <NoteEditor onContentChange={mockOnContentChange} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     await user.type(textarea, '• 測試行');
@@ -97,7 +134,11 @@ describe('NoteEditor', () => {
 
   it('should handle multiple lines correctly', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    render(
+      <MockProviders>
+        <NoteEditor onContentChange={mockOnContentChange} />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
 
@@ -118,7 +159,11 @@ describe('NoteEditor', () => {
   });
 
   it('should have correct textarea styling', () => {
-    render(<NoteEditor />);
+    render(
+      <MockProviders>
+        <NoteEditor />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     expect(textarea).toHaveClass('w-full', 'h-48', 'p-6', 'resize-none');
@@ -126,7 +171,11 @@ describe('NoteEditor', () => {
 
   it('should be focusable', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor />);
+    render(
+      <MockProviders>
+        <NoteEditor />
+      </MockProviders>
+    );
 
     const textarea = screen.getByRole('textbox');
     await user.click(textarea);

@@ -23,7 +23,7 @@ export function SymbolInsertionButton({
           onClick={() => onSymbolInsert(symbol)}
           variant="outline"
           size="sm"
-          className="flex-1 h-8 text-base font-normal hover:bg-gray-100 hover:scale-105 active:bg-gray-200 active:scale-95 transition-all duration-200 border border-gray-300 rounded-md bg-white"
+          className="flex-1 h-8 text-base font-normal hover:scale-105 active:scale-95 transition-all duration-200"
           title={label}
           data-testid={`symbol-${symbol}-insertion-button`}
         >

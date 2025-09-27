@@ -17,7 +17,9 @@ export function ConfirmButton({
     <Button
       onClick={onClick}
       disabled={disabled}
-      className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+      variant="default"
+      size="lg"
+      className="px-6 py-2 rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
     >
       {children}
     </Button>
