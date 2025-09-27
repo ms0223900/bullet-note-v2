@@ -1,4 +1,5 @@
 import { MockStorageAdapter } from '@/__tests__/mocks/mock-storage-adapter';
+import { MockProviders } from '@/__tests__/mocks/mock-theme-provider';
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
@@ -38,7 +39,11 @@ describe('Task and Event Category Features', () => {
 
   async function whenRender() {
     return await act(async () => {
-      render(<NotesPage />);
+      render(
+        <MockProviders>
+          <NotesPage />
+        </MockProviders>
+      );
     });
   }
 

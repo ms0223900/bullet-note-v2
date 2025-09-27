@@ -1,7 +1,8 @@
+import { MockProviders } from '@/__tests__/mocks/mock-theme-provider';
 import NotesPage from '@/app/notes/page';
 import { BulletSymbol } from '@/lib/bullet-symbols';
 import '@testing-library/jest-dom';
-import { render, screen, waitFor } from '@testing-library/react';
+import { act, render, screen, waitFor } from '@testing-library/react';
 import userEvent, { UserEvent } from '@testing-library/user-event';
 
 // Mock Next.js router
@@ -21,6 +22,16 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
     jest.clearAllMocks();
   });
 
+  async function whenRender() {
+    return await act(async () => {
+      render(
+        <MockProviders>
+          <NotesPage />
+        </MockProviders>
+      );
+    });
+  }
+
   function whenClickSymbolButton(user: UserEvent, symbol: BulletSymbol) {
     const button = screen.getByTestId(`symbol-${symbol}-insertion-button`);
     return user.click(button);
@@ -28,7 +39,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should enable confirm button after clicking dash button and typing text', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -62,7 +73,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should handle multiple lines with dash button', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -94,7 +105,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should handle mixed content with dash button', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -131,7 +142,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should not enable confirm button if only dash symbol without text', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const confirmButton = screen.getByText('確認筆記分類');
 
@@ -147,7 +158,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should handle rapid clicking and typing', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');
@@ -168,7 +179,7 @@ describe('Dash Button Scenario - 點擊「-」按鈕後輸入文字', () => {
 
   it('should handle all symbol types correctly', async () => {
     const user = userEvent.setup();
-    render(<NotesPage />);
+    await whenRender();
 
     const textarea = screen.getByPlaceholderText(/在這裡輸入您的想法/);
     const confirmButton = screen.getByText('確認筆記分類');

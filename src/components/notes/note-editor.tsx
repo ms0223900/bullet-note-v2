@@ -5,7 +5,7 @@ import { BULLET_SYMBOLS } from '@/lib/bullet-symbols';
 import { useRef, useState } from 'react';
 import { SymbolInsertionButton } from './symbol-insertion-button';
 
-interface NoteEditorProps {
+export interface NoteEditorProps {
   initialContent?: string;
   content?: string; // 新增外部控制的內容
   onConfirm?: () => void;

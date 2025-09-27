@@ -1,13 +1,26 @@
-import { NoteEditor } from '@/components/notes/note-editor';
+import { MockProviders } from '@/__tests__/mocks/mock-theme-provider';
+import { NoteEditor, NoteEditorProps } from '@/components/notes/note-editor';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 
+const mockOnContentChange = jest.fn();
+
 describe('NoteEditor Integration Tests', () => {
+  beforeEach(() => {
+    mockOnContentChange.mockClear();
+  });
+
+  function whenRender(editorProps?: NoteEditorProps) {
+    return render(
+      <MockProviders>
+        <NoteEditor onContentChange={mockOnContentChange} {...editorProps} />
+      </MockProviders>
+    );
+  }
   it('should work with symbol insertion and content editing together', async () => {
     const user = userEvent.setup();
-    const mockOnContentChange = jest.fn();
 
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    whenRender();
 
     const textarea = screen.getByRole('textbox');
 
@@ -36,7 +49,7 @@ describe('NoteEditor Integration Tests', () => {
 
   it('should maintain cursor position after symbol insertion', async () => {
     const user = userEvent.setup();
-    render(<NoteEditor />);
+    whenRender();
 
     const textarea = screen.getByRole('textbox');
 
@@ -55,9 +68,8 @@ describe('NoteEditor Integration Tests', () => {
 
   it('should handle rapid symbol insertions', async () => {
     const user = userEvent.setup();
-    const mockOnContentChange = jest.fn();
 
-    render(<NoteEditor onContentChange={mockOnContentChange} />);
+    whenRender();
 
     const textarea = screen.getByRole('textbox');
     await user.type(textarea, '測試');
@@ -79,7 +91,7 @@ describe('NoteEditor Integration Tests', () => {
     const user = userEvent.setup();
     const mockOnConfirm = jest.fn();
 
-    render(<NoteEditor onConfirm={mockOnConfirm} />);
+    whenRender({ onConfirm: mockOnConfirm });
 
     const textarea = screen.getByRole('textbox');
     await user.click(textarea);

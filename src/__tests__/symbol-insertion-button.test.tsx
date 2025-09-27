@@ -1,3 +1,4 @@
+import { MockProviders } from '@/__tests__/mocks/mock-theme-provider';
 import { SymbolInsertionButton } from '@/components/notes/symbol-insertion-button';
 import { render, screen } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
@@ -9,8 +10,16 @@ describe('SymbolInsertionButton', () => {
     mockOnSymbolInsert.mockClear();
   });
 
+  function whenRender() {
+    return render(
+      <MockProviders>
+        <SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />
+      </MockProviders>
+    );
+  }
+
   it('should render all symbol buttons', () => {
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     expect(screen.getByText('•')).toBeInTheDocument();
     expect(screen.getByText('O')).toBeInTheDocument();
@@ -19,7 +28,7 @@ describe('SymbolInsertionButton', () => {
 
   it('should call onSymbolInsert when bullet button is clicked', async () => {
     const user = userEvent.setup();
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     const bulletButton = screen.getByText('•');
     await user.click(bulletButton);
@@ -29,7 +38,7 @@ describe('SymbolInsertionButton', () => {
 
   it('should call onSymbolInsert when event button is clicked', async () => {
     const user = userEvent.setup();
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     const eventButton = screen.getByText('O');
     await user.click(eventButton);
@@ -39,7 +48,7 @@ describe('SymbolInsertionButton', () => {
 
   it('should call onSymbolInsert when note button is clicked', async () => {
     const user = userEvent.setup();
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     const noteButton = screen.getByText('-');
     await user.click(noteButton);
@@ -48,7 +57,7 @@ describe('SymbolInsertionButton', () => {
   });
 
   it('should have correct button titles', () => {
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     expect(screen.getByTitle('任務')).toBeInTheDocument();
     expect(screen.getByTitle('事件')).toBeInTheDocument();
@@ -56,7 +65,7 @@ describe('SymbolInsertionButton', () => {
   });
 
   it('should render buttons with correct styling classes', () => {
-    render(<SymbolInsertionButton onSymbolInsert={mockOnSymbolInsert} />);
+    whenRender();
 
     const buttons = screen.getAllByRole('button');
     buttons.forEach(button => {
