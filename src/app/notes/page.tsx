@@ -58,7 +58,7 @@ export default function NotesPage() {
     <ViewModeProvider>
       <Header />
       <div
-        className={`min-h-screen ${themeConfig.background.primary} relative`}
+        className={`min-h-screen ${themeConfig.background.primary} relative pb-32`}
       >
         <ThemeImage />
         <div className="relative z-1 container mx-auto px-4 py-8">
@@ -68,10 +68,10 @@ export default function NotesPage() {
               <h1
                 className={`text-3xl font-bold mb-2 ${themeConfig.noteItem.note.text}`}
               >
-                筆記編輯器
+                我的筆記
               </h1>
               <p className={`${themeConfig.noteItem.note.text} opacity-70`}>
-                這是個子彈筆記的文字編輯區塊，提供快速記錄想法、任務和筆記的專業環境
+                管理您的子彈筆記，快速記錄想法、任務和筆記
               </p>
             </div>
 
@@ -85,27 +85,7 @@ export default function NotesPage() {
               </div>
             )}
 
-            {/* 筆記編輯器 */}
-            <div className="mb-6">
-              <NoteEditor
-                content={editorContent}
-                placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目；按 Cmd+Enter / Ctrl+Enter 直接新增)"
-                onContentChange={handleContentChange}
-                onConfirm={handleConfirm}
-              />
-            </div>
-
-            {/* 確認按鈕 */}
-            <div className="mb-8 flex justify-center">
-              <ConfirmButton
-                onClick={handleConfirm}
-                disabled={!hasNotes || isLoading}
-              >
-                確認筆記分類
-              </ConfirmButton>
-            </div>
-
-            {/* 依日期分組的筆記顯示區塊 */}
+            {/* 依日期分組的筆記顯示區塊 - 主要內容區域 */}
             <NotesList
               groupedNotes={groupedByDay}
               onDeleteItem={deleteItem}
@@ -114,7 +94,7 @@ export default function NotesPage() {
 
             {/* 使用說明 */}
             <div
-              className={`${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-4`}
+              className={`mt-8 ${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-4`}
             >
               <h3
                 className={`text-lg font-semibold mb-3 ${themeConfig.noteItem.note.text}`}
@@ -131,6 +111,35 @@ export default function NotesPage() {
                   <BulletRulesTable />
                 </div>
                 <UsageTips />
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* 固定在底部的編輯區域 */}
+        <div
+          className={`fixed bottom-0 left-0 right-0 ${themeConfig.background.secondary} border-t ${themeConfig.noteItem.note.border} shadow-lg z-50`}
+        >
+          <div className="container mx-auto px-4 py-4">
+            <div className="max-w-4xl mx-auto">
+              {/* 筆記編輯器 */}
+              <div className="mb-4">
+                <NoteEditor
+                  content={editorContent}
+                  placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目；按 Cmd+Enter / Ctrl+Enter 直接新增)"
+                  onContentChange={handleContentChange}
+                  onConfirm={handleConfirm}
+                />
+              </div>
+
+              {/* 確認按鈕 */}
+              <div className="flex justify-center">
+                <ConfirmButton
+                  onClick={handleConfirm}
+                  disabled={!hasNotes || isLoading}
+                >
+                  新增筆記
+                </ConfirmButton>
               </div>
             </div>
           </div>

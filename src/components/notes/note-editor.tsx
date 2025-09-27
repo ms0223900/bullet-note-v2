@@ -154,7 +154,7 @@ export function NoteEditor({
           onChange={handleContentChange}
           onKeyDown={handleKeyDown}
           placeholder={placeholder}
-          className={`w-full h-48 p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 ${themeConfig.input.text} ${themeConfig.input.placeholder} font-mono text-sm leading-relaxed cursor-custom`}
+          className={`w-full h-10 md:h-20 p-2 md:p-6 resize-none border-0 rounded-lg focus:outline-none focus:ring-0 ${themeConfig.input.text} ${themeConfig.input.placeholder} font-mono text-sm leading-relaxed cursor-custom`}
           style={{
             fontFamily:
               'ui-monospace, SFMono-Regular, "SF Mono", Consolas, "Liberation Mono", Menlo, monospace',
@@ -162,12 +162,6 @@ export function NoteEditor({
         />
       </div>
 
-      {/* 字數統計 */}
-      <div
-        className={`mt-2 text-right text-sm ${themeConfig.noteItem.note.text} opacity-70`}
-      >
-        {content.length} 字元
-      </div>
     </div>
   );
 }

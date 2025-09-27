@@ -1,3 +1,4 @@
+import { useTheme } from '@/contexts/ThemeContext';
 import { useViewMode } from '@/contexts/ViewModeContext';
 import { NotesListProps } from '@/types';
 import { memo } from 'react';
@@ -10,9 +11,19 @@ const NotesListComponent = ({
   onItemClick,
 }: NotesListProps) => {
   const { viewMode } = useViewMode();
+  const { themeConfig } = useTheme();
 
   if (groupedNotes.length === 0) {
-    return null;
+    return (
+      <div className="text-center py-12">
+        <div className={`text-lg ${themeConfig.noteItem.note.text} opacity-70 mb-4`}>
+          還沒有保存的筆記
+        </div>
+        <div className={`text-sm ${themeConfig.noteItem.note.text} opacity-50`}>
+          在下方編輯區域輸入內容並點擊「儲存筆記」來開始記錄
+        </div>
+      </div>
+    );
   }
 
   // 根據檢視模式決定容器樣式
@@ -30,9 +41,9 @@ const NotesListComponent = ({
 
   return (
     <div className="mb-8">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4">
-        <h2 className="text-2xl font-bold text-black mb-2 sm:mb-0">
-          已保存的筆記（依日期）
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-6">
+        <h2 className={`text-2xl font-bold ${themeConfig.noteItem.note.text} mb-2 sm:mb-0`}>
+          我的筆記
         </h2>
         <ViewModeToggle />
       </div>
@@ -40,13 +51,13 @@ const NotesListComponent = ({
         {groupedNotes.map(group => (
           <div
             key={group.key}
-            className="border border-gray-200 rounded-lg p-4"
+            className={`${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-6 shadow-sm`}
           >
-            <div className="flex justify-between items-center mb-3">
-              <h3 className="text-lg font-semibold text-gray-800">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className={`text-lg font-semibold ${themeConfig.noteItem.note.text}`}>
                 {group.key}
               </h3>
-              <span className="text-sm text-gray-500">
+              <span className={`text-sm ${themeConfig.noteItem.note.text} opacity-70 bg-opacity-20 px-3 py-1 rounded-full`}>
                 {group.entries.length} 項
               </span>
             </div>
