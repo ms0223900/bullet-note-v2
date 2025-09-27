@@ -29,7 +29,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         noteItem: {
             task: {
                 background: 'bg-green-50',
-                border: 'border-green-200',
+                border: 'border-green-600 border-2 rounded-xl',
                 hover: 'hover:bg-green-100',
                 text: 'text-green-800',
                 icon: '✓',
@@ -37,7 +37,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
             bullet: {
                 background: 'bg-blue-50',
-                border: 'border-blue-200',
+                border: 'border-blue-600 border-2 rounded-xl',
                 hover: 'hover:bg-blue-100',
                 text: 'text-blue-800',
                 icon: '○',
@@ -45,7 +45,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
             note: {
                 background: 'bg-gray-50',
-                border: 'border-gray-200',
+                border: 'border-gray-600 border-2 rounded-xl',
                 hover: 'hover:bg-gray-100',
                 text: 'text-gray-800',
                 icon: '•',
@@ -53,7 +53,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
         },
         image: {
-            src: '/images/minimal-theme.svg',
+            src: '/images/bujo-simple-theme-penguin.png',
             alt: '線條簡約主題圖片',
             position: 'top-right',
         },
@@ -84,7 +84,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         noteItem: {
             task: {
                 background: 'bg-gradient-to-r from-green-400/30 to-emerald-500/30',
-                border: 'border-green-300/50',
+                border: 'border-green-300/50 border-[1px]',
                 hover: 'hover:from-green-400/40 hover:to-emerald-500/40',
                 text: 'text-green-100',
                 icon: '✓',
@@ -92,7 +92,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
             bullet: {
                 background: 'bg-gradient-to-r from-blue-400/30 to-cyan-500/30',
-                border: 'border-blue-300/50',
+                border: 'border-blue-300/50 border-[1px]',
                 hover: 'hover:from-blue-400/40 hover:to-cyan-500/40',
                 text: 'text-blue-100',
                 icon: '○',
@@ -100,7 +100,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
             },
             note: {
                 background: 'bg-white/20 backdrop-blur-sm',
-                border: 'border-white/30',
+                border: 'border-white/30 border-[1px]',
                 hover: 'hover:bg-white/30',
                 text: 'text-white',
                 icon: '•',

@@ -39,21 +39,12 @@ export function ThemeImage({ className }: ThemeImageProps) {
         className
       )}
     >
-      {/* 預留圖片位置，目前使用佔位符 */}
-      <div className="w-full h-full bg-current rounded-lg flex items-center justify-center">
-        <span className="text-xs font-medium opacity-50">
-          {themeConfig.name}
-        </span>
-      </div>
-
-      {/* 當有實際圖片時，取消註解以下代碼 */}
-      {/* 
       <img
         src={themeConfig.image.src}
         alt={themeConfig.image.alt}
         className="w-full h-full object-cover rounded-lg"
       />
-      */}
+
     </div>
   );
 }
