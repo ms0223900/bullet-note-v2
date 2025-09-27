@@ -2,9 +2,9 @@
 
 import { Header } from '@/components/layout/header';
 import { BulletRulesTable } from '@/components/notes/bullet-rules-table';
-import { ConfirmButton } from '@/components/notes/confirm-button';
 import { NoteEditor } from '@/components/notes/note-editor';
 import { NotesList } from '@/components/notes/notes-list';
+import { SmallConfirmButton } from '@/components/notes/small-confirm-button';
 import { UsageTips } from '@/components/notes/usage-tips';
 import { ErrorAlert } from '@/components/ui/error-alert';
 import { LoadingSpinner } from '@/components/ui/loading-spinner';
@@ -94,7 +94,7 @@ export default function NotesPage() {
 
             {/* 使用說明 */}
             <div
-              className={`mt-8 ${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-4`}
+              className={`mt-8 ${themeConfig.background.secondary} border ${themeConfig.noteItem.note.border} rounded-lg p-4 mb-20 md:mb-20`}
             >
               <h3
                 className={`text-lg font-semibold mb-3 ${themeConfig.noteItem.note.text}`}
@@ -123,24 +123,23 @@ export default function NotesPage() {
           <div className="container mx-auto px-4 py-4">
             <div className="max-w-4xl mx-auto">
               {/* 筆記編輯器 */}
-              <div className="mb-4">
+              <div className="mb-4 relative z-1">
                 <NoteEditor
                   content={editorContent}
                   placeholder="在這裡輸入您的想法、筆記或任何內容... (使用 - 開頭來建立筆記項目；按 Cmd+Enter / Ctrl+Enter 直接新增)"
                   onContentChange={handleContentChange}
                   onConfirm={handleConfirm}
                 />
+                <div className="absolute bottom-0 right-0">
+                  <SmallConfirmButton
+                    onClick={handleConfirm}
+                    disabled={!hasNotes || isLoading}
+                  >
+                    新增筆記
+                  </SmallConfirmButton>
+                </div>
               </div>
 
-              {/* 確認按鈕 */}
-              <div className="flex justify-center">
-                <ConfirmButton
-                  onClick={handleConfirm}
-                  disabled={!hasNotes || isLoading}
-                >
-                  新增筆記
-                </ConfirmButton>
-              </div>
             </div>
           </div>
         </div>

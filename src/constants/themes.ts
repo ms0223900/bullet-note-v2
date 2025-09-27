@@ -110,7 +110,7 @@ export const THEME_CONFIGS: Record<Theme, ThemeConfig> = {
         image: {
             src: '/images/bujo-colorful-theme-penguin.webp',
             alt: '彩色繽紛漸層主題圖片',
-            position: 'bottom-right',
+            position: 'top-right',
         },
     },
     [Theme.GLASS]: {
