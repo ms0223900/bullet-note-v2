@@ -3,7 +3,7 @@ import {
   getNoteItemTypeLabel,
 } from '@/lib/note-display-utils';
 import { cn } from '@/lib/utils';
-import { NoteItemProps, ViewMode } from '@/types';
+import { NoteItemProps, ParsedNoteItem, ViewMode } from '@/types';
 import { memo, useCallback, useState } from 'react';
 import { DeleteConfirmationDialog } from './delete-confirmation-dialog';
 
@@ -81,48 +81,48 @@ const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
   </button>
 );
 
+interface NoteItemGridProps {
+  note: ParsedNoteItem;
+  onClick: () => void;
+  onDeleteClick: () => void;
+}
 
 const NoteItemGrid = ({
-  item,
+  note,
   onClick,
   onDeleteClick,
-}: Omit<NoteItemProps, 'onDelete'> & {
-  onDeleteClick: () => void;
-}) => {
-  const typeLabel = getNoteItemTypeLabel(item);
-  const displayStyle = getNoteItemDisplayStyle(item);
+}: NoteItemGridProps) => {
+  const typeLabel = getNoteItemTypeLabel(note);
+  const displayStyle = getNoteItemDisplayStyle(note);
   const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
   const styles = getNoteItemViewModeStyles(ViewMode.GRID);
 
   const truncatedContent =
-    item.content.length > 50
-      ? `${item.content.substring(0, 50)}...`
-      : item.content;
+    note.content.length > 50
+      ? `${note.content.substring(0, 50)}...`
+      : note.content;
 
   return (
-    <div>
-      <div className={cn(baseContainer, styles.container)}>
-        <div className="flex items-center justify-between">
-          <span className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}>
-            {displayStyle.icon}
-          </span>
-          <DeleteButton
-            onClick={onDeleteClick}
-            className={STYLE_CONFIG.DELETE_BUTTON_HOVER}
-          />
-        </div>
-        <div className="space-y-1">
-          <span
-            className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
-          >
-            {typeLabel}
-          </span>
-          <p className={styles.content} onClick={onClick} title={item.content}>
-            {truncatedContent}
-          </p>
-          <p className={styles.time}>{formatTimeShort(item.createdAt)}</p>
-        </div>
-
+    <div className={cn(baseContainer, styles.container)}>
+      <div className="flex items-center justify-between">
+        <span className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}>
+          {displayStyle.icon}
+        </span>
+        <DeleteButton
+          onClick={onDeleteClick}
+          className={STYLE_CONFIG.DELETE_BUTTON_HOVER}
+        />
+      </div>
+      <div className="space-y-1">
+        <span
+          className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+        >
+          {typeLabel}
+        </span>
+        <p className={styles.content} onClick={onClick} title={note.content}>
+          {truncatedContent}
+        </p>
+        <p className={styles.time}>{formatTimeShort(note.createdAt)}</p>
       </div>
     </div>
   );
@@ -162,7 +162,7 @@ const NoteItemComponent = ({
     return (
       <div>
         <NoteItemGrid
-          item={item}
+          note={item}
           onClick={onClick}
           onDeleteClick={handleDeleteClick}
         />
@@ -177,31 +177,33 @@ const NoteItemComponent = ({
   }
 
   return (
-    <div className={cn(baseContainer, styles.container)}>
-      <div className="flex-shrink-0 mt-1">
-        <span
-          className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
-        >
-          {displayStyle.icon}
-        </span>
-      </div>
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center space-x-2 mb-1">
+    <div>
+      <div className={cn(baseContainer, styles.container)}>
+        <div className="flex-shrink-0 mt-1">
           <span
-            className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+            className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
           >
-            {typeLabel}
+            {displayStyle.icon}
           </span>
         </div>
-        <p className={styles.content} onClick={onClick}>
-          {item.content}
-        </p>
-        <p className={styles.time}>{formatTimeFull(item.createdAt)}</p>
-      </div>
-      <div className={`flex-shrink-0 ${STYLE_CONFIG.DELETE_BUTTON_LG_HOVER}`}>
-        <DeleteButton onClick={handleDeleteClick} />
-      </div>
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center space-x-2 mb-1">
+            <span
+              className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+            >
+              {typeLabel}
+            </span>
+          </div>
+          <p className={styles.content} onClick={onClick}>
+            {item.content}
+          </p>
+          <p className={styles.time}>{formatTimeFull(item.createdAt)}</p>
+        </div>
+        <div className={`flex-shrink-0 ${STYLE_CONFIG.DELETE_BUTTON_LG_HOVER}`}>
+          <DeleteButton onClick={handleDeleteClick} />
+        </div>
 
+      </div>
       <DeleteConfirmationDialog
         isOpen={showDeleteDialog}
         onConfirm={handleConfirmDelete}
