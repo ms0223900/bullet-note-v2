@@ -81,28 +81,21 @@ const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
   </button>
 );
 
-interface NoteItemGridProps {
-  baseContainer: string;
-  styles: NoteItemViewModeStyles;
-  displayStyle: ReturnType<typeof getNoteItemDisplayStyle>;
-  typeLabel: string;
-  item: NoteItemProps['item'];
-  onClick: () => void;
-  onDeleteClick: () => void;
-  showDeleteDialog: boolean;
-  onConfirmDelete: () => void;
-  onCancelDelete: () => void;
-}
 
 const NoteItemGrid = ({
-  typeLabel,
   item,
   onClick,
-  onDeleteClick,
   showDeleteDialog,
   onConfirmDelete,
   onCancelDelete,
-}: NoteItemGridProps) => {
+  onDeleteClick,
+}: Omit<NoteItemProps, 'onDelete'> & {
+  showDeleteDialog: boolean;
+  onConfirmDelete: () => void;
+  onCancelDelete: () => void;
+  onDeleteClick: () => void;
+}) => {
+  const typeLabel = getNoteItemTypeLabel(item);
   const displayStyle = getNoteItemDisplayStyle(item);
   const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
   const styles = getNoteItemViewModeStyles(ViewMode.GRID);
@@ -113,28 +106,30 @@ const NoteItemGrid = ({
       : item.content;
 
   return (
-    <div className={cn(baseContainer, styles.container)}>
-      <div className="flex items-center justify-between">
-        <span className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}>
-          {displayStyle.icon}
-        </span>
-        <DeleteButton
-          onClick={onDeleteClick}
-          className={STYLE_CONFIG.DELETE_BUTTON_HOVER}
-        />
-      </div>
-      <div className="space-y-1">
-        <span
-          className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
-        >
-          {typeLabel}
-        </span>
-        <p className={styles.content} onClick={onClick} title={item.content}>
-          {truncatedContent}
-        </p>
-        <p className={styles.time}>{formatTimeShort(item.createdAt)}</p>
-      </div>
+    <div>
+      <div className={cn(baseContainer, styles.container)}>
+        <div className="flex items-center justify-between">
+          <span className={`${STYLE_CONFIG.ICON_SMALL} ${displayStyle.iconColor}`}>
+            {displayStyle.icon}
+          </span>
+          <DeleteButton
+            onClick={onDeleteClick}
+            className={STYLE_CONFIG.DELETE_BUTTON_HOVER}
+          />
+        </div>
+        <div className="space-y-1">
+          <span
+            className={`${STYLE_CONFIG.TYPE_LABEL} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+          >
+            {typeLabel}
+          </span>
+          <p className={styles.content} onClick={onClick} title={item.content}>
+            {truncatedContent}
+          </p>
+          <p className={styles.time}>{formatTimeShort(item.createdAt)}</p>
+        </div>
 
+      </div>
       <DeleteConfirmationDialog
         isOpen={showDeleteDialog}
         onConfirm={onConfirmDelete}
@@ -178,10 +173,6 @@ const NoteItemComponent = ({
   if (viewMode === ViewMode.GRID) {
     return (
       <NoteItemGrid
-        baseContainer={baseContainer}
-        styles={styles}
-        displayStyle={displayStyle}
-        typeLabel={typeLabel}
         item={item}
         onClick={onClick}
         onDeleteClick={handleDeleteClick}
