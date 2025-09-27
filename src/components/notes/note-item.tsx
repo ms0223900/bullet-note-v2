@@ -81,17 +81,56 @@ const DeleteButton = ({ onClick, className = '' }: DeleteButtonProps) => (
   </button>
 );
 
-interface NoteItemGridProps {
+interface NoteItemBaseProps {
   note: ParsedNoteItem;
   onClick: () => void;
   onDeleteClick: () => void;
 }
 
+const NoteItemBase = ({
+  note,
+  onClick,
+  onDeleteClick,
+}: NoteItemBaseProps) => {
+  const typeLabel = getNoteItemTypeLabel(note);
+  const displayStyle = getNoteItemDisplayStyle(note);
+  const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
+  const styles = getNoteItemViewModeStyles(ViewMode.GRID);
+
+  return (
+    <div className={cn(baseContainer, styles.container)}>
+      <div className="flex-shrink-0 mt-1">
+        <span
+          className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
+        >
+          {displayStyle.icon}
+        </span>
+      </div>
+      <div className="flex-1 min-w-0">
+        <div className="flex items-center space-x-2 mb-1">
+          <span
+            className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
+          >
+            {typeLabel}
+          </span>
+        </div>
+        <p className={styles.content} onClick={onClick}>
+          {note.content}
+        </p>
+        <p className={styles.time}>{formatTimeFull(note.createdAt)}</p>
+      </div>
+      <div className={`flex-shrink-0 ${STYLE_CONFIG.DELETE_BUTTON_LG_HOVER}`}>
+        <DeleteButton onClick={onDeleteClick} />
+      </div>
+    </div>
+  );
+};
+
 const NoteItemGrid = ({
   note,
   onClick,
   onDeleteClick,
-}: NoteItemGridProps) => {
+}: NoteItemBaseProps) => {
   const typeLabel = getNoteItemTypeLabel(note);
   const displayStyle = getNoteItemDisplayStyle(note);
   const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
@@ -128,8 +167,6 @@ const NoteItemGrid = ({
   );
 };
 
-// TODO: NoteItemBase
-
 const NoteItemComponent = ({
   item,
   onDelete,
@@ -137,13 +174,6 @@ const NoteItemComponent = ({
   viewMode = ViewMode.SINGLE,
 }: NoteItemProps) => {
   const [showDeleteDialog, setShowDeleteDialog] = useState(false);
-  const typeLabel = getNoteItemTypeLabel(item);
-
-  const displayStyle = getNoteItemDisplayStyle(item);
-
-  const baseContainer = `group ${displayStyle.bgColor} rounded-lg ${displayStyle.hoverBgColor} transition-colors border-l-4 ${displayStyle.borderColor}`;
-
-  const styles = getNoteItemViewModeStyles(viewMode);
 
   const handleDeleteClick = useCallback(() => {
     setShowDeleteDialog(true);
@@ -178,32 +208,11 @@ const NoteItemComponent = ({
 
   return (
     <div>
-      <div className={cn(baseContainer, styles.container)}>
-        <div className="flex-shrink-0 mt-1">
-          <span
-            className={`${STYLE_CONFIG.ICON_LARGE} ${displayStyle.iconColor}`}
-          >
-            {displayStyle.icon}
-          </span>
-        </div>
-        <div className="flex-1 min-w-0">
-          <div className="flex items-center space-x-2 mb-1">
-            <span
-              className={`${STYLE_CONFIG.TYPE_LABEL_LARGE} ${displayStyle.iconColor} ${displayStyle.bgColor} border ${displayStyle.borderColor}`}
-            >
-              {typeLabel}
-            </span>
-          </div>
-          <p className={styles.content} onClick={onClick}>
-            {item.content}
-          </p>
-          <p className={styles.time}>{formatTimeFull(item.createdAt)}</p>
-        </div>
-        <div className={`flex-shrink-0 ${STYLE_CONFIG.DELETE_BUTTON_LG_HOVER}`}>
-          <DeleteButton onClick={handleDeleteClick} />
-        </div>
-
-      </div>
+      <NoteItemBase
+        note={item}
+        onClick={onClick}
+        onDeleteClick={handleDeleteClick}
+      />
       <DeleteConfirmationDialog
         isOpen={showDeleteDialog}
         onConfirm={handleConfirmDelete}
