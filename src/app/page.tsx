@@ -29,7 +29,7 @@ export default function Home() {
               CSS 建構
             </p>
             <Link href="/notes">
-              <Button size="lg" className="gap-2">
+              <Button size="lg" className="gap-2" data-gtm-label="create-note">
                 <Plus className="h-5 w-5" />
                 建立新筆記
               </Button>
