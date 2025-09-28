@@ -1,3 +1,4 @@
+import { GTMScript } from '@/components/analytics';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ViewModeProvider } from '@/contexts/ViewModeContext';
 import type { Metadata } from 'next';
@@ -29,6 +30,7 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
+        <GTMScript />
         <ThemeProvider>
           <ViewModeProvider>{children}</ViewModeProvider>
         </ThemeProvider>

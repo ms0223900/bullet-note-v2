@@ -33,3 +33,6 @@ export const NOTE_STATUS = {
 
 // 匯出主題相關常數
 export * from './themes';
+
+// 匯出 GTM 相關常數
+export * from './gtm';
