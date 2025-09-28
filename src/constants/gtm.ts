@@ -4,9 +4,9 @@
 
 export const GTM_CONFIG = {
   // GTM ID from the provided configuration
-  ID: 'G-B8VEK5YKPB',
+  ID: 'GTM-N4RHJL7L',
   // GTM script URL
-  SCRIPT_URL: 'https://www.googletagmanager.com/gtag/js',
+  SCRIPT_URL: 'https://www.googletagmanager.com/gtm.js',
 } as const;
 
 export const GTM_EVENTS = {

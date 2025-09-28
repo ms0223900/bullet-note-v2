@@ -1,4 +1,5 @@
 import { GTMScript } from '@/components/analytics';
+import { GTM_CONFIG } from '@/constants/gtm';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ViewModeProvider } from '@/contexts/ViewModeContext';
 import type { Metadata } from 'next';
@@ -27,6 +28,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        {/* Google Tag Manager (noscript) */}
+        <noscript>
+          <iframe
+            src={`https://www.googletagmanager.com/ns.html?id=${GTM_CONFIG.ID}`}
+            height="0"
+            width="0"
+            style={{ display: 'none', visibility: 'hidden' }}
+          />
+        </noscript>
+        {/* End Google Tag Manager (noscript) */}
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
