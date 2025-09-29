@@ -1,4 +1,4 @@
-import { GTMScript } from '@/components/analytics';
+import { GTMScript, GTagScript } from '@/components/analytics';
 import { GTM_CONFIG } from '@/constants/gtm';
 import { ThemeProvider } from '@/contexts/ThemeContext';
 import { ViewModeProvider } from '@/contexts/ViewModeContext';
@@ -44,6 +44,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <GTMScript />
+        <GTagScript />
         <ThemeProvider>
           <ViewModeProvider>{children}</ViewModeProvider>
         </ThemeProvider>
